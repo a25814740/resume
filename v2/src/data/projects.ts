@@ -1,0 +1,42 @@
+export const projects = [
+  {
+    name: 'InboxPilot / IG 自動回覆工具',
+    type: 'Social Automation / SaaS Dashboard',
+    role: '前端與產品流程規劃',
+    problem: '讓 IG / Meta 帳號連接、留言關鍵字自動私訊、後台管理與自動化流程能被清楚操作。',
+    tech: ['Meta Flow', 'Admin UI', 'Automation', 'API'],
+    status: 'Coming soon',
+  },
+  {
+    name: 'Digital Marketing AI Platform',
+    type: 'AI Marketing Platform',
+    role: '前端與平台功能設計',
+    problem: '整合 AI 工具、會員、付款、授權、分潤與後台管理，讓行銷工具變成可營運平台。',
+    tech: ['AI Tooling', 'Billing', 'Admin', 'Member'],
+    status: 'Coming soon',
+  },
+  {
+    name: 'Threads / 短影音 AI 內容工具',
+    type: 'AI Content Tool',
+    role: 'AI 內容流程設計',
+    problem: '把 AI 產文、短影音腳本、草稿管理與發布流程整理成更容易操作的內容工具。',
+    tech: ['AI Writing', 'Draft', 'Workflow', 'Content'],
+    status: 'Coming soon',
+  },
+  {
+    name: 'Mobile Codex Workflow',
+    type: 'AI Workflow Tool',
+    role: '工作流產品化規劃',
+    problem: '將 Codex 使用流程產品化，管理 prompt、任務與遠端工作流，讓 AI 協作更可追蹤。',
+    tech: ['Prompt', 'Task Flow', 'Remote', 'Codex'],
+    status: 'Coming soon',
+  },
+  {
+    name: 'Vue / Frontend Practice',
+    type: 'Frontend Practice',
+    role: 'Vue 前端練習與整理',
+    problem: '透過 Vue、元件化、狀態管理、RWD 與架構練習，補強可展示的前端實作脈絡。',
+    tech: ['Vue', 'Components', 'RWD', 'State'],
+    status: 'Coming soon',
+  },
+];
