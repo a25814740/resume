@@ -10,10 +10,10 @@
 
 ## 結論
 
-- 色調：暖灰、米白、石墨黑作為閱讀基底，霧藍、低飽和青綠與暖橘作小面積點綴。
+- 色調：v2 改為深色 editorial 方向，以 charcoal、linen、copper、低飽和青綠作為主軸，明確避開 v1 的暖灰卡片式履歷感。
 - 字體：繁體中文優先使用 `Noto Sans TC`, `PingFang TC`, `Microsoft JhengHei`, system-ui；技術標籤使用系統 sans。
-- 版面節奏：首屏 5 秒內交代姓名、定位、職務與核心能力；中段用 Bento Grid 和 sticky timeline 支援快速掃讀；作品集放在全站最後。
-- 互動特效：保留首屏 reveal、scroll progress、section reveal、timeline highlight、card hover；手機版簡化位移。
+- 版面節奏：桌機用左側固定窄導覽建立個人網站感；首屏使用超大姓名與流程地圖，能力區用切割式 Bento map，作品集改成大型 case-study wall 並放在全站最後。
+- 互動特效：保留首屏 reveal、scroll progress、section reveal、timeline highlight、card hover；不使用 scroll-jacking 或大量 parallax，手機版簡化位移。
 - 避免元素：紫藍霓虹、大量粒子、機器人、發光電路板、過度 3D transform、跑太快的 marquee。
 
 ## 設計規範

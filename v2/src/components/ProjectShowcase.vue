@@ -13,7 +13,7 @@ const activeProject = ref(projects[0].name);
       <h2 id="projects-title">作品集放在最後，讓前面的履歷敘事先把人選輪廓講清楚。</h2>
     </div>
 
-    <div class="project-grid">
+    <div class="project-wall">
       <article
         v-for="(project, index) in projects"
         :key="project.name"
@@ -36,6 +36,7 @@ const activeProject = ref(projects[0].name);
         </button>
 
         <div class="project-visual" aria-hidden="true">
+          <strong>{{ String(index + 1).padStart(2, '0') }}</strong>
           <span></span>
           <span></span>
           <span></span>
