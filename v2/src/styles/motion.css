@@ -18,7 +18,7 @@
   animation-delay: 420ms;
 }
 
-[data-reveal] {
+.reveal-ready [data-reveal] {
   opacity: 0;
   transform: translateY(1.7rem);
   transition:
@@ -26,7 +26,8 @@
     transform 620ms ease-out;
 }
 
-[data-reveal].is-visible {
+.reveal-ready [data-reveal].is-visible,
+[data-reveal] {
   opacity: 1;
   transform: translateY(0);
 }
@@ -56,8 +57,13 @@
     animation-iteration-count: 1 !important;
   }
 
+  .reveal-ready [data-reveal],
   [data-reveal] {
     opacity: 1;
     transform: none;
+  }
+
+  .reveal-up {
+    animation: none;
   }
 }

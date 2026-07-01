@@ -4,6 +4,50 @@ import { useReducedMotion } from './useReducedMotion';
 export function useReveal(rootRef: Ref<HTMLElement | null>) {
   const prefersReducedMotion = useReducedMotion();
   let observer: IntersectionObserver | null = null;
+  let hashChangeCleanup: (() => void) | null = null;
+
+  const markVisibleInViewport = (targets: HTMLElement[]) => {
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+    targets.forEach((target) => {
+      const rect = target.getBoundingClientRect();
+      const isVisible = rect.top < viewportHeight * 0.92 && rect.bottom > viewportHeight * 0.08;
+
+      if (isVisible) {
+        target.classList.add('is-visible');
+        observer?.unobserve(target);
+      }
+    });
+  };
+
+  const scrollToHashTarget = () => {
+    const hash = window.location.hash;
+    if (!hash) return;
+
+    const target = document.querySelector<HTMLElement>(hash);
+    if (!target) return;
+
+    window.scrollTo({
+      top: Math.max(target.offsetTop - 24, 0),
+      left: 0,
+      behavior: 'auto',
+    });
+  };
+
+  const revealHashSection = (targets: HTMLElement[]) => {
+    const hash = window.location.hash;
+    if (!hash) return;
+
+    const section = document.querySelector<HTMLElement>(hash);
+    section
+      ?.querySelectorAll<HTMLElement>('[data-reveal]')
+      .forEach((target) => {
+        target.classList.add('is-visible');
+        observer?.unobserve(target);
+      });
+
+    markVisibleInViewport(targets);
+  };
 
   onMounted(async () => {
     await nextTick();
@@ -30,9 +74,32 @@ export function useReveal(rootRef: Ref<HTMLElement | null>) {
     );
 
     revealTargets.forEach((target) => observer?.observe(target));
+
+    const syncHashState = () => {
+      scrollToHashTarget();
+      revealHashSection(revealTargets);
+    };
+
+    markVisibleInViewport(revealTargets);
+    syncHashState();
+    root.classList.add('reveal-ready');
+
+    requestAnimationFrame(syncHashState);
+    setTimeout(syncHashState, 80);
+    setTimeout(syncHashState, 320);
+
+    const handleHashChange = () => {
+      requestAnimationFrame(syncHashState);
+      setTimeout(syncHashState, 80);
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    hashChangeCleanup = () => window.removeEventListener('hashchange', handleHashChange);
   });
 
   onBeforeUnmount(() => {
+    rootRef.value?.classList.remove('reveal-ready');
     observer?.disconnect();
+    hashChangeCleanup?.();
   });
 }

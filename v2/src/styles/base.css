@@ -3,7 +3,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
@@ -16,6 +16,14 @@ body {
     linear-gradient(90deg, rgba(243, 234, 219, 0.035) 1px, transparent 1px),
     var(--color-bg);
   background-size: 56px 56px;
+}
+
+html,
+body,
+#app,
+.site-shell {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body,
@@ -43,7 +51,7 @@ main {
 }
 
 [id] {
-  scroll-margin-top: 6rem;
+  scroll-margin-top: 2rem;
 }
 
 a:focus-visible,
