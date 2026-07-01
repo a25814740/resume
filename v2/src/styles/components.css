@@ -124,6 +124,7 @@
   color: var(--color-clay);
   font-size: clamp(2rem, 4.2vw, 4.4rem);
   line-height: 1.08;
+  white-space: nowrap;
 }
 
 .hero-lead {
@@ -196,8 +197,8 @@
 
 .signal-card,
 .bento-card,
-.research-grid article,
-.skill-panel,
+.about-summary article,
+.skill-group,
 .project-card {
   border: 1px solid var(--color-line);
   border-radius: var(--radius);
@@ -375,26 +376,28 @@
   color: var(--color-muted);
 }
 
-.research-grid {
+.about-summary {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-3);
 }
 
-.research-grid article {
-  padding: var(--space-4);
+.about-summary article {
+  display: grid;
+  gap: 0.45rem;
+  padding: var(--space-3);
 }
 
-.research-grid h3,
+.about-summary h3,
 .bento-card h3,
 .workflow-steps h3,
 .timeline-item h3 {
   margin: 0;
 }
 
-.research-grid p,
+.about-summary p,
 .bento-card p,
 .workflow-steps p {
+  margin: 0;
   color: var(--color-muted);
 }
 
@@ -405,18 +408,15 @@
 
 .bento-grid {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 1px;
-  border: 1px solid var(--color-line);
-  background: var(--color-line);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
 }
 
 .bento-card {
-  grid-column: span 4;
-  min-height: 320px;
+  display: grid;
+  align-content: start;
+  min-height: 260px;
   padding: var(--space-4);
-  border: 0;
-  border-radius: 0;
   background: #181610;
   transition:
     transform 220ms ease-out,
@@ -425,7 +425,7 @@
 }
 
 .bento-card-large {
-  grid-column: span 6;
+  grid-column: auto;
 }
 
 .bento-card:hover,
@@ -472,29 +472,32 @@
 }
 
 .workflow-statement {
+  position: sticky;
+  top: 7rem;
   color: var(--color-muted);
 }
 
 .workflow-steps {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  border-top: 1px solid rgba(255, 253, 248, 0.18);
-  background: rgba(255, 253, 248, 0.18);
+  gap: var(--space-3);
+  background: transparent;
 }
 
 .workflow-steps article {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 5rem minmax(0, 1fr) auto;
   gap: var(--space-3);
   align-items: start;
-  min-height: 220px;
+  min-height: 11rem;
   padding: var(--space-4);
+  border: 1px solid rgba(255, 253, 248, 0.16);
+  border-radius: var(--radius);
   background: #171511;
+  transform: translateZ(0);
 }
 
 .workflow-steps .step-number {
-  grid-column: 1 / -1;
+  grid-column: auto;
 }
 
 .workflow-steps p {
@@ -504,8 +507,8 @@
 
 .experience-section {
   display: grid;
-  grid-template-columns: minmax(260px, 0.35fr) minmax(0, 1fr);
-  gap: var(--space-6);
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
   color: #171511;
   background: var(--color-surface);
 }
@@ -515,15 +518,24 @@
   color: #9c5e3d;
 }
 
-.sticky-heading {
-  position: sticky;
-  top: 6rem;
-  align-self: start;
+.experience-section .section-heading h2 {
+  max-width: none;
+  font-size: clamp(2.8rem, 5.5vw, 5.8rem);
+  line-height: 1;
+}
+
+.section-intro {
+  max-width: 720px;
+  margin: var(--space-2) 0 0;
+  color: #6f6558;
+  font-size: 1.05rem;
+  line-height: 1.8;
 }
 
 .timeline-list {
   position: relative;
   display: grid;
+  max-width: 960px;
 }
 
 .timeline-list::before {
@@ -542,9 +554,9 @@
   gap: 2.25rem;
   padding: var(--space-4) 0;
   border-bottom: 1px solid rgba(23, 21, 17, 0.16);
-  opacity: 0.72;
+  opacity: 1;
   transition:
-    opacity 220ms ease-out,
+    background-color 220ms ease-out,
     transform 220ms ease-out;
 }
 
@@ -609,40 +621,39 @@
   font-size: 0.9rem;
 }
 
-.skill-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-bottom: var(--space-3);
+.skill-matrix {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
 }
 
-.tab-button {
-  min-height: 2.6rem;
-  padding: 0 0.9rem;
-  border: 1px solid var(--color-line);
-  border-radius: 999px;
-  color: var(--color-muted);
-  background: transparent;
-  cursor: pointer;
-  transition:
-    color 180ms ease-out,
-    background-color 180ms ease-out,
-    border-color 180ms ease-out;
-}
-
-.tab-button:hover,
-.tab-button[aria-selected="true"] {
-  color: var(--color-dark);
-  border-color: var(--color-clay);
-  background: var(--color-clay);
-}
-
-.skill-panel {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  min-height: 9rem;
+.skill-group {
   padding: var(--space-4);
+}
+
+.skill-group h3 {
+  margin: 0 0 var(--space-3);
+  color: var(--color-surface);
+  font-size: 1.25rem;
+}
+
+.skill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.skill-chip {
+  min-height: 2.25rem;
+  border-radius: 8px;
+  padding-inline: 0.75rem;
+  background: rgba(243, 234, 219, 0.075);
+}
+
+.skill-chip:hover {
+  transform: translateY(-2px);
+  border-color: rgba(199, 129, 85, 0.54);
+  background: rgba(199, 129, 85, 0.14);
 }
 
 .skill-chip {
@@ -652,14 +663,16 @@
     background-color 180ms ease-out;
 }
 
-.skill-chip:hover {
-  transform: translateY(-2px);
-  border-color: rgba(199, 129, 85, 0.54);
-  background: rgba(199, 129, 85, 0.14);
-}
-
 .contact-section {
   background: #171511;
+}
+
+.contact-section .section-heading h2,
+.project-section .section-heading h2,
+.skills-section .section-heading h2,
+.strength-section .section-heading h2,
+.workflow-section .section-heading h2 {
+  max-width: 10em;
 }
 
 .contact-layout {
@@ -698,19 +711,14 @@
 
 .project-wall {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 1px;
-  border: 1px solid var(--color-line);
-  background: var(--color-line);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
 }
 
 .project-card {
   display: grid;
-  grid-column: span 3;
-  grid-template-rows: 220px auto 1fr;
+  grid-template-rows: 190px auto 1fr;
   overflow: hidden;
-  border: 0;
-  border-radius: 0;
   background: #171511;
   transition:
     transform 220ms ease-out,
@@ -720,16 +728,18 @@
 
 .project-card:nth-child(1),
 .project-card:nth-child(4) {
-  grid-column: span 4;
+  grid-column: auto;
 }
 
 .project-card:nth-child(2),
 .project-card:nth-child(5) {
-  grid-column: span 2;
+  grid-column: auto;
 }
 
 .project-trigger {
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
   gap: var(--space-3);
   width: 100%;
   min-height: 11rem;
@@ -742,9 +752,10 @@
 }
 
 .project-trigger strong {
-  flex: 1;
+  grid-column: 1 / -1;
   min-width: 0;
-  font-size: clamp(1.4rem, 2.6vw, 2.55rem);
+  overflow-wrap: break-word;
+  font-size: clamp(1.35rem, 2.15vw, 2.15rem);
   line-height: 1.25;
 }
 
@@ -827,12 +838,7 @@
     grid-template-columns: 1fr;
   }
 
-  .sticky-heading {
-    position: static;
-  }
-
-  .bento-grid,
-  .workflow-steps {
+  .bento-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -841,12 +847,8 @@
     grid-column: auto;
   }
 
-  .project-card,
-  .project-card:nth-child(1),
-  .project-card:nth-child(2),
-  .project-card:nth-child(4),
-  .project-card:nth-child(5) {
-    grid-column: span 6;
+  .project-wall {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -952,9 +954,9 @@
     flex: 1 1 100%;
   }
 
-  .research-grid,
   .bento-grid,
   .project-wall,
+  .skill-matrix,
   .workflow-steps {
     grid-template-columns: 1fr;
   }

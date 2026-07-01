@@ -7,7 +7,7 @@ import { profile } from '../data/resume';
   <section id="contact" class="section contact-section" aria-labelledby="contact-title">
     <div class="section-heading" data-reveal>
       <p class="eyebrow">Contact</p>
-      <h2 id="contact-title">希望職稱：AI 應用開發專員 / AI 應用工程師 / 前端工程師</h2>
+      <h2 id="contact-title">{{ profile.title }}</h2>
     </div>
 
     <div class="contact-layout" data-reveal>

@@ -34,9 +34,12 @@ onBeforeUnmount(() => {
 
 <template>
   <section id="experience" class="section experience-section" aria-labelledby="experience-title">
-    <div class="section-heading sticky-heading" data-reveal>
+    <div class="section-heading" data-reveal>
       <p class="eyebrow">Experience</p>
-      <h2 id="experience-title">工作經歷保留前端主軸，服務現場經驗只作為理解真實使用者的補充。</h2>
+      <h2 id="experience-title">工作經歷</h2>
+      <p class="section-intro">
+        以前端開發與網頁應用經驗為主軸，服務現場經歷作為理解真實使用者與溝通情境的補充。
+      </p>
     </div>
 
     <div ref="timelineRef" class="timeline-list">
@@ -46,7 +49,6 @@ onBeforeUnmount(() => {
         class="timeline-item"
         :class="{ active: activeIndex === index, supporting: item.supporting }"
         :data-index="index"
-        data-reveal
       >
         <time>{{ item.period }}</time>
         <div class="timeline-content">

@@ -11,7 +11,7 @@ export function useReveal(rootRef: Ref<HTMLElement | null>) {
 
     targets.forEach((target) => {
       const rect = target.getBoundingClientRect();
-      const isVisible = rect.top < viewportHeight * 0.92 && rect.bottom > viewportHeight * 0.08;
+      const isVisible = rect.top < viewportHeight && rect.bottom > 0;
 
       if (isVisible) {
         target.classList.add('is-visible');

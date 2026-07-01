@@ -1,13 +1,13 @@
 <script setup>
-import { GraduationCap, MapPin } from '@lucide/vue';
-import { designResearch, profile } from '../data/resume';
+import { GraduationCap, MapPin, UserRound } from '@lucide/vue';
+import { profile } from '../data/resume';
 </script>
 
 <template>
   <section id="about" class="section about-section" aria-labelledby="about-title">
     <div class="section-heading" data-reveal>
       <p class="eyebrow">About</p>
-      <h2 id="about-title">前端實戰是底，AI 工作流是現在正在補上的加速器。</h2>
+      <h2 id="about-title">關於我</h2>
     </div>
 
     <div class="about-layout">
@@ -25,10 +25,14 @@ import { designResearch, profile } from '../data/resume';
         </div>
       </div>
 
-      <div class="research-grid" aria-label="設計研究摘要">
-        <article v-for="item in designResearch" :key="item.title" data-reveal>
-          <h3>{{ item.title }}</h3>
-          <p>{{ item.body }}</p>
+      <div class="about-summary" aria-label="履歷摘要">
+        <article data-reveal>
+          <UserRound :size="20" aria-hidden="true" />
+          <h3>{{ profile.title }}</h3>
+          <p>{{ profile.experience }}</p>
+        </article>
+        <article v-for="point in profile.summaryPoints" :key="point" data-reveal>
+          <p>{{ point }}</p>
         </article>
       </div>
     </div>

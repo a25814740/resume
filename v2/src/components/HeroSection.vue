@@ -6,7 +6,7 @@ import { profile } from '../data/resume';
 <template>
   <section id="top" class="hero-section" aria-labelledby="hero-title">
     <div class="hero-copy">
-      <p class="eyebrow reveal-up">AI Application Engineer / Frontend</p>
+      <p class="eyebrow reveal-up">{{ profile.title }}</p>
       <h1 id="hero-title" class="hero-title">
         <span class="reveal-up">{{ profile.name }}</span>
         <span class="reveal-up delay-1">{{ profile.headline }}</span>

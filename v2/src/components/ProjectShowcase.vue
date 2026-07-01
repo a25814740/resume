@@ -10,7 +10,7 @@ const activeProject = ref(projects[0].name);
   <section id="projects" class="section project-section" aria-labelledby="projects-title">
     <div class="section-heading" data-reveal>
       <p class="eyebrow">Projects</p>
-      <h2 id="projects-title">作品集放在最後，讓前面的履歷敘事先把人選輪廓講清楚。</h2>
+      <h2 id="projects-title">作品集</h2>
     </div>
 
     <div class="project-wall">
@@ -19,7 +19,6 @@ const activeProject = ref(projects[0].name);
         :key="project.name"
         class="project-card"
         :class="{ active: activeProject === project.name }"
-        data-reveal
       >
         <button
           type="button"

@@ -7,7 +7,7 @@ describe('App', () => {
     const wrapper = mount(App);
 
     expect(wrapper.text()).toContain('羅仕林');
-    expect(wrapper.text()).toContain('AI 應用落地型工程師');
+    expect(wrapper.text()).toContain('AI 應用工程師');
     expect(wrapper.text()).toContain('我不是只會使用 AI 工具');
   });
 
