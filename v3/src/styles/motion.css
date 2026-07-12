@@ -1,0 +1,63 @@
+.hero-copy > *,
+.hero-panel {
+  animation: hero-reveal 780ms var(--ease-out) both;
+}
+
+.hero-copy > :nth-child(2) {
+  animation-delay: 90ms;
+}
+
+.hero-copy > :nth-child(3) {
+  animation-delay: 180ms;
+}
+
+.hero-copy > :nth-child(4) {
+  animation-delay: 270ms;
+}
+
+.hero-copy > :nth-child(5) {
+  animation-delay: 360ms;
+}
+
+.hero-panel {
+  animation-delay: 280ms;
+}
+
+[data-reveal] {
+  opacity: 0.001;
+  transform: translateY(28px);
+  transition: opacity 680ms var(--ease-out), transform 680ms var(--ease-out);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes hero-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
