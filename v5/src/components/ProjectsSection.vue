@@ -119,7 +119,7 @@ function scrollHorizontally(event: globalThis.WheelEvent) {
       @wheel="scrollHorizontally"
     >
       <button
-        v-for="(work, index) in works"
+        v-for="work in works"
         :key="work.id"
         type="button"
         class="project-strip"
@@ -128,38 +128,19 @@ function scrollHorizontally(event: globalThis.WheelEvent) {
           'is-muted': hoveredId && hoveredId !== work.id,
           'is-opening-target': openingId === work.id,
         }"
+        :style="{ '--project-background': `url(${work.listImage || work.coverImage})` }"
         :aria-label="`查看 ${work.title} 作品詳情`"
         @mouseenter="hoveredId = work.id"
         @focus="hoveredId = work.id"
         @blur="hoveredId = null"
         @click="openWork(work, $event)"
       >
-        <span class="project-strip__visual project-strip__visual--top" aria-hidden="true">
-          <img
-            :src="work.listImage || work.coverImage"
-            alt=""
-            :fetchpriority="index === 0 ? 'high' : 'auto'"
-            :loading="index < 3 ? 'eager' : 'lazy'"
-            decoding="async"
-            draggable="false"
-          />
-        </span>
-
         <span class="project-strip__identity">
           <strong>{{ work.title }}</strong>
           <small>{{ work.category }}</small>
           <i aria-hidden="true">VIEW</i>
         </span>
 
-        <span class="project-strip__visual project-strip__visual--bottom" aria-hidden="true">
-          <img
-            :src="work.listImage || work.coverImage"
-            alt=""
-            loading="lazy"
-            decoding="async"
-            draggable="false"
-          />
-        </span>
       </button>
     </div>
 
