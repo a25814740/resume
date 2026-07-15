@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        app: [v1, v2]
+        app: [v1, v2, v3, v4, v5]
 
     steps:
       - name: Checkout
@@ -29,6 +29,10 @@ jobs:
       - name: Run ESLint
         working-directory: ${{ matrix.app }}
         run: npm run lint
+
+      - name: Run TypeScript check
+        working-directory: ${{ matrix.app }}
+        run: npm run typecheck --if-present
 
       - name: Run unit tests
         working-directory: ${{ matrix.app }}
