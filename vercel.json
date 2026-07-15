@@ -1,0 +1,4 @@
+{
+  "buildCommand": "npm --prefix v5 run build",
+  "outputDirectory": "v5/dist"
+}
