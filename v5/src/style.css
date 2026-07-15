@@ -152,12 +152,15 @@
 .work-detail {
   position: fixed;
   z-index: 80;
-  inset: 0;
-  width: 100vw;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 260px;
+  width: calc(100vw - 260px);
   height: 100dvh;
   min-height: 0;
   display: grid;
-  grid-template-columns: 260px minmax(20rem, 30vw) minmax(0, 1fr);
+  grid-template-columns: minmax(20rem, 30vw) minmax(0, 1fr);
   overflow: hidden;
   color: var(--work-text);
   background: var(--work-background);
@@ -171,39 +174,6 @@
   transform: scaleX(0);
   pointer-events: none;
 }
-.work-detail__cover {
-  position: relative;
-  z-index: 3;
-  min-width: 0;
-  overflow: hidden;
-  background: var(--work-overlay);
-}
-.work-detail__cover > img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  filter: saturate(.9) contrast(1.02);
-}
-.work-detail__cover-label {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 61%;
-  min-height: 17%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: .45rem;
-  padding: .8rem;
-  color: #0f172a;
-  background: rgba(255, 255, 255, .83);
-  text-align: center;
-}
-.work-detail__cover-label strong { font-size: clamp(.9rem, 1.1vw, 1.2rem); }
-.work-detail__cover-label span { color: #64748b; font: .6rem 'Fira Code', monospace; letter-spacing: .08em; }
-
 .work-detail__info {
   position: relative;
   z-index: 2;
@@ -337,15 +307,13 @@
 .work-gallery .is-unavailable::after { content: 'Image unavailable'; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; background: var(--work-overlay); font: .7rem 'Fira Code', monospace; }
 
 @media (max-width: 900px) {
-  .work-detail { grid-template-columns: 260px minmax(18rem, 42vw) minmax(28rem, 1fr); overflow-x: auto; }
+  .work-detail { grid-template-columns: minmax(18rem, 42vw) minmax(28rem, 1fr); overflow-x: auto; }
 }
 
 @media (max-width: 640px) {
   .projects-wall { min-height: 32rem; }
   .projects-wall__hint { display: none; }
   .work-detail { inset: 0; display: block; width: 100vw; height: 100dvh; overflow-y: auto; background: var(--work-background); }
-  .work-detail__cover { height: 48svh; }
-  .work-detail__cover-label { top: auto; bottom: 0; min-height: 8rem; }
   .work-detail__info { min-height: 52svh; }
   .work-detail__copy { padding: 5rem 3.5rem 4rem; overflow: visible; }
   .work-detail__switch { position: fixed; top: 51%; }
@@ -359,7 +327,6 @@
   .project-strip__identity small,
   .project-strip__identity i,
   .projects-wall__hint,
-  .work-detail__cover-label span,
   .work-detail__copy > p:first-child,
   .work-detail__copy li,
   .work-detail__copy a,

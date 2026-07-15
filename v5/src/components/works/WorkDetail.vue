@@ -120,10 +120,6 @@ async function revealDetail() {
 
   await new Promise<void>((resolve) => {
     gsap.timeline({ defaults: { ease: 'power4.out' }, onComplete: resolve })
-      .fromTo(scope.querySelector('.work-detail__cover'),
-        { filter: 'brightness(.72)' },
-        { filter: 'brightness(1)', duration: .45 },
-      )
       .to(info, { xPercent: 0, duration: .68 }, .08)
       .to(copy, { x: 0, autoAlpha: 1, duration: .52, stagger: .055 }, .38)
       .to(gallery, { xPercent: 0, duration: .78 }, .68)
@@ -160,14 +156,6 @@ onBeforeUnmount(() => {
     aria-label="作品詳情"
   >
     <div class="work-detail__wipe" aria-hidden="true"></div>
-
-    <aside class="work-detail__cover" data-work-change>
-      <img :src="activeWork.coverImage" :alt="`${activeWork.title} 作品封面`" />
-      <div class="work-detail__cover-label">
-        <strong>{{ activeWork.title }}</strong>
-        <span>{{ activeWork.category }}</span>
-      </div>
-    </aside>
 
     <article class="work-detail__info" data-work-change>
       <button ref="closeButton" class="work-detail__close" type="button" aria-label="關閉作品詳情" @click="close">
