@@ -126,7 +126,7 @@ onBeforeUnmount(() => {
 
         <div class="space-y-12">
           <div
-            v-for="(exp, i) in experiences"
+            v-for="(exp, i) in experiences.slice().reverse()"
             :key="i"
             class="timeline-item visible relative flex flex-col md:flex-row"
             :class="i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'"

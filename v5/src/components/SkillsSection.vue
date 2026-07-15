@@ -8,9 +8,9 @@ const categories = [
     color: '#c084fc',
     skills: [
       { name: 'ChatGPT / Codex', pct: 90 },
-      { name: 'Gemini / Antigravity', pct: 88 },
+      { name: 'Gemini / Antigravity', pct: 85 },
       { name: 'Prompt Engineering', pct: 85 },
-      { name: 'AI Workflow Integration', pct: 82 },
+      { name: 'AI Workflow Integration', pct: 80 },
     ]
   },
   {
@@ -18,10 +18,10 @@ const categories = [
     title: 'Frontend Engineering',
     color: '#67e8f9',
     skills: [
-      { name: 'HTML5 / CSS3 / SASS', pct: 95 },
-      { name: 'JavaScript / jQuery', pct: 92 },
-      { name: 'Vue.js / Pug', pct: 88 },
-      { name: 'RWD / Bootstrap', pct: 93 },
+      { name: 'HTML5 / CSS3 / SASS', pct: 90 },
+      { name: 'JavaScript / jQuery', pct: 90 },
+      { name: 'Vue.js / Pug', pct: 85 },
+      { name: 'RWD / Bootstrap', pct: 90 },
     ]
   },
   {
@@ -32,7 +32,7 @@ const categories = [
       { name: 'RESTful API', pct: 80 },
       { name: 'Git / GitHub', pct: 85 },
       { name: 'System Integration', pct: 75 },
-      { name: 'Vite / Webpack', pct: 78 },
+      { name: 'Vite / Webpack', pct: 80 },
     ]
   },
   {
@@ -40,9 +40,9 @@ const categories = [
     title: 'Design & Media',
     color: '#fbbf24',
     skills: [
-      { name: 'Adobe Photoshop', pct: 78 },
-      { name: 'Adobe Illustrator', pct: 72 },
-      { name: 'UI/UX Implementation', pct: 82 },
+      { name: 'Adobe Photoshop', pct: 75 },
+      { name: 'Adobe Illustrator', pct: 70 },
+      { name: 'UI/UX Implementation', pct: 80 },
       { name: 'Figma', pct: 65 },
     ]
   }

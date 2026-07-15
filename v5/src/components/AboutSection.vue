@@ -46,6 +46,7 @@ const activeMember = ref<TeamMember | null>(null)
 const selectedMemberId = ref<string | null>(null)
 const isOpening = ref(false)
 const isSectionVisible = ref(false)
+const isTutorialVisible = ref(false)
 const sectionRef = ref<HTMLElement | null>(null)
 const closeButtonRef = ref<globalThis.HTMLButtonElement | null>(null)
 let sectionObserver: IntersectionObserver | null = null
@@ -87,9 +88,8 @@ function handleKeydown(event: KeyboardEvent) {
 onMounted(() => {
   window.addEventListener('keydown', handleKeydown)
   sectionObserver = new IntersectionObserver(([entry]) => {
-    if (!entry?.isIntersecting) return
-    isSectionVisible.value = true
-    sectionObserver?.disconnect()
+    isSectionVisible.value = Boolean(entry?.isIntersecting)
+    isTutorialVisible.value = Boolean(entry?.isIntersecting)
   }, { threshold: .35 })
   if (sectionRef.value) sectionObserver.observe(sectionRef.value)
 })
@@ -108,8 +108,7 @@ onBeforeUnmount(() => {
     <div class="team-overview" :class="{ 'team-overview--hidden': activeMember, 'team-overview--opening': isOpening }" :aria-hidden="activeMember ? 'true' : undefined" :inert="Boolean(activeMember)">
       <header class="team-overview__intro">
         <p>ME &amp; AI TEAM</p>
-        <h2 id="team-title">「把想法拆開，再一起慢慢做成作品。」</h2>
-        <span>選擇一位成員，查看目前的協作分工。</span>
+        <h2 id="team-title">與 AI 同行</h2>
       </header>
 
       <div class="team-overview__lineup" aria-label="AI 協作團隊成員">
@@ -124,9 +123,7 @@ onBeforeUnmount(() => {
         >
           <span class="team-overview__figure">
             <img :src="member.image" :alt="member.alt" class="team-overview__portrait" />
-            <span class="team-overview__reflection" aria-hidden="true">
-              <img :src="member.image" alt="" />
-            </span>
+            <span class="team-overview__target" aria-hidden="true"></span>
           </span>
           <span class="team-overview__label">
             <b v-if="member.isBoss">BOSS</b>
@@ -134,6 +131,11 @@ onBeforeUnmount(() => {
             <small>{{ member.role }}</small>
           </span>
         </button>
+      </div>
+
+      <div v-if="isTutorialVisible" class="team-tutorial" aria-hidden="true">
+        <span class="team-tutorial__cursor">↖</span>
+        <span class="team-tutorial__hint">點擊查看分工</span>
       </div>
     </div>
 
@@ -147,11 +149,6 @@ onBeforeUnmount(() => {
         <div class="team-profile__backdrop" aria-hidden="true"></div>
         <div class="team-profile__mask" aria-hidden="true"></div>
         <div class="team-profile__sweep" aria-hidden="true"></div>
-
-        <!-- 個人檔案打開時，保留淡化的團隊列作為轉場殘影。 -->
-        <div class="team-profile__ghosts" aria-hidden="true">
-          <img v-for="member in teamMembers" :key="member.id" :src="member.image" alt="" />
-        </div>
 
         <Transition name="member-switch" mode="out-in">
           <div :key="activeMember.id" class="team-profile__figure" :class="{ 'team-profile__figure--boss': activeMember.isBoss }">
@@ -231,15 +228,14 @@ onBeforeUnmount(() => {
   letter-spacing: .08em;
 }
 
-.team-overview__intro p { margin: 0 0 1rem; color: #e05a3f; font-size: .72rem; }
+.team-overview__intro p { margin: 0 0 1rem; color: #e05a3f; font-size: .75rem; }
 .team-overview__intro h2 { margin: 0; color: #fff; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2rem, 3.7vw, 4.25rem); font-weight: 600; line-height: 1.15; letter-spacing: -.03em; text-wrap: balance; }
-.team-overview__intro > span { display: block; margin-top: 1.25rem; color: #526276; font-size: .72rem; }
 
 .team-overview__intro { opacity: 0; transform: translate(-50%, 1.5rem); }
 .team-section--visible .team-overview__intro { animation: teamIntroArrive .7s cubic-bezier(.16, 1, .3, 1) 1.35s both; }
 @keyframes teamIntroArrive { to { opacity: 1; transform: translate(-50%, 0); } }
 
-.team-overview__lineup { position: absolute; bottom: clamp(2rem, 9vh, 5.5rem); left: 50%; display: flex; align-items: end; justify-content: center; width: min(49rem, calc(100% - 2rem)); height: min(32vh, 19rem); transform: translateX(-50%); }
+.team-overview__lineup { position: absolute; bottom: clamp(2rem, 9vh, 5.5rem); left: 50%; display: flex; align-items: end; justify-content: center; width: min(54rem, calc(100% - 2rem)); height: min(40vh, 24rem); transform: translateX(-50%); }
 .team-overview__member { position: relative; flex: 1 1 0; align-self: stretch; min-width: 0; border: 0; padding: 0; color: inherit; cursor: pointer; background: transparent; opacity: 0; transform: translateY(-4rem) scale(.12); transform-origin: center bottom; transition: opacity .35s ease, filter .35s ease, transform .48s cubic-bezier(.16, 1, .3, 1); }
 .team-section--visible .team-overview__member { opacity: 1; transform: translateY(0) scale(1); animation: teamMemberArrive .72s cubic-bezier(.16, 1, .3, 1) backwards; }
 .team-section--visible .team-overview__member:nth-child(3) { animation-delay: .12s; }
@@ -258,18 +254,24 @@ onBeforeUnmount(() => {
 .team-overview--opening .team-overview__member:not(.team-overview__member--selected) { opacity: .18; filter: grayscale(.75); transform: scale(.94); }
 .team-overview--opening .team-overview__member--selected { z-index: 5; transform: translateY(2rem) scale(1.22); }
 .team-overview__figure { position: absolute; right: 0; bottom: 0; left: 0; height: 100%; }
-.team-overview__figure > img { position: absolute; bottom: 2.75rem; left: 50%; width: min(11rem, 132%); height: 87%; object-fit: contain; object-position: center bottom; transform: translateX(-50%); filter: drop-shadow(0 .5rem .5rem rgba(42, 56, 75, .16)); transition: filter .35s ease; }
+.team-overview__figure > img { position: absolute; bottom: 2.75rem; left: 50%; width: min(14rem, 150%); height: 94%; object-fit: contain; object-position: center bottom; transform: translateX(-50%); filter: drop-shadow(0 .5rem .5rem rgba(42, 56, 75, .16)); transition: filter .35s ease; }
 .team-overview__portrait {
   mask-image: linear-gradient(to bottom, #000 0%, #000 70%, rgba(0, 0, 0, .88) 77%, rgba(0, 0, 0, .38) 86%, transparent 94%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 70%, rgba(0, 0, 0, .88) 77%, rgba(0, 0, 0, .38) 86%, transparent 94%, transparent 100%);
 }
 .team-overview__member:hover .team-overview__figure > img:first-child, .team-overview__member:focus-visible .team-overview__figure > img:first-child { filter: drop-shadow(0 .8rem .7rem rgba(42, 56, 75, .24)); }
-.team-overview__reflection { position: absolute; z-index: 0; top: calc(100% - 4.6rem); right: 0; left: 0; height: 100%; overflow: hidden; opacity: .17; mask-image: radial-gradient(ellipse 50% 28% at 50% 0%, #000 0%, rgba(0, 0, 0, .62) 40%, transparent 100%); -webkit-mask-image: radial-gradient(ellipse 50% 28% at 50% 0%, #000 0%, rgba(0, 0, 0, .62) 40%, transparent 100%); filter: blur(.55px); }
-.team-overview__reflection img { position: absolute; bottom: 100%; left: 50%; width: min(11rem, 132%); height: 87%; object-fit: contain; object-position: center bottom; transform: translateX(-50%) scaleY(-1); transform-origin: center bottom; }
+.team-overview__target { position: absolute; z-index: 3; bottom: 2.6rem; left: 50%; width: 1.6rem; height: 1.6rem; border: 1px solid rgba(224, 90, 63, .78); border-radius: 50%; transform: translateX(-50%); animation: teamTargetHeartbeat 1.8s ease-in-out infinite; }
+.team-overview__target::after { position: absolute; inset: .35rem; border: 1px solid rgba(224, 90, 63, .7); border-radius: inherit; content: ''; }
+.team-tutorial { position: absolute; z-index: 6; inset: 0; pointer-events: none; }
+.team-tutorial__cursor { position: absolute; top: 45%; left: 50%; color: #1f2937; font: 2.4rem/1 Arial, sans-serif; text-shadow: 0 1px 0 #fff; opacity: 0; animation: tutorialCursor 6s cubic-bezier(.45, 0, .25, 1) 2; }
+.team-tutorial__hint { position: absolute; left: 50%; bottom: 2.5rem; padding: .45rem .75rem; color: #526276; border: 1px solid rgba(82, 98, 118, .25); border-radius: 999px; background: rgba(255,255,255,.7); font: 500 .75rem/1.4 'Noto Sans TC', sans-serif; opacity: 0; animation: tutorialHint 6s ease 2; }
+@keyframes teamTargetHeartbeat { 0%, 100% { opacity: .65; transform: translateX(-50%) scale(.92); box-shadow: 0 0 0 0 rgba(224,90,63,.22); } 45% { opacity: 1; transform: translateX(-50%) scale(1.08); box-shadow: 0 0 0 .65rem rgba(224,90,63,0); } }
+@keyframes tutorialCursor { 0%, 8% { opacity: 0; left: 50%; top: 45%; transform: scale(.7); } 15% { opacity: 1; } 42% { opacity: 1; left: 10%; top: 66%; transform: scale(1); } 49% { opacity: 1; left: 10%; top: 66%; transform: scale(.75); } 56% { opacity: 1; left: 10%; top: 66%; transform: scale(1); } 76% { opacity: 1; } 92%, 100% { opacity: 0; left: 10%; top: 66%; transform: scale(.7); } }
+@keyframes tutorialHint { 0%, 72% { opacity: 0; transform: translateY(.4rem); } 82%, 94% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-.2rem); } }
 .team-overview__label { position: absolute; z-index: 4; bottom: 0; left: 50%; display: grid; gap: .28rem; width: max-content; max-width: 11rem; text-align: center; opacity: 1; transform: translate(-50%, 0); transition: opacity .25s ease, color .25s ease, transform .25s ease; }
-.team-overview__label strong { color: #273449; font-size: .76rem; line-height: 1.35; }
-.team-overview__label small { color: #637186; font-size: .55rem; line-height: 1.45; }
-.team-overview__label b { justify-self: center; padding: .23rem .4rem; color: #fff; font-size: .54rem; font-weight: 600; background: #e05a3f; }
+.team-overview__label strong { color: #273449; font-size: .875rem; line-height: 1.5; }
+.team-overview__label small { color: #637186; font-size: .75rem; line-height: 1.6; }
+.team-overview__label b { justify-self: center; padding: .23rem .4rem; color: #fff; font-size: .75rem; font-weight: 600; background: #e05a3f; }
 
 .team-profile { isolation: isolate; z-index: 60; display: grid; grid-template-columns: minmax(23rem, 43%) 1fr; align-items: center; padding: clamp(4rem, 9vh, 7rem) clamp(3rem, 9vw, 11rem); overflow: hidden; background: transparent; }
 .team-profile__backdrop { position: absolute; z-index: 0; inset: 0; background: linear-gradient(180deg, #d7e5ee 0%, #edf3f7 23%, #fff 49%, #fff 67%, #e8eef3 100%); }
@@ -286,23 +288,23 @@ onBeforeUnmount(() => {
 .team-profile__arrow:hover { transform: translateY(-50%) scale(1.12); }
 
 .team-profile__figure { position: relative; z-index: 4; align-self: end; height: min(72vh, 43rem); }
-.team-profile__figure > img { position: absolute; z-index: 1; bottom: 4.5rem; left: 50%; width: min(30rem, 120%); height: 93%; object-fit: contain; object-position: center bottom; transform: translateX(-50%); filter: drop-shadow(0 1rem 1rem rgba(42, 56, 75, .17)); }
+.team-profile__figure > img { position: absolute; z-index: 1; bottom: 4.5rem; left: 50%; width: min(34rem, 132%); height: 96%; object-fit: contain; object-position: center bottom; transform: translateX(-50%); filter: drop-shadow(0 1rem 1rem rgba(42, 56, 75, .17)); }
 .team-profile__portrait {
   /* 主圖晚一點才淡出，倒影提前疊進下緣，避免中間形成白色斷層。 */
   mask-image: linear-gradient(to bottom, #000 0%, #000 76%, rgba(0, 0, 0, .88) 84%, rgba(0, 0, 0, .3) 94%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 76%, rgba(0, 0, 0, .88) 84%, rgba(0, 0, 0, .3) 94%, transparent 100%);
 }
 .team-profile__content { position: relative; z-index: 4; max-width: 39rem; padding-left: clamp(1rem, 6vw, 8rem); }
-.team-profile__badge { display: inline-block; margin-bottom: 1.1rem; padding: .3rem .48rem; color: #fff; font-size: .62rem; background: #e05a3f; }
-.team-profile__content > p { margin: 0 0 .85rem; color: #e05a3f; font-size: .7rem; line-height: 1.5; }
+.team-profile__badge { display: inline-block; margin-bottom: 1.1rem; padding: .3rem .48rem; color: #fff; font-size: .75rem; background: #e05a3f; }
+.team-profile__content > p { margin: 0 0 .85rem; color: #e05a3f; font-size: .75rem; line-height: 1.6; }
 .team-profile__content h3 { margin: 0; color: #273449; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(3rem, 6vw, 6rem); font-weight: 600; line-height: .9; letter-spacing: -.04em; text-wrap: balance; }
 .team-profile__bio { max-width: 44ch; margin: 1.6rem 0 1.8rem !important; color: #526276 !important; font-family: 'Inter', 'Noto Sans TC', sans-serif !important; font-size: .98rem !important; letter-spacing: 0 !important; line-height: 1.85 !important; text-wrap: pretty; }
 .team-profile dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; max-width: 39rem; padding: 1.1rem 0; border-block: 1px solid #d8e0e7; }
 .team-profile dl div { min-width: 0; }
-.team-profile dt { margin-bottom: .45rem; color: #8190a3; font-size: .58rem; }
-.team-profile dd { margin: 0; color: #34445a; font-size: .8rem; line-height: 1.55; overflow-wrap: anywhere; }
+.team-profile dt { margin-bottom: .45rem; color: #8190a3; font-size: .75rem; }
+.team-profile dd { margin: 0; color: #34445a; font-size: .875rem; line-height: 1.65; overflow-wrap: anywhere; }
 .team-profile ul { display: grid; gap: .5rem; padding: 0; margin: 1.4rem 0 0; color: #34445a; list-style: none; }
-.team-profile li { font-size: .83rem; line-height: 1.55; }
+.team-profile li { font-size: .875rem; line-height: 1.65; }
 .team-profile li::before { margin-right: .5rem; color: #e05a3f; content: '—'; }
 
 .member-switch-enter-active { transition: opacity .4s ease, transform .52s cubic-bezier(.16, 1, .3, 1); }
@@ -364,8 +366,7 @@ onBeforeUnmount(() => {
   .team-overview__intro h2 { font-size: clamp(1.75rem, 8vw, 2.5rem); }
   .team-overview__lineup { bottom: 2rem; width: calc(100% - 1rem); height: 42vh; }
   .team-overview__figure > img { width: min(9rem, 170%); height: 85%; bottom: 1.75rem; }
-  .team-overview__reflection { top: calc(100% - 3.4rem); }
-  .team-overview__reflection img { width: min(9rem, 170%); height: 85%; }
+  .team-overview__target { bottom: 1.7rem; }
   .team-overview__label { display: grid; gap: .15rem; width: 4.6rem; max-width: 100%; }
   .team-overview__label strong { font-size: .52rem; }
   .team-overview__label small { font-size: .4rem; }
