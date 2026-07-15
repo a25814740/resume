@@ -136,7 +136,7 @@ function scrollHorizontally(event: globalThis.WheelEvent) {
       >
         <span class="project-strip__visual project-strip__visual--top" aria-hidden="true">
           <img
-            :src="work.coverImage"
+            :src="work.listImage || work.coverImage"
             alt=""
             :fetchpriority="index === 0 ? 'high' : 'auto'"
             :loading="index < 3 ? 'eager' : 'lazy'"
@@ -153,7 +153,7 @@ function scrollHorizontally(event: globalThis.WheelEvent) {
 
         <span class="project-strip__visual project-strip__visual--bottom" aria-hidden="true">
           <img
-            :src="work.coverImage"
+            :src="work.listImage || work.coverImage"
             alt=""
             loading="lazy"
             decoding="async"

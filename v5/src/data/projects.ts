@@ -15,6 +15,7 @@ export type Work = {
   category: string
   description: string
   coverImage: string
+  listImage?: string
   galleryImages: string[]
   link: string
   tech: string[]
@@ -41,13 +42,13 @@ export const works: Work[] = [
   {
     id: 'mtr', slug: 'wooden-man', title: '木頭人', category: 'WEB DESIGN',
     description: '以木頭人路由器為核心，整理產品特色、最新產品與 VPN 使用說明，透過清楚的單頁節奏建立簡潔、容易閱讀的產品網站。',
-    coverImage: screenshots.mtr, galleryImages: [screenshots.mtr], link: 'https://chestnutcat.xsrv.jp/download/mtr/demo/site/', tech: ['Frontend', 'jQuery', 'RWD'],
+    coverImage: screenshots.mtr, listImage: '/images/projects/mtr-banner.png', galleryImages: [screenshots.mtr], link: 'https://chestnutcat.xsrv.jp/download/mtr/demo/site/', tech: ['Frontend', 'jQuery', 'RWD'],
     theme: { background: '#21382f', surface: '#e9efe6', text: '#edf5e7', mutedText: '#c0d0c2', accent: '#d4ff68', overlay: '#17271f', headerBackground: '#1b2e26' },
   },
   {
     id: 'grapeking', slug: 'grape-king', title: '葡萄王生技', category: 'CORPORATE SITE',
     description: '以「健康專家、照顧全家」為核心，整合企業資訊、產品研發、專業代工與 ESG 內容，建立兼顧品牌形象與資訊查找效率的企業入口。',
-    coverImage: screenshots.grapeking, galleryImages: [screenshots.grapeking], link: 'https://www.grapeking.com.tw/', tech: ['Frontend', 'CMS', 'RWD'],
+    coverImage: screenshots.grapeking, listImage: '/images/projects/grapeking-banner.png', galleryImages: [screenshots.grapeking], link: 'https://www.grapeking.com.tw/', tech: ['Frontend', 'CMS', 'RWD'],
     theme: { background: '#40234b', surface: '#f7f0f3', text: '#fff5fb', mutedText: '#e5cde0', accent: '#ffb3dc', overlay: '#301a38', headerBackground: '#351c3e' },
   },
   {
