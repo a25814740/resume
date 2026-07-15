@@ -1,12 +1,18 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
+const emit = defineEmits(['navigate'])
+
 const isScrolled = ref(false)
 const isMobileOpen = ref(false)
 
-const handleScroll = () => { isScrolled.value = window.scrollY > 50 }
-onMounted(() => window.addEventListener('scroll', handleScroll))
-onUnmounted(() => window.removeEventListener('scroll', handleScroll))
+let scrollContainer
+const handleScroll = () => { isScrolled.value = (scrollContainer?.scrollTop ?? 0) > 50 }
+onMounted(() => {
+  scrollContainer = document.querySelector('[data-scroll-container]')
+  scrollContainer?.addEventListener('scroll', handleScroll, { passive: true })
+})
+onUnmounted(() => scrollContainer?.removeEventListener('scroll', handleScroll))
 
 const navLinks = [
   { label: 'Home', href: '#home' },
@@ -18,7 +24,7 @@ const navLinks = [
 
 function scrollTo(href) {
   isMobileOpen.value = false
-  document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
+  emit('navigate', href)
 }
 </script>
 

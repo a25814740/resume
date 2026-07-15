@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 
 const experiences = [
   {
@@ -85,24 +85,31 @@ const experiences = [
   }
 ]
 
+const sectionRef = ref(null)
+let itemObserver
+
 onMounted(() => {
-  const observer = new IntersectionObserver(
-    (entries) => entries.forEach(e => {
-      if (e.isIntersecting) {
-        const card = e.target.querySelector('.content-card')
-        const dot = e.target.querySelector('.pulse-dot')
-        if (card) card.classList.add('visible')
-        if (dot) dot.classList.add('dot-visible')
-      }
-    }),
-    { threshold: 0.3 }
-  )
-  document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el))
+  if (!sectionRef.value || !('IntersectionObserver' in window)) return
+
+  sectionRef.value.classList.add('timeline-observing')
+  itemObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => entry.target.classList.toggle('in-view', entry.isIntersecting))
+  }, {
+    root: document.querySelector('[data-scroll-container]'),
+    rootMargin: '0px 0px -12% 0px',
+    threshold: .12,
+  })
+  sectionRef.value.querySelectorAll('.timeline-item').forEach(item => itemObserver.observe(item))
 })
+
+onBeforeUnmount(() => {
+  itemObserver?.disconnect()
+})
+
 </script>
 
 <template>
-  <section id="experience" class="py-28 bg-[#0f172a] h-screen overflow-y-auto hide-scrollbar">
+  <section ref="sectionRef" id="experience" class="py-28 bg-[#0f172a] h-screen overflow-y-auto hide-scrollbar">
     <div class="max-w-5xl mx-auto px-6">
 
       <!-- Section Header -->
@@ -115,17 +122,17 @@ onMounted(() => {
       <!-- Timeline -->
       <div class="relative">
         <!-- Vertical line -->
-        <div class="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 timeline-line opacity-60 -translate-x-px z-0"></div>
+        <div class="timeline-line absolute top-0 bottom-0 w-0.5 opacity-60 z-0"></div>
 
         <div class="space-y-12">
           <div
             v-for="(exp, i) in experiences"
             :key="i"
-            class="timeline-item relative flex flex-col md:flex-row"
+            class="timeline-item visible relative flex flex-col md:flex-row"
             :class="i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'"
           >
             <!-- Timeline dot -->
-            <div class="absolute left-8 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full pulse-dot border-2 border-[#0f172a] z-10 mt-3 transition-all duration-500"
+            <div class="timeline-dot absolute w-4 h-4 rounded-full pulse-dot border-2 border-[#0f172a] z-10 mt-3"
               :style="{ backgroundColor: exp.color }"></div>
 
             <!-- Spacer for opposite side on desktop -->
@@ -134,7 +141,7 @@ onMounted(() => {
             <!-- Content card -->
             <div
               :class="[
-                'content-card ml-20 md:ml-0 md:w-1/2 glass rounded-2xl p-6 cursor-default transition-all duration-300 hover:border-[#c084fc]/50 z-10',
+                'content-card visible ml-20 md:ml-0 md:w-1/2 glass rounded-2xl p-6 cursor-default transition-all duration-300 hover:border-[#c084fc]/50 z-10',
                 i % 2 === 0 ? 'md:ml-12 left-card' : 'md:mr-12 right-card'
               ]"
             >
@@ -176,34 +183,29 @@ onMounted(() => {
   scrollbar-width: none;
 }
 
-.pulse-dot {
-  opacity: 0;
-  transform: translateX(-50%) scale(0.5);
-}
-.pulse-dot.dot-visible {
-  opacity: 1;
-  transform: translateX(-50%) scale(1);
-}
+.timeline-line,
+.timeline-dot { left: 2rem; transform: translateX(-50%); }
+
+.pulse-dot { opacity: 1; transition: opacity .4s ease, transform .5s cubic-bezier(.16, 1, .3, 1); }
 
 .content-card {
-  opacity: 0;
-  transition: opacity 1s ease, transform 1s ease;
-}
-.left-card {
-  transform: translateX(-50px);
-}
-.right-card {
-  transform: translateX(50px);
-}
-
-.content-card.visible {
   opacity: 1;
   transform: translateX(0);
+  transition: opacity .48s ease, transform .64s cubic-bezier(.16, 1, .3, 1);
 }
 
-@media (max-width: 768px) {
-  .right-card {
-    transform: translateX(-50px);
-  }
+.timeline-observing .timeline-item:not(.in-view) .pulse-dot { opacity: 0; transform: translateX(-50%) scale(.45); }
+.timeline-observing .timeline-item:not(.in-view):nth-child(odd) .content-card { opacity: 0; transform: translateX(3.5rem); }
+.timeline-observing .timeline-item:not(.in-view):nth-child(even) .content-card { opacity: 0; transform: translateX(-3.5rem); }
+.timeline-observing .timeline-item.in-view .pulse-dot { opacity: 1; transform: translateX(-50%) scale(1); }
+.timeline-observing .timeline-item.in-view .content-card { opacity: 1; transform: translateX(0); }
+
+@media (min-width: 768px) {
+  .timeline-line,
+  .timeline-dot { left: 50%; }
+}
+
+@media (max-width: 767px) {
+  .timeline-observing .timeline-item:not(.in-view) .content-card { transform: translateX(2.5rem); }
 }
 </style>

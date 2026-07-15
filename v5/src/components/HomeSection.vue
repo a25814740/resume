@@ -1,9 +1,8 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 
-const nameRef = ref(null)
 const displayed = ref('')
-const fullName = 'Developer'
+const fullName = 'Eden 仕林'
 let typed = false
 
 const particles = ['{', '}', '[', ']', '(', ')', '<', '>', '/', '*', '=', '+', ';', ':', '$', '#']
@@ -48,19 +47,11 @@ onMounted(() => {
 
       <!-- LEFT: Text -->
       <div class="flex flex-col gap-6">
-        <!-- Greeting -->
-        <p class="font-mono text-[#c084fc] text-lg tracking-widest">
-          Hello, I'm <span class="cursor-blink"></span>
-        </p>
-
-        <!-- Name -->
+        <!-- 主標：姓名直接接在問候語後，保留首頁的漸層視覺焦點。 -->
         <h1 class="font-mono font-extrabold leading-tight">
-          <span class="text-[#a78bfa] text-4xl md:text-6xl">const</span>
-          <span class="text-[#f1f5f9] text-4xl md:text-6xl mx-3">=</span>
+          <span class="text-[#c084fc] text-lg md:text-xl tracking-widest">Hello, I'm </span>
           <span class="gradient-text text-4xl md:text-6xl">{{ displayed || '\u00A0' }}</span>
-          <span class="text-[#c084fc] text-4xl md:text-6xl">;</span>
-          <br/>
-          <span class="text-[#67e8f9] text-2xl md:text-3xl font-light mt-2 block">羅仕林 Eden Lo</span>
+          <span class="cursor-blink text-[#c084fc] text-4xl md:text-6xl"></span>
         </h1>
 
         <!-- Title -->
@@ -70,8 +61,8 @@ onMounted(() => {
 
         <!-- Description -->
         <p class="text-[#cbd5e1] leading-relaxed max-w-xl text-base">
-          將多年的前端工程底蘊，融入 Agentic Coding 的思維框架，
-          精準駕馭 AI 工具，讓每一行程式碼都有意圖，讓每一個產品都有溫度。
+          將多年的前端工程經驗，結合 AI 協作的開發方式；
+          以 AI 工具為輔，認真把每個想法一步步做成可用的產品。
         </p>
 
         <!-- Quote -->
@@ -112,7 +103,7 @@ onMounted(() => {
 
         <!-- Profile Circle -->
         <div class="relative w-80 h-80 rounded-full border-4 border-[#c084fc] glow-primary overflow-hidden bg-[#1e293b] flex items-center justify-center z-10">
-          <img src="https://picsum.photos/id/1025/400/400" alt="Eden Lo" class="w-full h-full object-cover" />
+          <img src="/images/eden-profile.jpg" alt="羅仕林 Eden" class="w-full h-full object-cover object-[center_25%]" />
           <!-- code icon overlay -->
           <div class="absolute inset-0 flex items-center justify-center">
             <span class="font-mono text-8xl font-bold text-[#c084fc] opacity-20 select-none">&lt;/&gt;</span>
@@ -121,16 +112,16 @@ onMounted(() => {
 
         <!-- Floating Badges -->
         <div class="absolute top-0 right-0 glass px-5 py-3 rounded-2xl float-badge z-20 max-w-[220px]" style="animation-delay: 0s;">
-          <p class="font-mono text-xs text-[#c084fc] font-bold">⚡ Agentic Coding</p>
-          <p class="text-[#94a3b8] text-xs mt-1">Codex · Antigravity · Claude</p>
+          <p class="font-mono text-xs text-[#c084fc] font-bold">⚡ AI 協作開發</p>
+          <p class="text-[#94a3b8] text-xs mt-1">Codex · Antigravity · Ollama</p>
         </div>
         <div class="absolute bottom-10 right-0 glass px-5 py-3 rounded-2xl float-badge z-20 max-w-[220px]" style="animation-delay: 1s;">
           <p class="font-mono text-xs text-[#67e8f9] font-bold">🔧 Frontend</p>
           <p class="text-[#94a3b8] text-xs mt-1">Vue · JS · CSS · RWD</p>
         </div>
         <div class="absolute bottom-24 left-0 glass px-5 py-3 rounded-2xl float-badge z-20 max-w-[200px]" style="animation-delay: 2s;">
-          <p class="font-mono text-xs text-[#fbbf24] font-bold">📍 Taichung, TW</p>
-          <p class="text-[#94a3b8] text-xs mt-1">Open to Collaborate</p>
+          <p class="font-mono text-xs text-[#fbbf24] font-bold">🌱 持續學習</p>
+          <p class="text-[#94a3b8] text-xs mt-1">把想法一步步做成作品</p>
         </div>
       </div>
     </div>

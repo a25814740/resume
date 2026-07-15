@@ -91,7 +91,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section id="skills" class="py-28 bg-[#020617]">
+  <section id="skills" class="min-h-screen py-28 bg-[#020617]">
     <div class="max-w-7xl mx-auto px-6">
 
       <!-- Section Header -->
