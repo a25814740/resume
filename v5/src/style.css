@@ -92,13 +92,19 @@
 .project-strip.is-active { background-size: 108%; }
 
 .project-strip__identity {
-  position: relative;
+  position: absolute;
   z-index: 4;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: .45rem;
+  right: 0;
+  bottom: 15%;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  min-height: 100px;
   padding: 1rem;
   background: rgba(255, 255, 255, .79);
   backdrop-filter: blur(5px);
