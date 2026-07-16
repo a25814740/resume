@@ -63,7 +63,6 @@ function changeWork(direction: -1 | 1) {
   alignSelectedCard(nextIndex, () => {
     selectedIndex.value = nextIndex
     openingId.value = null
-    isChangingWork.value = false
   })
 }
 
@@ -174,7 +173,6 @@ function scrollHorizontally(event: globalThis.WheelEvent) {
 
     <WorkDetail
       v-if="selected"
-      :key="selected.id"
       :work="selected"
       :index="selectedIndex ?? 0"
       :total="works.length"
@@ -182,6 +180,7 @@ function scrollHorizontally(event: globalThis.WheelEvent) {
       @close="selectedIndex = null"
       @previous="changeWork(-1)"
       @next="changeWork(1)"
+      @revealed="isChangingWork = false"
     />
   </section>
 </template>

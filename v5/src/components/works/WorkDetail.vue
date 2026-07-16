@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { gsap } from 'gsap'
 import type { Work } from '../../data/projects'
 import WorkGallery from './WorkGallery.vue'
 
 const props = defineProps<{ work: Work; index: number; total: number; transitioning: boolean }>()
-const emit = defineEmits<{ close: []; previous: []; next: [] }>()
+const emit = defineEmits<{ close: []; previous: []; next: []; revealed: [] }>()
 const root = ref<HTMLElement | null>(null)
 const closeButton = ref<globalThis.HTMLButtonElement | null>(null)
 let scrollContainer: HTMLElement | null = null
@@ -55,6 +55,7 @@ async function revealDetail() {
   const scope = root.value
   if (!scope || reducedMotion()) {
     closeButton.value?.focus({ preventScroll: true })
+    emit('revealed')
     return
   }
 
@@ -74,7 +75,29 @@ async function revealDetail() {
   })
 
   closeButton.value?.focus({ preventScroll: true })
+  emit('revealed')
 }
+
+function concealDetail() {
+  const scope = root.value
+  if (!scope || reducedMotion()) return
+
+  const info = scope.querySelector('.work-detail__info')
+  const gallery = scope.querySelector('.work-gallery')
+  gsap.killTweensOf([info, gallery])
+  gsap.timeline({ defaults: { ease: 'power3.in' } })
+    .to(info, { xPercent: 8, autoAlpha: 0, duration: .24 }, 0)
+    .to(gallery, { xPercent: 5, autoAlpha: 0, duration: .3 }, .04)
+}
+
+// 切換時先收起舊內容；父層完成左側卡片的 260px 捲動、更新 work 後，才重新帶入文字與截圖。
+watch(() => props.transitioning, (isChanging) => {
+  if (isChanging) concealDetail()
+})
+
+watch(() => props.work.id, () => {
+  revealDetail()
+})
 
 onMounted(() => {
   window.addEventListener('keydown', onKeydown)
