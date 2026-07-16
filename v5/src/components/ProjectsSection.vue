@@ -12,6 +12,7 @@ const selectedIndex = ref<number | null>(null)
 const selected = computed<Work | null>(() => selectedIndex.value === null ? null : works[selectedIndex.value])
 const isChangingWork = ref(false)
 const cardWidth = 260
+const cardShiftDuration = .9
 let dragStartX = 0
 let dragStartScrollLeft = 0
 let draggedDistance = 0
@@ -34,8 +35,8 @@ function alignSelectedCard(index: number, complete: () => void) {
 
   gsap.to(element, {
     scrollLeft: getTargetScroll(index),
-    duration: .46,
-    ease: 'power4.inOut',
+    duration: cardShiftDuration,
+    ease: 'power3.inOut',
     onComplete: complete,
   })
 }
@@ -49,6 +50,7 @@ function openWork(work: Work) {
   openingId.value = work.id
   alignSelectedCard(index, () => {
     selectedIndex.value = index
+    hoveredId.value = null
     openingId.value = null
   })
 }
@@ -59,6 +61,7 @@ function changeWork(direction: -1 | 1) {
   if (nextIndex < 0 || nextIndex >= works.length) return
 
   isChangingWork.value = true
+  hoveredId.value = null
   openingId.value = works[nextIndex].id
   alignSelectedCard(nextIndex, () => {
     selectedIndex.value = nextIndex
@@ -126,7 +129,12 @@ function scrollHorizontally(event: globalThis.WheelEvent) {
     <div
       ref="track"
       class="projects-wall__track"
-      :class="{ 'has-hover': hoveredId, 'is-dragging': isDragging, 'is-opening': openingId }"
+      :class="{
+        'has-hover': !selected && hoveredId,
+        'is-dragging': isDragging,
+        'is-opening': openingId,
+        'is-detail-open': selected,
+      }"
       aria-label="作品清單"
       @mouseleave="hoveredId = null"
       @pointerdown="startDrag"
@@ -147,9 +155,8 @@ function scrollHorizontally(event: globalThis.WheelEvent) {
           type="button"
           class="project-strip"
           :class="{
-            'is-active': hoveredId === work.id,
-            'is-muted': hoveredId && hoveredId !== work.id,
-            'is-opening-target': openingId === work.id,
+            'is-active': selected ? selected.id === work.id : hoveredId === work.id,
+            'is-muted': !selected && hoveredId && hoveredId !== work.id,
           }"
           :style="{ '--project-background': `url(${work.listImage || work.coverImage})` }"
           :aria-label="`查看 ${work.title} 作品詳情`"

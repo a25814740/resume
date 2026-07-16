@@ -63,9 +63,10 @@ async function revealDetail() {
   const copy = scope.querySelectorAll('[data-copy-reveal]')
   const gallery = scope.querySelector('.work-gallery')
 
-  gsap.set(info, { xPercent: -105 })
+  // concealDetail 會把舊內容設成透明；新內容進場前必須明確恢復可見。
+  gsap.set(info, { xPercent: -105, autoAlpha: 1 })
   gsap.set(copy, { x: -34, autoAlpha: 0 })
-  gsap.set(gallery, { xPercent: -105 })
+  gsap.set(gallery, { xPercent: -105, autoAlpha: 1 })
 
   await new Promise<void>((resolve) => {
     gsap.timeline({ defaults: { ease: 'power4.out' }, onComplete: resolve })
@@ -171,6 +172,6 @@ onBeforeUnmount(() => {
       </span>
     </article>
 
-    <WorkGallery :key="work.id" :work="work" :intro-delay="980" />
+    <WorkGallery :key="work.id" :work="work" :intro-delay="1450" />
   </section>
 </template>

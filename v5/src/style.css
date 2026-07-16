@@ -47,8 +47,10 @@
   cursor: grabbing;
   scroll-snap-type: none;
 }
-.projects-wall__track.is-opening { pointer-events: none; }
-.projects-wall__track.is-opening .project-item:not(:has(.is-opening-target)) { filter: brightness(.72) saturate(.55); }
+.projects-wall__track.is-opening { pointer-events: none; scroll-snap-type: none; }
+.projects-wall__track.is-detail-open { pointer-events: none; }
+.projects-wall__track.is-detail-open .project-item:hover,
+.projects-wall__track.is-detail-open .project-item:focus-within { box-shadow: none; }
 
 .project-item {
   position: relative;

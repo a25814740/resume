@@ -16,12 +16,15 @@ describe('ProjectsSection', () => {
     expect(wrapper.find('[aria-label="作品詳情"]').exists()).toBe(true)
     expect(wrapper.find('[aria-label="上一個作品"]').exists()).toBe(false)
     expect(wrapper.find('[aria-label="下一個作品"]').exists()).toBe(true)
+    expect(wrapper.find('.projects-wall__track').classes()).toContain('is-detail-open')
+    expect(wrapper.findAll('.project-strip.is-active')).toHaveLength(1)
     expect(track.scrollLeft).toBe(0)
 
     await wrapper.find('[aria-label="下一個作品"]').trigger('click')
     await nextTick()
     expect(wrapper.find('.work-detail__copy h2').text()).toBe('葡萄王生技')
     expect(track.scrollLeft).toBe(260)
+    expect(wrapper.find('.project-strip.is-active').attributes('aria-label')).toContain('葡萄王生技')
 
     wrapper.unmount()
     vi.unstubAllGlobals()
