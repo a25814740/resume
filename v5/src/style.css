@@ -182,7 +182,8 @@
   grid-template-columns: minmax(20rem, 30vw) minmax(0, 1fr);
   overflow: hidden;
   color: var(--work-text);
-  background: var(--work-background);
+  /* 右側截圖切換時會短暫透明，底層維持截圖區色面，避免左側資訊主色延伸整個畫面。 */
+  background: var(--work-surface);
   isolation: isolate;
 }
 .work-detail__info {
