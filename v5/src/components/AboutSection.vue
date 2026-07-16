@@ -135,7 +135,7 @@ onBeforeUnmount(() => {
 
       <div v-if="isTutorialVisible" class="team-tutorial" aria-hidden="true">
         <span class="team-tutorial__cursor">↖</span>
-        <span class="team-tutorial__hint">點擊查看分工</span>
+        <span class="team-tutorial__hint">滑動瀏覽・點擊查看分工</span>
       </div>
     </div>
 
@@ -260,7 +260,7 @@ onBeforeUnmount(() => {
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 70%, rgba(0, 0, 0, .88) 77%, rgba(0, 0, 0, .38) 86%, transparent 94%, transparent 100%);
 }
 .team-overview__member:hover .team-overview__figure > img:first-child, .team-overview__member:focus-visible .team-overview__figure > img:first-child { filter: drop-shadow(0 .8rem .7rem rgba(42, 56, 75, .24)); }
-.team-overview__target { position: absolute; z-index: 3; bottom: 2.6rem; left: 50%; width: 1.6rem; height: 1.6rem; border: 1px solid rgba(224, 90, 63, .78); border-radius: 50%; transform: translateX(-50%); animation: teamTargetHeartbeat 1.8s ease-in-out infinite; }
+.team-overview__target { position: absolute; z-index: 3; bottom: 4.5rem; left: 50%; width: 1.6rem; height: 1.6rem; border: 1px solid rgba(224, 90, 63, .78); border-radius: 50%; transform: translateX(-50%); animation: teamTargetHeartbeat 1.8s ease-in-out infinite; }
 .team-overview__target::after { position: absolute; inset: .35rem; border: 1px solid rgba(224, 90, 63, .7); border-radius: inherit; content: ''; }
 .team-tutorial { position: absolute; z-index: 6; inset: 0; pointer-events: none; }
 .team-tutorial__cursor { position: absolute; top: 45%; left: 50%; color: #1f2937; font: 2.4rem/1 Arial, sans-serif; text-shadow: 0 1px 0 #fff; opacity: 0; animation: tutorialCursor 6s cubic-bezier(.45, 0, .25, 1) 2; }
@@ -361,26 +361,67 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 760px) {
-  .team-section { min-height: 100svh; }
-  .team-overview__intro { top: 3.5rem; }
+  .team-section { min-height: max(100svh, 44rem); }
+  .team-overview__intro { top: 5.25rem; }
   .team-overview__intro h2 { font-size: clamp(1.75rem, 8vw, 2.5rem); }
-  .team-overview__lineup { bottom: 2rem; width: calc(100% - 1rem); height: 42vh; }
-  .team-overview__figure > img { width: min(9rem, 170%); height: 85%; bottom: 1.75rem; }
-  .team-overview__target { bottom: 1.7rem; }
-  .team-overview__label { display: grid; gap: .15rem; width: 4.6rem; max-width: 100%; }
-  .team-overview__label strong { font-size: .52rem; }
-  .team-overview__label small { font-size: .4rem; }
-  .team-overview__label b { padding: .16rem .28rem; font-size: .42rem; }
-  .team-profile { grid-template-columns: 1fr; align-content: start; gap: 0; padding: 3.75rem 1.25rem 1.5rem; overflow-y: auto; }
+  .team-overview__lineup {
+    top: 11.5rem;
+    right: 0;
+    bottom: 3.5rem;
+    left: 0;
+    width: 100%;
+    height: auto;
+    justify-content: flex-start;
+    gap: .75rem;
+    padding: 0 max(1rem, calc(50vw - 4.75rem));
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    transform: none;
+  }
+  .team-overview__lineup::-webkit-scrollbar { display: none; }
+  .team-overview__member { flex: 0 0 9.5rem; scroll-snap-align: center; }
+  .team-overview__figure > img { bottom: 5.5rem; width: 11rem; height: calc(100% - 3.5rem); }
+  .team-overview__target { bottom: 5.35rem; }
+  .team-overview__label { display: grid; gap: .2rem; width: 9rem; max-width: 100%; bottom: .75rem; }
+  .team-overview__label strong { font-size: .75rem; }
+  .team-overview__label small { font-size: .75rem; line-height: 1.45; }
+  .team-overview__label b { padding: .2rem .35rem; font-size: .75rem; }
+  .team-tutorial__cursor { display: none; }
+  .team-tutorial__hint { right: 1rem; bottom: .65rem; left: auto; font-size: .75rem; }
+  .team-profile { position: fixed; grid-template-columns: 1fr; align-content: start; gap: 0; width: 100vw; height: 100dvh; padding: max(3.75rem, env(safe-area-inset-top)) 1.25rem max(1.5rem, env(safe-area-inset-bottom)); overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; }
+  .team-profile__sweep { width: 280vw; height: 135vw; }
   .team-profile__ghosts { bottom: -4rem; width: 125%; height: 13rem; }
-  .team-profile__figure { height: 39svh; min-height: 18rem; }
-  .team-profile__figure > img { bottom: 1.4rem; width: min(19rem, 91%); }
+  .team-profile__figure { height: 37svh; min-height: 16rem; max-height: 23rem; }
+  .team-profile__figure > img { bottom: .5rem; width: min(19rem, 91%); }
   .team-profile__content { padding: 1rem .5rem 2rem; }
   .team-profile__content h3 { font-size: clamp(2.7rem, 13vw, 4.4rem); }
-  .team-profile__arrow { top: 38%; width: 2.5rem; font-size: 3.2rem; }
-  .team-profile__arrow--previous { left: .1rem; }
-  .team-profile__arrow--next { right: .1rem; }
+  .team-profile__close { top: max(.5rem, env(safe-area-inset-top)); left: .5rem; min-width: 3rem; min-height: 3rem; }
+  .team-profile__arrow { top: 29%; width: 3rem; height: 3rem; font-size: 3.2rem; }
+  .team-profile__arrow--previous { left: .15rem; }
+  .team-profile__arrow--next { right: .15rem; }
   .team-profile dl { grid-template-columns: 1fr; gap: .85rem; }
+  .profile-view-enter-active .team-profile__sweep { animation-name: profileParallelogramInMobile; }
+}
+
+@keyframes profileParallelogramInMobile {
+  0% { height: 1px; opacity: 0; transform: translate(-50%, -50%) rotate(35deg); }
+  12% { height: 1px; opacity: 1; transform: translate(-50%, -50%) rotate(35deg); }
+  48% { height: 1px; opacity: 1; transform: translate(-50%, -50%) rotate(35deg); animation-timing-function: cubic-bezier(.77, 0, .175, 1); }
+  76% { height: 135vw; opacity: 1; transform: translate(-50%, -50%) rotate(35deg); animation-timing-function: cubic-bezier(.77, 0, .175, 1); }
+  100% { height: 135vw; opacity: 1; transform: translate(-50%, -50%) rotate(145deg); }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .team-overview__member:hover { transform: translateY(0) scale(1); }
+  .team-overview__lineup:has(.team-overview__member:hover) .team-overview__member:not(:hover) { opacity: 1; filter: none; }
+}
+
+@media (min-width: 761px) and (max-width: 900px) and (max-height: 600px) {
+  .team-section { min-height: 44rem; }
+  .team-overview__intro { top: 5rem; }
+  .team-overview__lineup { bottom: 3rem; height: 25rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

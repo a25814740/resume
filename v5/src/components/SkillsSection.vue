@@ -91,18 +91,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <section id="skills" class="min-h-screen py-28 bg-[#020617]">
-    <div class="max-w-7xl mx-auto px-6">
+  <section id="skills" class="skills-section min-h-screen py-28 bg-[#020617]">
+    <div class="skills-container max-w-7xl mx-auto px-6">
 
       <!-- Section Header -->
-      <div class="text-center mb-16">
+      <div class="section-heading text-center mb-16">
         <p class="font-mono text-[#c084fc] text-sm tracking-widest mb-3">&lt;Skills /&gt;</p>
         <h2 class="text-4xl md:text-5xl font-bold text-[#f1f5f9]">Professional <span class="gradient-text">Skills</span></h2>
         <p class="text-[#94a3b8] mt-4">揉合前端技術與 AI 開發思維，打造高效能的工作流。</p>
       </div>
 
       <!-- Skill Categories Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="skills-grid grid grid-cols-1 md:grid-cols-2 gap-8">
         <div
           v-for="cat in categories"
           :key="cat.id"

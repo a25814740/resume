@@ -100,24 +100,24 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="bg-[#020617] h-screen w-screen overflow-hidden">
+  <div class="app-shell bg-[#020617] h-screen w-screen overflow-hidden">
     <Navbar @navigate="scrollToSection" />
 
     <!-- Fullpage Scroll Container -->
-    <main ref="scrollContainer" data-scroll-container class="h-screen w-full overflow-y-auto overflow-x-hidden snap-y snap-mandatory scroll-smooth hide-scrollbar" @scroll.passive="handleMainScroll">
-      <div class="snap-start h-screen w-full relative">
+    <main ref="scrollContainer" data-scroll-container class="site-scroll h-screen w-full overflow-y-auto overflow-x-hidden snap-y snap-mandatory scroll-smooth hide-scrollbar" @scroll.passive="handleMainScroll">
+      <div class="section-frame section-frame--home snap-start h-screen w-full relative">
         <HomeSection />
       </div>
-      <div class="snap-start h-screen w-full relative">
+      <div class="section-frame section-frame--about snap-start h-screen w-full relative">
         <AboutSection />
       </div>
-      <div class="snap-start min-h-screen h-auto w-full relative">
+      <div class="section-frame section-frame--skills snap-start min-h-screen h-auto w-full relative">
         <SkillsSection />
       </div>
-      <div class="snap-start h-screen w-full relative">
+      <div class="section-frame section-frame--experience snap-start h-screen w-full relative">
         <ExperienceSection />
       </div>
-      <div class="snap-start h-screen w-full relative">
+      <div class="section-frame section-frame--projects snap-start h-screen w-full relative">
         <ProjectsSection />
       </div>
       <div class="snap-start w-full relative">
@@ -148,5 +148,33 @@ html, body {
   margin: 0;
   padding: 0;
   overflow: hidden; /* Prevent body scroll, let main handle it */
+}
+
+.app-shell,
+.site-scroll { height: 100dvh; }
+
+@media (max-width: 767px) {
+  .site-scroll {
+    scroll-snap-type: y proximity !important;
+    scroll-padding-top: 4.5rem;
+  }
+
+  .section-frame {
+    height: auto !important;
+    min-height: 0;
+    scroll-snap-align: start;
+  }
+
+  .section-frame--home,
+  .section-frame--about,
+  .section-frame--projects { min-height: 100svh; }
+}
+
+@media (min-width: 768px) and (max-width: 900px) and (max-height: 600px) {
+  .site-scroll { scroll-snap-type: y proximity !important; }
+  .section-frame { height: auto !important; min-height: 0; }
+  .section-frame--home,
+  .section-frame--about,
+  .section-frame--projects { min-height: 44rem; }
 }
 </style>

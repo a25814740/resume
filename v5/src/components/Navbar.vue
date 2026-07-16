@@ -30,6 +30,7 @@ function scrollTo(href) {
 
 <template>
   <header
+    class="site-header"
     :class="[
       'fixed top-0 left-0 w-full z-50 transition-all duration-300',
       isScrolled
@@ -38,7 +39,7 @@ function scrollTo(href) {
     ]"
     :style="isScrolled ? 'background: rgba(10,14,39,0.95)' : ''"
   >
-    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+    <div class="site-header__inner max-w-7xl mx-auto px-6 flex items-center justify-between">
       <!-- Brand -->
       <a href="#home" class="font-mono text-xl font-bold" @click.prevent="scrollTo('#home')">
         <span class="text-[#a78bfa]">&lt;</span>
@@ -62,7 +63,14 @@ function scrollTo(href) {
       </nav>
 
       <!-- Mobile Burger -->
-      <button class="md:hidden text-[#94a3b8] hover:text-white" @click="isMobileOpen = !isMobileOpen">
+      <button
+        class="site-header__toggle md:hidden text-[#94a3b8] hover:text-white"
+        type="button"
+        :aria-label="isMobileOpen ? '關閉網站選單' : '開啟網站選單'"
+        aria-controls="mobile-navigation"
+        :aria-expanded="isMobileOpen"
+        @click="isMobileOpen = !isMobileOpen"
+      >
         <svg v-if="!isMobileOpen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         <svg v-else xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
@@ -70,7 +78,7 @@ function scrollTo(href) {
 
     <!-- Mobile Nav -->
     <transition name="slide-down">
-      <div v-if="isMobileOpen" class="md:hidden glass border-t border-[#334155] px-6 py-4">
+      <div v-if="isMobileOpen" id="mobile-navigation" class="site-header__mobile md:hidden glass border-t border-[#334155] px-6 py-4">
         <a
           v-for="link in navLinks"
           :key="link.label"
@@ -88,4 +96,22 @@ function scrollTo(href) {
 <style scoped>
 .slide-down-enter-active, .slide-down-leave-active { transition: all 0.3s ease; }
 .slide-down-enter-from, .slide-down-leave-to { opacity: 0; transform: translateY(-10px); }
+
+.site-header__toggle {
+  width: 44px;
+  height: 44px;
+  border-radius: .75rem;
+  touch-action: manipulation;
+}
+
+.site-header__inner > a { display: flex; align-items: center; min-height: 44px; }
+.site-header nav a { display: flex; align-items: center; min-height: 44px; }
+
+@media (max-width: 767px) {
+  .site-header__toggle { display: grid; place-items: center; }
+  .site-header { padding-block: max(.55rem, env(safe-area-inset-top)) .55rem !important; }
+  .site-header__inner { padding-inline: 1rem; }
+  .site-header__mobile { max-height: calc(100dvh - 4.5rem); padding: .5rem 1rem max(1rem, env(safe-area-inset-bottom)); overflow-y: auto; background: rgba(15, 23, 42, .96); }
+  .site-header__mobile a { display: flex; align-items: center; min-height: 48px; padding-block: .75rem; font-size: .875rem; touch-action: manipulation; }
+}
 </style>

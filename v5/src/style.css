@@ -235,8 +235,8 @@
   z-index: 5;
   top: 1.25rem;
   right: 1.25rem;
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 2.75rem;
+  height: 2.75rem;
   color: currentColor;
 }
 .work-detail__close span { position: absolute; top: 50%; left: 50%; width: 2rem; height: 1px; background: currentColor; transition: transform .35s cubic-bezier(.16, 1, .3, 1); }
@@ -540,4 +540,136 @@
   ::-webkit-scrollbar-track { background: #020617; }
   ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
   ::-webkit-scrollbar-thumb:hover { background: #c084fc; }
+}
+
+/* ---- RESPONSIVE SYSTEM ---- */
+@media (min-width: 768px) and (max-width: 1100px) {
+  .home-layout { gap: 2rem; padding-inline: 2rem; }
+  .home-avatar { width: 15rem; height: 15rem; }
+  .home-avatar-glow { width: 20rem; height: 20rem; }
+  .home-badge { max-width: 11rem; padding: .65rem .85rem; }
+  .skills-section { padding-block: 6rem; }
+  .skills-container { padding-inline: 2rem; }
+  .work-detail { inset: 0; width: 100vw; grid-template-columns: minmax(15rem, 38vw) minmax(0, 1fr); }
+  .work-detail__copy { padding-inline: clamp(2rem, 4vw, 3rem); }
+}
+
+@media (max-width: 767px) {
+  html { min-width: 320px; }
+  body { font-size: 16px; }
+
+  .home-section {
+    min-height: 100svh;
+    height: auto;
+    padding: 0;
+    overflow: clip;
+  }
+  .home-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    padding: 6.5rem 1.25rem 4.5rem;
+  }
+  .home-copy { gap: 1.25rem; width: 100%; }
+  .home-copy h1 { overflow-wrap: anywhere; }
+  .home-copy h1 .gradient-text,
+  .home-copy h1 .cursor-blink { font-size: clamp(2.25rem, 12vw, 3.4rem); }
+  .home-copy > p { font-size: 1rem; }
+  .home-copy .glass { padding: 1rem 1.125rem; }
+  .home-copy > div:last-child { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+  .home-copy > div:last-child a { display: grid; min-height: 48px; place-items: center; padding: .7rem .75rem; text-align: center; touch-action: manipulation; }
+  .home-profile {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .75rem;
+    width: 100%;
+  }
+  .home-avatar { width: min(68vw, 16rem); height: min(68vw, 16rem); margin: 0 auto 1rem; }
+  .home-avatar-glow { top: -1.5rem; left: 50%; width: min(88vw, 20rem); height: min(88vw, 20rem); animation: none !important; transform: translateX(-50%); }
+  .home-badge { position: static !important; width: 100%; max-width: none !important; padding: .75rem 1rem; animation: none; }
+  .home-badge p { font-size: .75rem; }
+  .home-scroll-indicator { display: none; }
+
+  .skills-section { min-height: 0; padding: 5.5rem 0 4rem; }
+  .skills-container { padding-inline: 1rem; }
+  .skills-section .section-heading { margin-bottom: 2.75rem; }
+  .skills-section .section-heading h2 { font-size: clamp(2rem, 10vw, 2.75rem); }
+  .skills-section .section-heading p:last-child { font-size: .9375rem; line-height: 1.8; }
+  .skills-grid { gap: 1rem; }
+  .skill-category { padding: 1.25rem; border-radius: 1.25rem; }
+  .skill-category h3 { margin-bottom: 1.5rem; font-size: 1.05rem; }
+  .skill-category .space-y-6 { row-gap: 1.15rem; }
+  .skill-category .font-mono.text-sm { font-size: .75rem; }
+  .skill-bar-fill { height: 10px; }
+
+  .projects-wall { height: 100svh; min-height: 38rem; }
+  .projects-wall__track { scroll-snap-type: x mandatory; }
+  .project-item {
+    flex: 0 0 min(84vw, 20rem);
+    width: min(84vw, 20rem);
+    min-width: min(84vw, 20rem);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+  .project-strip { width: 100%; }
+  .projects-wall__end-space {
+    flex-basis: calc(100vw - min(84vw, 20rem));
+    min-width: calc(100vw - min(84vw, 20rem));
+  }
+  .project-strip__identity { bottom: 10%; min-height: 92px; height: 18%; padding: .75rem; }
+  .project-strip.is-active .project-strip__identity { bottom: 10%; }
+  .project-strip__identity strong { font-size: 1.05rem; }
+  .project-strip__identity small,
+  .project-strip__identity i { font-size: .75rem; }
+  .projects-wall__hint { display: block; right: auto; bottom: .75rem; left: .75rem; font-size: .75rem; }
+  .projects-wall__hint::after { content: ' · SWIPE'; }
+
+  .work-detail {
+    inset: 0;
+    display: block;
+    width: 100vw;
+    height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--work-surface);
+  }
+  .work-detail__info { min-height: 58svh; }
+  .work-detail__copy { height: auto; padding: max(4.75rem, env(safe-area-inset-top)) 1.5rem 5.25rem; overflow: visible; }
+  .work-detail__copy h2 { font-size: clamp(2rem, 10vw, 3rem); }
+  .work-detail__description { font-size: .9375rem; line-height: 1.8; }
+  .work-detail__copy > p:first-child,
+  .work-detail__copy li,
+  .work-detail__copy a,
+  .work-detail__counter,
+  .work-gallery figcaption { font-size: .75rem; }
+  .work-detail__close { position: fixed; top: max(.75rem, env(safe-area-inset-top)); right: .75rem; width: 44px; height: 44px; }
+  .work-detail__switch { position: absolute; top: auto; bottom: .65rem; width: 48px; height: 48px; transform: none; }
+  .work-detail__switch--previous { left: .75rem; }
+  .work-detail__switch--next { right: .75rem; }
+  .work-detail__switch:hover:not(:disabled) { transform: none; }
+  .work-detail__counter { right: 50%; bottom: 1.45rem; transform: translateX(50%); }
+  .work-gallery { overflow: visible; }
+  .work-gallery__split-overlay { display: flex; height: 62svh; margin-bottom: -62svh; }
+  .work-gallery__canvas { min-height: 62svh; }
+  .work-gallery img { min-height: 62svh; }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .project-item:hover { z-index: auto; box-shadow: none; }
+  .project-strip.is-muted { filter: none; opacity: 1; }
+}
+
+@media (min-width: 768px) and (max-height: 720px) {
+  .home-layout { padding-top: 5rem; gap: 2rem; }
+  .home-copy { gap: 1rem; }
+  .home-avatar { width: 15rem; height: 15rem; }
+  .home-avatar-glow { width: 19rem; height: 19rem; }
+  .home-scroll-indicator { display: none; }
+}
+
+@media (min-width: 768px) and (max-width: 900px) and (max-height: 600px) {
+  .home-section { min-height: 44rem; }
+  .home-layout { padding-block: 5rem 3rem; }
+  .skills-section { padding-block: 5rem; }
 }

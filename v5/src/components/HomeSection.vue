@@ -23,7 +23,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section id="home" class="relative min-h-screen flex items-center overflow-hidden bg-[#020617]">
+  <section id="home" class="home-section relative min-h-screen flex items-center overflow-hidden bg-[#020617]">
     <!-- Grid Background -->
     <div class="absolute inset-0 grid-bg opacity-60 pointer-events-none"></div>
 
@@ -43,10 +43,10 @@ onMounted(() => {
     </div>
 
     <!-- Main Content -->
-    <div class="relative z-10 max-w-7xl mx-auto px-6 w-full pt-24 grid md:grid-cols-2 gap-16 items-center">
+    <div class="home-layout relative z-10 max-w-7xl mx-auto px-6 w-full pt-24 grid md:grid-cols-2 gap-16 items-center">
 
       <!-- LEFT: Text -->
-      <div class="flex flex-col gap-6">
+      <div class="home-copy flex flex-col gap-6">
         <!-- 主標：姓名直接接在問候語後，保留首頁的漸層視覺焦點。 -->
         <h1 class="font-mono font-extrabold leading-tight">
           <span class="text-[#c084fc] text-lg md:text-xl tracking-widest">Hello, I'm </span>
@@ -85,12 +85,12 @@ onMounted(() => {
       </div>
 
       <!-- RIGHT: Profile -->
-      <div class="relative flex items-center justify-center">
+      <div class="home-profile relative flex items-center justify-center">
         <!-- Glow -->
-        <div class="absolute w-[420px] h-[420px] rounded-full opacity-30 pointer-events-none" style="background: radial-gradient(circle, rgba(192,132,252,0.4) 0%, transparent 70%); animation: profilePulse 3s ease-in-out infinite;"></div>
+        <div class="home-avatar-glow absolute w-[420px] h-[420px] rounded-full opacity-30 pointer-events-none" style="background: radial-gradient(circle, rgba(192,132,252,0.4) 0%, transparent 70%); animation: profilePulse 3s ease-in-out infinite;"></div>
 
         <!-- Profile Circle -->
-        <div class="relative w-80 h-80 rounded-full border-4 border-[#c084fc] glow-primary overflow-hidden bg-[#1e293b] flex items-center justify-center z-10">
+        <div class="home-avatar relative w-80 h-80 rounded-full border-4 border-[#c084fc] glow-primary overflow-hidden bg-[#1e293b] flex items-center justify-center z-10">
           <img src="/images/eden-profile.jpg" alt="羅仕林 Eden" class="w-full h-full object-cover object-[center_25%]" />
           <!-- code icon overlay -->
           <div class="absolute inset-0 flex items-center justify-center">
@@ -99,15 +99,15 @@ onMounted(() => {
         </div>
 
         <!-- Floating Badges -->
-        <div class="absolute top-0 right-0 glass px-5 py-3 rounded-2xl float-badge z-20 max-w-[220px]" style="animation-delay: 0s;">
+        <div class="home-badge home-badge--ai absolute top-0 right-0 glass px-5 py-3 rounded-2xl float-badge z-20 max-w-[220px]" style="animation-delay: 0s;">
           <p class="font-mono text-xs text-[#c084fc] font-bold">⚡ AI 協作開發</p>
           <p class="text-[#94a3b8] text-xs mt-1">Codex · Antigravity · Ollama</p>
         </div>
-        <div class="absolute bottom-10 right-0 glass px-5 py-3 rounded-2xl float-badge z-20 max-w-[220px]" style="animation-delay: 1s;">
+        <div class="home-badge home-badge--frontend absolute bottom-10 right-0 glass px-5 py-3 rounded-2xl float-badge z-20 max-w-[220px]" style="animation-delay: 1s;">
           <p class="font-mono text-xs text-[#67e8f9] font-bold">🔧 Frontend</p>
           <p class="text-[#94a3b8] text-xs mt-1">Vue · JS · CSS · RWD</p>
         </div>
-        <div class="absolute bottom-24 left-0 glass px-5 py-3 rounded-2xl float-badge z-20 max-w-[200px]" style="animation-delay: 2s;">
+        <div class="home-badge home-badge--learning absolute bottom-24 left-0 glass px-5 py-3 rounded-2xl float-badge z-20 max-w-[200px]" style="animation-delay: 2s;">
           <p class="font-mono text-xs text-[#fbbf24] font-bold">🌱 持續學習</p>
           <p class="text-[#94a3b8] text-xs mt-1">把想法一步步做成作品</p>
         </div>
@@ -115,7 +115,7 @@ onMounted(() => {
     </div>
 
     <!-- Scroll Indicator -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#94a3b8] z-10">
+    <div class="home-scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#94a3b8] z-10">
       <div class="w-7 h-12 border-2 border-[#334155] rounded-full flex justify-center pt-2">
         <div class="w-1.5 h-3 bg-[#c084fc] rounded-full" style="animation: scrollWheel 2s ease-in-out infinite;"></div>
       </div>

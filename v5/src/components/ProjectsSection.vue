@@ -11,7 +11,7 @@ const openingId = ref<string | null>(null)
 const selectedIndex = ref<number | null>(null)
 const selected = computed<Work | null>(() => selectedIndex.value === null ? null : works[selectedIndex.value])
 const isChangingWork = ref(false)
-const cardWidth = 260
+const desktopCardWidth = 260
 const cardShiftDuration = .9
 let dragStartX = 0
 let dragStartScrollLeft = 0
@@ -20,7 +20,9 @@ let suppressClick = false
 
 function getTargetScroll(index: number) {
   const element = track.value
-  if (!element) return index * cardWidth
+  if (!element) return index * desktopCardWidth
+  const firstCard = element.querySelector<HTMLElement>('.project-item')
+  const cardWidth = firstCard?.getBoundingClientRect().width || desktopCardWidth
   const maxScroll = element.scrollWidth - element.clientWidth
   return maxScroll > 0 ? Math.min(index * cardWidth, maxScroll) : index * cardWidth
 }

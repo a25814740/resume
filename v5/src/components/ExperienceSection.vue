@@ -109,11 +109,11 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section ref="sectionRef" id="experience" class="py-28 bg-[#0f172a] h-screen overflow-y-auto hide-scrollbar">
-    <div class="max-w-5xl mx-auto px-6">
+  <section ref="sectionRef" id="experience" class="experience-section py-28 bg-[#0f172a] h-screen overflow-y-auto hide-scrollbar">
+    <div class="experience-container max-w-5xl mx-auto px-6">
 
       <!-- Section Header -->
-      <div class="text-center mb-16">
+      <div class="section-heading text-center mb-16">
         <p class="font-mono text-[#c084fc] text-sm tracking-widest mb-3">&lt;Experience /&gt;</p>
         <h2 class="text-4xl md:text-5xl font-bold text-[#f1f5f9]">Work <span class="gradient-text">Experience</span></h2>
         <p class="text-[#94a3b8] mt-4">從前端工程到 AI 應用，不斷迭代的人生旅程。</p>
@@ -183,6 +183,8 @@ onBeforeUnmount(() => {
   scrollbar-width: none;
 }
 
+.experience-section { overflow-x: clip; }
+
 .timeline-line,
 .timeline-dot { left: 2rem; transform: translateX(-50%); }
 
@@ -206,6 +208,19 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 767px) {
-  .timeline-observing .timeline-item:not(.in-view) .content-card { transform: translateX(2.5rem); }
+  .experience-section { height: auto; min-height: 100svh; padding: 5.5rem 0 4rem; overflow: visible; }
+  .experience-container { padding-inline: 1rem; }
+  .section-heading { margin-bottom: 2.75rem; }
+  .section-heading h2 { font-size: clamp(2rem, 10vw, 2.75rem); }
+  .timeline-line,
+  .timeline-dot { left: 1rem; }
+  .timeline-item { width: 100%; }
+  .content-card { width: calc(100% - 2.75rem); margin-left: 2.75rem !important; padding: 1.125rem; }
+  .timeline-observing .timeline-item:not(.in-view):nth-child(odd) .content-card,
+  .timeline-observing .timeline-item:not(.in-view):nth-child(even) .content-card { transform: translateX(1rem); }
+}
+
+@media (min-width: 768px) and (max-width: 900px) and (max-height: 600px) {
+  .experience-section { height: auto; min-height: 44rem; overflow-y: visible; }
 }
 </style>
