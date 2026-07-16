@@ -4,49 +4,67 @@ import { gsap } from 'gsap'
 import { works, type Work } from '../data/projects'
 import WorkDetail from './works/WorkDetail.vue'
 
-const selected = ref<Work | null>(null)
 const hoveredId = ref<string | null>(null)
 const track = ref<HTMLElement | null>(null)
 const isDragging = ref(false)
 const openingId = ref<string | null>(null)
-const selectedIndex = computed(() => works.findIndex((work) => work.id === selected.value?.id))
+const selectedIndex = ref<number | null>(null)
+const selected = computed<Work | null>(() => selectedIndex.value === null ? null : works[selectedIndex.value])
+const isChangingWork = ref(false)
+const cardWidth = 260
 let dragStartX = 0
 let dragStartScrollLeft = 0
 let draggedDistance = 0
 let suppressClick = false
 
-function openWork(work: Work, event: globalThis.MouseEvent) {
-  // 拖曳結束後瀏覽器仍會補送 click；避免使用者只是橫移卻意外打開作品。
-  if (suppressClick || openingId.value) return
-
+function getTargetScroll(index: number) {
   const element = track.value
-  const strip = event.currentTarget as HTMLElement | null
-  if (!element || !strip || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
-    selected.value = work
+  if (!element) return index * cardWidth
+  const maxScroll = element.scrollWidth - element.clientWidth
+  return maxScroll > 0 ? Math.min(index * cardWidth, maxScroll) : index * cardWidth
+}
+
+function alignSelectedCard(index: number, complete: () => void) {
+  const element = track.value
+  if (!element || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+    if (element) element.scrollLeft = getTargetScroll(index)
+    complete()
     return
   }
 
-  const trackRect = element.getBoundingClientRect()
-  const stripRect = strip.getBoundingClientRect()
-  const target = Math.min(
-    element.scrollWidth - element.clientWidth,
-    Math.max(0, element.scrollLeft + stripRect.left - trackRect.left),
-  )
-  const finalLeft = stripRect.left - (target - element.scrollLeft)
-  const residualOffset = trackRect.left - finalLeft
-
-  openingId.value = work.id
-  gsap.timeline({
-    onComplete: () => {
-      selected.value = work
-      openingId.value = null
-      // 詳情層接手同一個左側位置後，清掉清單項目的暫時 FLIP 位移。
-      window.requestAnimationFrame(() => gsap.set(strip, { clearProps: 'transform,zIndex' }))
-    },
+  gsap.to(element, {
+    scrollLeft: getTargetScroll(index),
+    duration: .46,
+    ease: 'power4.inOut',
+    onComplete: complete,
   })
-    .set(strip, { zIndex: 12 })
-    .to(element, { scrollLeft: target, duration: .42, ease: 'power4.inOut' }, 0)
-    .to(strip, { x: residualOffset, duration: .42, ease: 'power4.inOut' }, 0)
+}
+
+function openWork(work: Work) {
+  // 拖曳結束後瀏覽器仍會補送 click；避免使用者只是橫移卻意外打開作品。
+  if (suppressClick || openingId.value) return
+
+  const index = works.findIndex((item) => item.id === work.id)
+  if (index < 0) return
+  openingId.value = work.id
+  alignSelectedCard(index, () => {
+    selectedIndex.value = index
+    openingId.value = null
+  })
+}
+
+function changeWork(direction: -1 | 1) {
+  if (selectedIndex.value === null || isChangingWork.value) return
+  const nextIndex = selectedIndex.value + direction
+  if (nextIndex < 0 || nextIndex >= works.length) return
+
+  isChangingWork.value = true
+  openingId.value = works[nextIndex].id
+  alignSelectedCard(nextIndex, () => {
+    selectedIndex.value = nextIndex
+    openingId.value = null
+    isChangingWork.value = false
+  })
 }
 
 function startDrag(event: globalThis.PointerEvent) {
@@ -118,38 +136,52 @@ function scrollHorizontally(event: globalThis.WheelEvent) {
       @pointercancel="endDrag"
       @wheel="scrollHorizontally"
     >
-      <button
+      <section
         v-for="work in works"
         :key="work.id"
-        type="button"
-        class="project-strip"
-        :class="{
-          'is-active': hoveredId === work.id,
-          'is-muted': hoveredId && hoveredId !== work.id,
-          'is-opening-target': openingId === work.id,
-        }"
-        :style="{ '--project-background': `url(${work.listImage || work.coverImage})` }"
-        :aria-label="`查看 ${work.title} 作品詳情`"
-        @mouseenter="hoveredId = work.id"
-        @focus="hoveredId = work.id"
-        @blur="hoveredId = null"
-        @click="openWork(work, $event)"
+        class="project-item"
+        itemscope
+        itemtype="https://schema.org/CreativeWork"
       >
-        <span class="project-strip__identity">
-          <strong>{{ work.title }}</strong>
-          <small>{{ work.category }}</small>
-          <i aria-hidden="true">VIEW</i>
-        </span>
-
-      </button>
+        <h3 class="sr-only" itemprop="name">{{ work.title }}</h3>
+        <button
+          type="button"
+          class="project-strip"
+          :class="{
+            'is-active': hoveredId === work.id,
+            'is-muted': hoveredId && hoveredId !== work.id,
+            'is-opening-target': openingId === work.id,
+          }"
+          :style="{ '--project-background': `url(${work.listImage || work.coverImage})` }"
+          :aria-label="`查看 ${work.title} 作品詳情`"
+          @mouseenter="hoveredId = work.id"
+          @focus="hoveredId = work.id"
+          @blur="hoveredId = null"
+          @click="openWork(work)"
+        >
+          <span class="project-strip__identity">
+            <strong itemprop="name">{{ work.title }}</strong>
+            <small itemprop="genre">{{ work.category }}</small>
+            <i aria-hidden="true">VIEW</i>
+          </span>
+          <span class="project-strip__overlay" aria-hidden="true"></span>
+        </button>
+      </section>
+      <div class="projects-wall__end-space" aria-hidden="true"></div>
     </div>
 
     <p class="projects-wall__hint" aria-hidden="true">HOVER TO EXPLORE · CLICK TO OPEN</p>
 
     <WorkDetail
       v-if="selected"
-      :initial-index="selectedIndex"
-      @close="selected = null"
+      :key="selected.id"
+      :work="selected"
+      :index="selectedIndex ?? 0"
+      :total="works.length"
+      :transitioning="isChangingWork"
+      @close="selectedIndex = null"
+      @previous="changeWork(-1)"
+      @next="changeWork(1)"
     />
   </section>
 </template>
