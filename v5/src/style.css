@@ -170,7 +170,7 @@
 
 .work-detail {
   position: fixed;
-  z-index: 100;
+  z-index: 80;
   top: 0;
   right: 0;
   bottom: 0;
@@ -318,9 +318,6 @@
 .work-gallery figcaption { position: absolute; right: 1rem; bottom: 1rem; padding: .45rem .55rem; color: #fff; background: color-mix(in srgb, var(--work-overlay) 76%, transparent); font: .62rem 'Fira Code', monospace; letter-spacing: .1em; }
 .work-gallery .is-unavailable::after { content: 'Image unavailable'; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; background: var(--work-overlay); font: .7rem 'Fira Code', monospace; }
 
-/* 詳細頁開啟時，主站 header 不應覆蓋作品的全螢幕內容。 */
-.project-detail-open .site-header { visibility: hidden; pointer-events: none; opacity: 0 !important; }
-
 @media (max-width: 900px) {
   .work-detail { grid-template-columns: minmax(18rem, 42vw) minmax(28rem, 1fr); overflow-x: auto; }
 }
@@ -338,6 +335,12 @@
   .work-gallery { overflow: visible; }
   .work-gallery__split-overlay { display: none; }
   .work-gallery__canvas { min-height: 65svh; }
+}
+@media (min-width: 768px) {
+  .projects-wall__track { margin-top: 69px; height: calc(100% - 69px); }
+  .project-strip { background-size: 260px; }
+  .project-strip.is-active { background-size: 290px; }
+  .work-detail { top: 69px; height: calc(100dvh - 69px); }
 }
 @media (min-width: 768px) {
   .project-strip__identity small,
@@ -553,7 +556,7 @@
   .home-badge { max-width: 11rem; padding: .65rem .85rem; }
   .skills-section { padding-block: 6rem; }
   .skills-container { padding-inline: 2rem; }
-  .work-detail { inset: 0; width: 100vw; grid-template-columns: minmax(15rem, 38vw) minmax(0, 1fr); }
+  .work-detail { inset: 69px 0 0; width: 100vw; height: calc(100dvh - 69px); grid-template-columns: minmax(15rem, 38vw) minmax(0, 1fr); }
   .work-detail__copy { padding-inline: clamp(2rem, 4vw, 3rem); }
 }
 
