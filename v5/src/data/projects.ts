@@ -90,7 +90,7 @@ export const works: Work[] = [
   {
     id: 'aaady', slug: 'aaady-apparel', title: '大洋製衣', category: 'CORPORATE SITE',
     description: '呈現成衣、羽絨寢具與睡袋的製造能力，從原料、產品到 ODM／OEM 服務，建立兼具專業感與生活情境的製造業品牌網站。',
-    coverImage: screenshots.aaady, galleryImages: ['/images/projects/aaady-detail-1.jpg'], link: 'https://www.aaady.com.tw/', tech: ['Frontend', 'jQuery', 'RWD'],
+    coverImage: screenshots.aaady, listImage: '/images/projects/aaady-banner.png', galleryImages: ['/images/projects/aaady-detail-1.jpg'], link: 'https://www.aaady.com.tw/', tech: ['Frontend', 'jQuery', 'RWD'],
     theme: { background: '#18345d', surface: '#eef3f9', text: '#f3f7ff', mutedText: '#c5d2e7', accent: '#72d5e3', overlay: '#112643', headerBackground: '#152e51' },
   },
   {
