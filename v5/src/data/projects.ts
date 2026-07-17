@@ -102,7 +102,7 @@ export const works: Work[] = [
   {
     id: 'blairsfilm', slug: 'blairs-wedding-film', title: '布萊爾專業錄影團隊', category: 'CREATIVE STUDIO',
     description: '以婚禮錄影、快剪快播與海外婚禮為核心，透過大幅影像作品、服務方案與流程說明，呈現團隊的敘事風格和製作能力。',
-    coverImage: screenshots.blairsfilm, galleryImages: [screenshots.blairsfilm], link: 'https://web.archive.org/web/20190102201032/http://blairsfilm.com/', tech: ['Frontend', 'jQuery', 'RWD'],
+    coverImage: screenshots.blairsfilm, listImage: '/images/projects/blairsfilm-banner.png', galleryImages: [screenshots.blairsfilm], link: 'https://web.archive.org/web/20190102201032/http://blairsfilm.com/', tech: ['Frontend', 'jQuery', 'RWD'],
     theme: { background: '#292323', surface: '#f6f1ee', text: '#fff8f5', mutedText: '#d9c9c4', accent: '#dba88f', overlay: '#1d1919', headerBackground: '#241f1f' },
   },
   {

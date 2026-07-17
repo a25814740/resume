@@ -67,7 +67,7 @@ onBeforeUnmount(() => {
   <section
     ref="gallery"
     class="work-gallery"
-    :class="{ 'is-intro': entryMode }"
+    :class="{ 'is-intro': entryMode, 'is-blairsfilm': work.id === 'blairsfilm' }"
     aria-label="作品首頁完整截圖，可獨立捲動"
     data-work-change
     @scroll.passive="handleScroll"

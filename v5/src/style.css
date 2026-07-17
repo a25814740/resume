@@ -315,6 +315,7 @@
 .work-gallery__canvas { position: relative; min-height: 100%; margin: 0; overflow: hidden; background: var(--work-overlay); }
 .work-gallery.is-intro .work-gallery__canvas { opacity: 0; }
 .work-gallery img { width: 100%; min-width: 100%; height: auto; min-height: 100%; display: block; object-fit: cover; object-position: top center; transform: scale(1.025); transform-origin: top center; }
+.work-gallery.is-blairsfilm img { width: 106%; min-width: 106%; margin-left: -5.5%; transform: none; }
 .work-gallery figcaption { position: absolute; right: 1rem; bottom: 1rem; padding: .45rem .55rem; color: #fff; background: color-mix(in srgb, var(--work-overlay) 76%, transparent); font: .62rem 'Fira Code', monospace; letter-spacing: .1em; }
 .work-gallery .is-unavailable::after { content: 'Image unavailable'; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; background: var(--work-overlay); font: .7rem 'Fira Code', monospace; }
 
