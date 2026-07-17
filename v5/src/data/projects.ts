@@ -66,7 +66,7 @@ export const works: Work[] = [
   {
     id: 'yudah-art', slug: 'yudah-performing-arts', title: '育達高職 表演藝術科', category: 'SCHOOL SITE',
     description: '聚焦綜藝、舞蹈與戲劇人才培育，整合課程規劃、師資陣容、專業設備和演出作品，以鮮明舞台視覺建立充滿動感的科系形象。',
-    coverImage: screenshots.yudahArt, listImage: '/images/projects/yudah-art-banner.png', galleryImages: [screenshots.yudahArt], link: 'https://web3.yudah.tp.edu.tw/art', tech: ['Frontend', 'jQuery', 'RWD'],
+    coverImage: screenshots.yudahArt, listImage: '/images/projects/yudah-art-banner.png', galleryImages: ['/images/projects/yudah-art-detail.png'], link: 'https://web3.yudah.tp.edu.tw/art', tech: ['Frontend', 'jQuery', 'RWD'],
     theme: { background: '#3d2355', surface: '#f3edf9', text: '#faf2ff', mutedText: '#d8c7e7', accent: '#c78cff', overlay: '#2c193e', headerBackground: '#351e4a' },
   },
   {
