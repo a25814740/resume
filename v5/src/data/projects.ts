@@ -96,7 +96,7 @@ export const works: Work[] = [
   {
     id: 'uneec', slug: 'uneec-electronics', title: '晟銘電子科技', category: 'CORPORATE SITE',
     description: '以伺服器機構、金屬零件、電源與散熱模組為主體，整合研發設計、製造能力、全球據點及投資人資訊。',
-    coverImage: screenshots.uneec, galleryImages: [screenshots.uneec], link: 'https://www.uneec.com/', tech: ['Frontend', 'jQuery', 'RWD'],
+    coverImage: screenshots.uneec, listImage: '/images/projects/uneec-banner.png', galleryImages: [screenshots.uneec], link: 'https://www.uneec.com/', tech: ['Frontend', 'jQuery', 'RWD'],
     theme: { background: '#263d54', surface: '#edf2f6', text: '#f3f8fc', mutedText: '#c1ced9', accent: '#6ec9e6', overlay: '#1b2c3d', headerBackground: '#22374a' },
   },
   {
