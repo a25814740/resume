@@ -144,9 +144,6 @@ onBeforeUnmount(() => {
         <ul aria-label="使用技術" data-copy-reveal>
           <li v-for="tech in work.tech" :key="tech">{{ tech }}</li>
         </ul>
-        <a :href="work.link" target="_blank" rel="noopener noreferrer" data-copy-reveal>
-          開啟網站 <span aria-hidden="true">↗</span>
-        </a>
       </div>
 
       <button

@@ -108,7 +108,7 @@
 .project-strip.is-muted { filter: saturate(.55); opacity: .63; }
 .project-strip:focus-visible { outline: 3px solid #67e8f9; outline-offset: -3px; }
 
-.project-strip.is-active { background-size: 104%; }
+.project-strip.is-active { background-size: 290px; }
 
 .project-strip__identity {
   position: absolute;
