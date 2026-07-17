@@ -37,7 +37,7 @@
   overflow-y: hidden;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
-  scroll-snap-type: x proximity;
+  scroll-snap-type: none;
   cursor: grab;
   touch-action: pan-y;
   user-select: none;
@@ -610,13 +610,11 @@
   .skill-bar-fill { height: 10px; }
 
   .projects-wall { height: 100svh; min-height: 38rem; }
-  .projects-wall__track { scroll-snap-type: x mandatory; }
   .project-item {
     flex: 0 0 min(84vw, 20rem);
     width: min(84vw, 20rem);
     min-width: min(84vw, 20rem);
     scroll-snap-align: start;
-    scroll-snap-stop: always;
   }
   .project-strip { width: 100%; }
   .projects-wall__end-space {

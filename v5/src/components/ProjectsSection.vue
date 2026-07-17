@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, ref } from 'vue'
 import { gsap } from 'gsap'
 import { works, type Work } from '../data/projects'
 import WorkDetail from './works/WorkDetail.vue'
@@ -17,6 +17,12 @@ let dragStartX = 0
 let dragStartScrollLeft = 0
 let draggedDistance = 0
 let suppressClick = false
+let wheelTween: gsap.core.Tween | null = null
+
+function stopWheelTween() {
+  wheelTween?.kill()
+  wheelTween = null
+}
 
 function getTargetScroll(index: number) {
   const element = track.value
@@ -29,6 +35,7 @@ function getTargetScroll(index: number) {
 
 function alignSelectedCard(index: number, complete: () => void) {
   const element = track.value
+  stopWheelTween()
   if (!element || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
     if (element) element.scrollLeft = getTargetScroll(index)
     complete()
@@ -75,6 +82,7 @@ function startDrag(event: globalThis.PointerEvent) {
   const element = track.value
   if (!element || (event.pointerType === 'mouse' && event.button !== 0)) return
 
+  stopWheelTween()
   isDragging.value = true
   draggedDistance = 0
   dragStartX = event.clientX
@@ -120,8 +128,19 @@ function scrollHorizontally(event: globalThis.WheelEvent) {
   // 到達左右邊界後把垂直滾輪還給主頁，使用者仍能離開 Project 區。
   if (!canMove) return
   event.preventDefault()
-  element.scrollLeft += distance
+  const maxScroll = element.scrollWidth - element.clientWidth
+  const targetScrollLeft = Math.max(0, Math.min(element.scrollLeft + distance, maxScroll))
+  stopWheelTween()
+  wheelTween = gsap.to(element, {
+    scrollLeft: targetScrollLeft,
+    duration: .38,
+    ease: 'power3.out',
+    overwrite: true,
+    onComplete: () => { wheelTween = null },
+  })
 }
+
+onBeforeUnmount(stopWheelTween)
 </script>
 
 <template>
