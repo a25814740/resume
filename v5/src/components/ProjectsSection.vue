@@ -7,6 +7,7 @@ import WorkDetail from './works/WorkDetail.vue'
 const hoveredId = ref<string | null>(null)
 const track = ref<HTMLElement | null>(null)
 const isDragging = ref(false)
+const isWheelScrolling = ref(false)
 const openingId = ref<string | null>(null)
 const selectedIndex = ref<number | null>(null)
 const selected = computed<Work | null>(() => selectedIndex.value === null ? null : works[selectedIndex.value])
@@ -18,10 +19,18 @@ let dragStartScrollLeft = 0
 let draggedDistance = 0
 let suppressClick = false
 let wheelTween: gsap.core.Tween | null = null
+let wheelIdleTimer: number | undefined
 
 function stopWheelTween() {
   wheelTween?.kill()
   wheelTween = null
+}
+
+function endWheelScrolling() {
+  if (wheelIdleTimer) window.clearTimeout(wheelIdleTimer)
+  wheelIdleTimer = window.setTimeout(() => {
+    isWheelScrolling.value = false
+  }, 460)
 }
 
 function getTargetScroll(index: number) {
@@ -84,6 +93,7 @@ function startDrag(event: globalThis.PointerEvent) {
 
   stopWheelTween()
   isDragging.value = true
+  hoveredId.value = null
   draggedDistance = 0
   dragStartX = event.clientX
   dragStartScrollLeft = element.scrollLeft
@@ -106,6 +116,7 @@ function endDrag(event: globalThis.PointerEvent) {
   if (!element || !isDragging.value) return
 
   isDragging.value = false
+  hoveredId.value = null
   if (element.hasPointerCapture(event.pointerId)) element.releasePointerCapture(event.pointerId)
 
   if (draggedDistance > 6) {
@@ -128,6 +139,9 @@ function scrollHorizontally(event: globalThis.WheelEvent) {
   // 到達左右邊界後把垂直滾輪還給主頁，使用者仍能離開 Project 區。
   if (!canMove) return
   event.preventDefault()
+  isWheelScrolling.value = true
+  hoveredId.value = null
+  endWheelScrolling()
   const maxScroll = element.scrollWidth - element.clientWidth
   const targetScrollLeft = Math.max(0, Math.min(element.scrollLeft + distance, maxScroll))
   stopWheelTween()
@@ -140,7 +154,10 @@ function scrollHorizontally(event: globalThis.WheelEvent) {
   })
 }
 
-onBeforeUnmount(stopWheelTween)
+onBeforeUnmount(() => {
+  stopWheelTween()
+  if (wheelIdleTimer) window.clearTimeout(wheelIdleTimer)
+})
 </script>
 
 <template>
@@ -153,6 +170,7 @@ onBeforeUnmount(stopWheelTween)
       :class="{
         'has-hover': !selected && hoveredId,
         'is-dragging': isDragging,
+        'is-wheel-scrolling': isWheelScrolling,
         'is-opening': openingId,
         'is-detail-open': selected,
       }"
@@ -176,12 +194,12 @@ onBeforeUnmount(stopWheelTween)
           type="button"
           class="project-strip"
           :class="{
-            'is-active': selected ? selected.id === work.id : hoveredId === work.id,
-            'is-muted': !selected && hoveredId && hoveredId !== work.id,
+            'is-active': selected ? selected.id === work.id : !isWheelScrolling && hoveredId === work.id,
+            'is-muted': !selected && !isWheelScrolling && hoveredId && hoveredId !== work.id,
           }"
           :style="{ '--project-background': `url(${work.listImage || work.coverImage})` }"
           :aria-label="`查看 ${work.title} 作品詳情`"
-          @mouseenter="hoveredId = work.id"
+          @mouseenter="!isDragging && !isWheelScrolling && (hoveredId = work.id)"
           @focus="hoveredId = work.id"
           @blur="hoveredId = null"
           @click="openWork(work)"

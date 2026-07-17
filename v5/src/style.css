@@ -47,6 +47,10 @@
   cursor: grabbing;
   scroll-snap-type: none;
 }
+.projects-wall__track.is-dragging .project-strip,
+.projects-wall__track.is-dragging .project-strip__identity,
+.projects-wall__track.is-wheel-scrolling .project-strip,
+.projects-wall__track.is-wheel-scrolling .project-strip__identity { transition: none; }
 .projects-wall__track.is-opening { pointer-events: none; scroll-snap-type: none; }
 .projects-wall__track.is-detail-open { pointer-events: none; }
 .projects-wall__track.is-detail-open .project-item:hover,
