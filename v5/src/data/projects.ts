@@ -54,7 +54,7 @@ export const works: Work[] = [
   {
     id: 'repon', slug: 'repon-group', title: '南俊國際', category: 'CORPORATE SITE',
     description: '聚焦工業、家電、廚房、辦公家具與伺服器導軌等應用，將產品、展覽與服務資訊整理為清楚的 B2B 企業網站。',
-    coverImage: screenshots.repon, galleryImages: [screenshots.repon], link: 'https://repon.com.tw/tw/', tech: ['Frontend', 'jQuery', 'RWD'],
+    coverImage: screenshots.repon, listImage: '/images/projects/repon-banner.png', galleryImages: [screenshots.repon], link: 'https://repon.com.tw/tw/', tech: ['Frontend', 'jQuery', 'RWD'],
     theme: { background: '#14364a', surface: '#eef5f7', text: '#edf8fb', mutedText: '#bdd8e1', accent: '#71e5ff', overlay: '#0f2939', headerBackground: '#112f40' },
   },
   {
