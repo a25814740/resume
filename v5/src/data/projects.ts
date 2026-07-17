@@ -60,7 +60,7 @@ export const works: Work[] = [
   {
     id: 'yudah-model', slug: 'yudah-fashion-model', title: '育達高職 時尚模特兒科', category: 'SCHOOL SITE',
     description: '以時尚模特兒科的走秀、舞台表演與整體造型課程為主軸，透過大幅形象影像與分區內容，呈現科系特色、專業設備與學生展演成果。',
-    coverImage: screenshots.yudahModel, galleryImages: [screenshots.yudahModel], link: 'https://web.archive.org/web/20181217221914/http://web3.yudah.tp.edu.tw/model', tech: ['Frontend', 'jQuery', 'RWD'],
+    coverImage: screenshots.yudahModel, listImage: '/images/projects/yudah-model-banner.png', galleryImages: [screenshots.yudahModel], link: 'https://web.archive.org/web/20181217221914/http://web3.yudah.tp.edu.tw/model', tech: ['Frontend', 'jQuery', 'RWD'],
     theme: { background: '#4a233e', surface: '#f8edf4', text: '#fff3fa', mutedText: '#e8c6dc', accent: '#ff81bf', overlay: '#35182d', headerBackground: '#3f1d35' },
   },
   {
