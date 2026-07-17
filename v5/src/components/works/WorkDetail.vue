@@ -102,6 +102,8 @@ watch(() => props.work.id, () => {
 
 onMounted(() => {
   window.addEventListener('keydown', onKeydown)
+  // 詳細頁是全螢幕工作區，暫時隱藏主站導覽，避免它壓在作品截圖上。
+  document.documentElement.classList.add('project-detail-open')
   scrollContainer = document.querySelector('[data-scroll-container]')
   if (scrollContainer) {
     previousOverflow = scrollContainer.style.overflowY
@@ -113,6 +115,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', onKeydown)
+  document.documentElement.classList.remove('project-detail-open')
   if (scrollContainer) scrollContainer.style.overflowY = previousOverflow
   if (root.value) gsap.killTweensOf(root.value.querySelectorAll('*'))
 })

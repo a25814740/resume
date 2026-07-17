@@ -170,7 +170,7 @@
 
 .work-detail {
   position: fixed;
-  z-index: 80;
+  z-index: 100;
   top: 0;
   right: 0;
   bottom: 0;
@@ -314,9 +314,12 @@
 .work-gallery__split-overlay.is-settled { transform: translateX(0) scale(1) rotate(0); }
 .work-gallery__canvas { position: relative; min-height: 100%; margin: 0; overflow: hidden; background: var(--work-overlay); }
 .work-gallery.is-intro .work-gallery__canvas { opacity: 0; }
-.work-gallery img { width: 100%; height: auto; min-height: 100%; display: block; object-fit: cover; object-position: top center; }
+.work-gallery img { width: 100%; min-width: 100%; height: auto; min-height: 100%; display: block; object-fit: cover; object-position: top center; transform: scale(1.025); transform-origin: top center; }
 .work-gallery figcaption { position: absolute; right: 1rem; bottom: 1rem; padding: .45rem .55rem; color: #fff; background: color-mix(in srgb, var(--work-overlay) 76%, transparent); font: .62rem 'Fira Code', monospace; letter-spacing: .1em; }
 .work-gallery .is-unavailable::after { content: 'Image unavailable'; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; background: var(--work-overlay); font: .7rem 'Fira Code', monospace; }
+
+/* 詳細頁開啟時，主站 header 不應覆蓋作品的全螢幕內容。 */
+.project-detail-open .site-header { visibility: hidden; pointer-events: none; opacity: 0 !important; }
 
 @media (max-width: 900px) {
   .work-detail { grid-template-columns: minmax(18rem, 42vw) minmax(28rem, 1fr); overflow-x: auto; }
