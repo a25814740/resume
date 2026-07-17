@@ -48,13 +48,13 @@ export const works: Work[] = [
   {
     id: 'grapeking', slug: 'grape-king', title: '葡萄王生技', category: 'CORPORATE SITE',
     description: '以「健康專家、照顧全家」為核心，整合企業資訊、產品研發、專業代工與 ESG 內容，建立兼顧品牌形象與資訊查找效率的企業入口。',
-    coverImage: screenshots.grapeking, listImage: '/images/projects/grapeking-banner.png', galleryImages: [screenshots.grapeking], link: 'https://www.grapeking.com.tw/', tech: ['Frontend', 'CMS', 'RWD'],
+    coverImage: screenshots.grapeking, listImage: '/images/projects/grapeking-banner.png', galleryImages: ['/images/projects/grapeking-detail-1.jpg'], link: 'https://www.grapeking.com.tw/', tech: ['Frontend', 'CMS', 'RWD'],
     theme: { background: '#40234b', surface: '#f7f0f3', text: '#fff5fb', mutedText: '#e5cde0', accent: '#ffb3dc', overlay: '#301a38', headerBackground: '#351c3e' },
   },
   {
     id: 'repon', slug: 'repon-group', title: '南俊國際', category: 'CORPORATE SITE',
     description: '聚焦工業、家電、廚房、辦公家具與伺服器導軌等應用，將產品、展覽與服務資訊整理為清楚的 B2B 企業網站。',
-    coverImage: screenshots.repon, listImage: '/images/projects/repon-banner.png', galleryImages: [screenshots.repon], link: 'https://repon.com.tw/tw/', tech: ['Frontend', 'jQuery', 'RWD'],
+    coverImage: screenshots.repon, listImage: '/images/projects/repon-banner.png', galleryImages: ['/images/projects/repon-detail-1.jpg'], link: 'https://repon.com.tw/tw/', tech: ['Frontend', 'jQuery', 'RWD'],
     theme: { background: '#14364a', surface: '#eef5f7', text: '#edf8fb', mutedText: '#bdd8e1', accent: '#71e5ff', overlay: '#0f2939', headerBackground: '#112f40' },
   },
   {
@@ -84,13 +84,13 @@ export const works: Work[] = [
   {
     id: 'biip-dcc', slug: 'biomedical-commercialization-center', title: 'DCC 藥品商品化中心', category: 'BIOTECH PLATFORM',
     description: '協助生醫與藥物研發團隊跨越商品化過程中的技術與市場門檻，整合潛力案源、專業輔導、產業資訊及國際鏈結。',
-    coverImage: screenshots.biipDcc, galleryImages: [screenshots.biipDcc], link: 'https://www.biip-dcc.org/', tech: ['Frontend', 'CMS', 'RWD'],
+    coverImage: screenshots.biipDcc, galleryImages: ['/images/projects/dcc-detail-1.jpg', '/images/projects/dcc-detail-2.jpg'], link: 'https://www.biip-dcc.org/', tech: ['Frontend', 'CMS', 'RWD'],
     theme: { background: '#0f5962', surface: '#eaf6f5', text: '#edffff', mutedText: '#bfe0df', accent: '#ffc35b', overlay: '#0a4148', headerBackground: '#0d4d55' },
   },
   {
     id: 'aaady', slug: 'aaady-apparel', title: '大洋製衣', category: 'CORPORATE SITE',
     description: '呈現成衣、羽絨寢具與睡袋的製造能力，從原料、產品到 ODM／OEM 服務，建立兼具專業感與生活情境的製造業品牌網站。',
-    coverImage: screenshots.aaady, galleryImages: [screenshots.aaady], link: 'https://www.aaady.com.tw/', tech: ['Frontend', 'jQuery', 'RWD'],
+    coverImage: screenshots.aaady, galleryImages: ['/images/projects/aaady-detail-1.jpg'], link: 'https://www.aaady.com.tw/', tech: ['Frontend', 'jQuery', 'RWD'],
     theme: { background: '#18345d', surface: '#eef3f9', text: '#f3f7ff', mutedText: '#c5d2e7', accent: '#72d5e3', overlay: '#112643', headerBackground: '#152e51' },
   },
   {
@@ -108,7 +108,7 @@ export const works: Work[] = [
   {
     id: '18ranch', slug: '18-ranch', title: '十八養場', category: 'BRAND & ECOMMERCE',
     description: '從人道飼養、非基改飼料到產品檢驗與料理應用，傳達紅玉雞產品的安心來源，並串連商品、食譜與銷售通路。',
-    coverImage: screenshots.ranch18, galleryImages: [screenshots.ranch18], link: 'https://www.18ranch.com.tw/', tech: ['Frontend', 'Ecommerce', 'RWD'],
+    coverImage: screenshots.ranch18, galleryImages: ['/images/projects/18ranch-detail-1.jpg'], link: 'https://www.18ranch.com.tw/', tech: ['Frontend', 'Ecommerce', 'RWD'],
     theme: { background: '#69531e', surface: '#fff9e9', text: '#fff9e9', mutedText: '#e8d9ad', accent: '#f2c65a', overlay: '#4c3c16', headerBackground: '#5c491b' },
   },
   {
