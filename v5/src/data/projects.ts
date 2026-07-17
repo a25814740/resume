@@ -72,7 +72,7 @@ export const works: Work[] = [
   {
     id: 'yudah-rm', slug: 'yudah-restaurant-management', title: '育達高職 餐飲管理科', category: 'SCHOOL SITE',
     description: '以餐飲管理、特色廚藝與產學合作為核心，呈現三廚加美學的教學理念，並串連專業設備、競賽成果與實習資源。',
-    coverImage: screenshots.yudahRm, galleryImages: [screenshots.yudahRm], link: 'https://web3.yudah.tp.edu.tw/rm', tech: ['Frontend', 'jQuery', 'RWD'],
+    coverImage: screenshots.yudahRm, listImage: '/images/projects/yudah-rm-banner.png', galleryImages: [screenshots.yudahRm], link: 'https://web3.yudah.tp.edu.tw/rm', tech: ['Frontend', 'jQuery', 'RWD'],
     theme: { background: '#5a2e1d', surface: '#fff2e8', text: '#fff4ed', mutedText: '#eccbbb', accent: '#ffb56f', overlay: '#412116', headerBackground: '#4d2719' },
   },
   {
