@@ -108,7 +108,7 @@ export const works: Work[] = [
   {
     id: '18ranch', slug: '18-ranch', title: '十八養場', category: 'BRAND & ECOMMERCE',
     description: '從人道飼養、非基改飼料到產品檢驗與料理應用，傳達紅玉雞產品的安心來源，並串連商品、食譜與銷售通路。',
-    coverImage: screenshots.ranch18, galleryImages: ['/images/projects/18ranch-detail-1.jpg'], link: 'https://www.18ranch.com.tw/', tech: ['Frontend', 'Ecommerce', 'RWD'],
+    coverImage: screenshots.ranch18, listImage: '/images/projects/18ranch-banner.png', galleryImages: ['/images/projects/18ranch-detail-1.jpg'], link: 'https://www.18ranch.com.tw/', tech: ['Frontend', 'Ecommerce', 'RWD'],
     theme: { background: '#69531e', surface: '#fff9e9', text: '#fff9e9', mutedText: '#e8d9ad', accent: '#f2c65a', overlay: '#4c3c16', headerBackground: '#5c491b' },
   },
   {
