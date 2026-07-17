@@ -322,6 +322,12 @@
 .work-gallery.is-blairsfilm img { width: 106%; min-width: 106%; margin-left: -5.5%; transform: none; }
 .work-gallery figcaption { position: absolute; right: 1rem; bottom: 1rem; padding: .45rem .55rem; color: #fff; background: color-mix(in srgb, var(--work-overlay) 76%, transparent); font: .62rem 'Fira Code', monospace; letter-spacing: .1em; }
 .work-gallery .is-unavailable::after { content: 'Image unavailable'; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; background: var(--work-overlay); font: .7rem 'Fira Code', monospace; }
+.work-gallery__end-cap { position: relative; height: clamp(3.5rem, 7vh, 6rem); overflow: hidden; background: var(--work-surface); }
+.work-gallery__end-cap::before,
+.work-gallery__end-cap::after { content: ''; position: absolute; top: 0; left: 12%; right: 12%; height: 1px; background: color-mix(in srgb, var(--work-accent) 62%, transparent); transform: scaleX(.08); transform-origin: center; transition: transform .7s cubic-bezier(.16, 1, .3, 1); }
+.work-gallery__end-cap::after { top: .35rem; left: 34%; right: 34%; background: color-mix(in srgb, var(--work-text) 26%, transparent); transition-delay: .08s; }
+.work-gallery.is-at-end .work-gallery__end-cap::before,
+.work-gallery.is-at-end .work-gallery__end-cap::after { transform: scaleX(1); }
 
 @media (max-width: 900px) {
   .work-detail { grid-template-columns: minmax(18rem, 42vw) minmax(28rem, 1fr); overflow-x: auto; }

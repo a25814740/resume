@@ -9,7 +9,7 @@ const gallery = ref<HTMLElement | null>(null)
 const showSlices = ref(true)
 const slicesSettled = ref(false)
 const entryMode = ref(true)
-const scrollProgress = ref(0)
+const isAtEnd = ref(false)
 const sliceCount = 8
 let hideTimer: number | undefined
 let introTimer: number | undefined
@@ -33,11 +33,8 @@ function settleSlices(delay = 0) {
 function handleScroll(event: Event) {
   const element = event.currentTarget as HTMLElement
   const range = element.scrollHeight - element.clientHeight
-  scrollProgress.value = range > 0 ? element.scrollTop / range : 0
-  entryMode.value = false
-  showSlices.value = true
-  slicesSettled.value = false
-  settleSlices(180)
+  // 右側截圖只在展開時播放一次切片揭露；捲動期間維持原尺寸，避免遮罩反覆重播造成跳動。
+  isAtEnd.value = range > 0 && element.scrollTop >= range - 8
 }
 
 function sliceStyle(index: number) {
@@ -46,7 +43,7 @@ function sliceStyle(index: number) {
     '--slice-direction': index % 2 === 0 ? -1 : 1,
     backgroundImage: `url("${screenshot.value}")`,
     backgroundSize: `${sliceCount * 100}% auto`,
-    backgroundPosition: `${(index / (sliceCount - 1)) * 100}% ${scrollProgress.value * 100}%`,
+    backgroundPosition: `${(index / (sliceCount - 1)) * 100}% top`,
   }
 }
 
@@ -67,7 +64,7 @@ onBeforeUnmount(() => {
   <section
     ref="gallery"
     class="work-gallery"
-    :class="{ 'is-intro': entryMode, 'is-blairsfilm': work.id === 'blairsfilm' }"
+    :class="{ 'is-intro': entryMode, 'is-blairsfilm': work.id === 'blairsfilm', 'is-at-end': isAtEnd }"
     aria-label="作品首頁完整截圖，可獨立捲動"
     data-work-change
     @scroll.passive="handleScroll"
@@ -99,5 +96,6 @@ onBeforeUnmount(() => {
       />
       <figcaption>FULL HOMEPAGE CAPTURE {{ galleryScreenshots.length > 1 ? `${index + 1} / ${galleryScreenshots.length}` : '' }}</figcaption>
     </figure>
+    <div class="work-gallery__end-cap" aria-hidden="true"></div>
   </section>
 </template>
