@@ -84,7 +84,7 @@ export const works: Work[] = [
   {
     id: 'biip-dcc', slug: 'biomedical-commercialization-center', title: 'DCC 藥品商品化中心', category: 'BIOTECH PLATFORM',
     description: '協助生醫與藥物研發團隊跨越商品化過程中的技術與市場門檻，整合潛力案源、專業輔導、產業資訊及國際鏈結。',
-    coverImage: screenshots.biipDcc, galleryImages: ['/images/projects/dcc-detail-1.jpg', '/images/projects/dcc-detail-2.jpg'], link: 'https://www.biip-dcc.org/', tech: ['Frontend', 'CMS', 'RWD'],
+    coverImage: screenshots.biipDcc, listImage: '/images/projects/dcc-banner.png', galleryImages: ['/images/projects/dcc-detail-1.jpg', '/images/projects/dcc-detail-2.jpg'], link: 'https://www.biip-dcc.org/', tech: ['Frontend', 'CMS', 'RWD'],
     theme: { background: '#0f5962', surface: '#eaf6f5', text: '#edffff', mutedText: '#bfe0df', accent: '#ffc35b', overlay: '#0a4148', headerBackground: '#0d4d55' },
   },
   {
