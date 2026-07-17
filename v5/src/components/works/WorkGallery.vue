@@ -14,7 +14,8 @@ const sliceCount = 8
 let hideTimer: number | undefined
 let introTimer: number | undefined
 
-const screenshot = computed(() => props.work.galleryImages[0] || props.work.coverImage)
+const galleryScreenshots = computed(() => props.work.galleryImages.length ? props.work.galleryImages : [props.work.coverImage])
+const screenshot = computed(() => galleryScreenshots.value[0])
 
 function settleSlices(delay = 0) {
   window.requestAnimationFrame(() => {
@@ -83,15 +84,20 @@ onBeforeUnmount(() => {
       <i v-for="index in sliceCount" :key="index" :style="sliceStyle(index - 1)"></i>
     </div>
 
-    <figure class="work-gallery__canvas" data-work-media>
+    <figure
+      v-for="(image, index) in galleryScreenshots"
+      :key="image"
+      class="work-gallery__canvas"
+      data-work-media
+    >
       <img
-        :src="screenshot"
-        :alt="`${work.title} 網站首頁完整截圖`"
-        fetchpriority="high"
+        :src="image"
+        :alt="`${work.title} 網站截圖 ${index + 1}`"
+        :fetchpriority="index === 0 ? 'high' : 'auto'"
         decoding="async"
         @error="handleImageError"
       />
-      <figcaption>FULL HOMEPAGE CAPTURE</figcaption>
+      <figcaption>FULL HOMEPAGE CAPTURE {{ galleryScreenshots.length > 1 ? `${index + 1} / ${galleryScreenshots.length}` : '' }}</figcaption>
     </figure>
   </section>
 </template>
