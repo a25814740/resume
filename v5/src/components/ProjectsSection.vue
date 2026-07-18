@@ -272,7 +272,7 @@ onBeforeUnmount(() => {
           <span class="project-strip__identity">
             <strong itemprop="name">{{ work.title }}</strong>
             <small itemprop="genre">{{ work.category }}</small>
-            <i aria-hidden="true">VIEW</i>
+            <i v-if="!selected" aria-hidden="true">VIEW</i>
           </span>
           <span class="project-strip__overlay" aria-hidden="true"></span>
         </a>
