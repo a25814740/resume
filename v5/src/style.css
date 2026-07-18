@@ -117,7 +117,16 @@
 
 .project-strip.is-active { background-size: 290px; }
 
-.project-strip__ai-icon { display: block; width: 2.2rem; height: 2.2rem; margin-bottom: .15rem; object-fit: contain; }
+.project-strip__ai-icon {
+  position: absolute;
+  top: -2.45rem;
+  left: 50%;
+  width: 2.2rem;
+  height: 2.2rem;
+  object-fit: contain;
+  pointer-events: none;
+  transform: translateX(-50%);
+}
 
 .project-strip__identity {
   position: absolute;
