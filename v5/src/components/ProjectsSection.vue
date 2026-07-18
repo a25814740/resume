@@ -45,6 +45,18 @@ function stopWheelTween() {
   wheelTween = null
 }
 
+function releaseCarouselInteraction() {
+  // 詳細頁關閉後，卡片清單必須立即恢復可拖曳／可滾輪橫移；
+  // 同時中止尚未結束的定位 tween，避免舊動畫把清單再次鎖回 opening 狀態。
+  stopWheelTween()
+  if (track.value) gsap.killTweensOf(track.value)
+  if (wheelIdleTimer) window.clearTimeout(wheelIdleTimer)
+  isDragging.value = false
+  isWheelScrolling.value = false
+  openingId.value = null
+  hoveredId.value = null
+}
+
 function endWheelScrolling() {
   if (wheelIdleTimer) window.clearTimeout(wheelIdleTimer)
   wheelIdleTimer = window.setTimeout(() => {
@@ -113,8 +125,8 @@ function changeWork(direction: -1 | 1) {
 }
 
 function closeWork(historyMode: HistoryMode = 'push') {
+  releaseCarouselInteraction()
   selectedIndex.value = null
-  openingId.value = null
   isChangingWork.value = false
   updateWorkLocation(null, historyMode)
 }
@@ -206,7 +218,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener(workRequestEvent, handleWorkRequest)
-  stopWheelTween()
+  releaseCarouselInteraction()
   if (wheelIdleTimer) window.clearTimeout(wheelIdleTimer)
 })
 </script>

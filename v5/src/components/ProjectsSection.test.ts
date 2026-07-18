@@ -39,6 +39,14 @@ describe('ProjectsSection', () => {
     expect(wrapper.findAll('.project-strip.is-active')).toHaveLength(1)
     expect(track.scrollLeft).toBe(0)
 
+    await wrapper.find('.work-detail__close').trigger('click')
+    await nextTick()
+    expect(wrapper.find('[aria-label="作品詳情"]').exists()).toBe(false)
+    expect(wrapper.find('.projects-wall__track').classes()).not.toContain('is-detail-open')
+    expect(wrapper.find('.projects-wall__track').classes()).not.toContain('is-opening')
+
+    await wrapper.find('.project-strip').trigger('click')
+    await nextTick()
     await wrapper.find('[aria-label="下一個作品"]').trigger('click')
     await nextTick()
     expect(wrapper.find('.work-detail__copy h2').text()).toBe('葡萄王生技')
