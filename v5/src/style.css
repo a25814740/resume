@@ -120,30 +120,21 @@
 .project-strip__ai-badge {
   position: absolute;
   z-index: 5;
-  top: 1rem;
-  left: 1rem;
-  display: inline-flex;
-  align-items: center;
-  min-height: 1.9rem;
-  padding: .18rem .5rem .18rem .18rem;
-  color: #111;
-  background: rgba(255, 253, 242, .96);
-  box-shadow: 3px 3px 0 #111;
-  font: 700 .6rem/1 'Fira Code', monospace;
-  letter-spacing: .08em;
-}
-.project-strip__ai-badge b {
+  top: .9rem;
+  left: .9rem;
   display: grid;
-  width: 1.5rem;
-  min-height: 1.5rem;
-  margin-right: .42rem;
-  color: #ffdd35;
-  background: #111;
+  width: 2.8rem;
+  height: 2.8rem;
   place-items: center;
-  font: 800 .62rem/1 'Fira Code', monospace;
-  letter-spacing: .02em;
+  background: #fffdf2;
+  border: 1px solid #111;
+  border-radius: .55rem;
+  box-shadow: 0 3px 0 #111;
 }
-.project-strip__ai-badge span { padding-top: .03rem; }
+.project-strip__ai-badge svg { width: 2.35rem; height: 2.35rem; overflow: visible; }
+.project-strip__ai-frame { fill: none; stroke: #2f6df6; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+.project-strip__ai-spark { fill: #ffdd35; stroke: #111; stroke-width: .6; stroke-linejoin: round; }
+.project-strip__ai-letter { fill: #111; font: 800 18px/1 'Fira Code', monospace; letter-spacing: -2px; }
 @media (prefers-reduced-motion: reduce) {
   .project-strip__ai-badge { box-shadow: none; }
 }
