@@ -11,6 +11,7 @@ describe('ProjectsSection', () => {
 
     expect(wrapper.findAll('.project-strip').at(0)?.attributes('href')).toBe('#projects/wooden-man')
     expect(wrapper.findAll('.project-strip').at(-1)?.attributes('href')).toBe('#projects/grobest-group')
+    expect(wrapper.findAll('.project-strip').at(0)?.attributes('draggable')).toBe('false')
 
     window.dispatchEvent(new window.CustomEvent('portfolio:work-request', {
       detail: { slug: '18-ranch', history: 'none' },

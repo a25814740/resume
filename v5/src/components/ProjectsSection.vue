@@ -255,6 +255,7 @@ onBeforeUnmount(() => {
         <h3 class="sr-only" itemprop="name">{{ work.title }}</h3>
         <a
           :href="workLink(work)"
+          draggable="false"
           class="project-strip"
           :class="{
             'is-active': selected ? selected.id === work.id : !isWheelScrolling && hoveredId === work.id,
@@ -266,6 +267,7 @@ onBeforeUnmount(() => {
           @focus="hoveredId = work.id"
           @blur="hoveredId = null"
           @click.prevent="openWork(work)"
+          @dragstart.prevent
         >
           <span class="project-strip__identity">
             <strong itemprop="name">{{ work.title }}</strong>

@@ -93,6 +93,8 @@
   text-decoration: none;
   cursor: inherit;
   isolation: isolate;
+  -webkit-user-drag: none;
+  user-drag: none;
   background: var(--project-background) 50% 50% / cover no-repeat;
   transition: background-size .5s ease, filter .48s ease, opacity .48s ease;
 }
