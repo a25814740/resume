@@ -269,6 +269,7 @@ onBeforeUnmount(() => {
           @click.prevent="openWork(work)"
           @dragstart.prevent
         >
+          <span v-if="work.isAiProject" class="project-strip__ai-badge" aria-label="AI 製作專案">AI</span>
           <span class="project-strip__identity">
             <strong itemprop="name">{{ work.title }}</strong>
             <small itemprop="genre">{{ work.category }}</small>

@@ -10,8 +10,15 @@ describe('ProjectsSection', () => {
     const wrapper = mount(ProjectsSection)
 
     expect(wrapper.findAll('.project-strip').at(0)?.attributes('href')).toBe('#projects/wooden-man')
-    expect(wrapper.findAll('.project-strip').at(-1)?.attributes('href')).toBe('#projects/grobest-group')
+    expect(wrapper.findAll('.project-strip').at(-1)?.attributes('href')).toBe('#projects/inbox-pilot')
     expect(wrapper.findAll('.project-strip').at(0)?.attributes('draggable')).toBe('false')
+    expect(wrapper.find('.project-strip__ai-badge').text()).toBe('AI')
+    expect(works.find((work) => work.id === 'inbox-pilot')?.tech).toEqual([
+      'Vibe Coding: ChatGPT / Codex',
+      'Gemini / Antigravity',
+      'Perplexity',
+      'Ollama / qwen2.5-coder:7b',
+    ])
 
     window.dispatchEvent(new window.CustomEvent('portfolio:work-request', {
       detail: { slug: '18-ranch', history: 'none' },

@@ -16,6 +16,7 @@ export type Work = {
   description: string
   coverImage: string
   listImage?: string
+  isAiProject?: boolean
   galleryImages: string[]
   link: string
   tech: string[]
@@ -109,5 +110,14 @@ export const works: Work[] = [
     description: '以永續水產養殖為核心，整合營養方案、飼料產品、技術服務與研發成果，呈現橫跨亞洲多個市場的企業規模。',
     coverImage: screenshots.grobest, listImage: '/images/projects/grobest-banner.png', galleryImages: [screenshots.grobest], link: 'https://www.grobest.com/', tech: ['Frontend', 'CMS', 'RWD'],
     theme: { background: '#075a8f', surface: '#eaf6fc', text: '#eefaff', mutedText: '#b9daeb', accent: '#55d7ff', overlay: '#064268', headerBackground: '#064f7e' },
+  },
+  {
+    id: 'inbox-pilot', slug: 'inbox-pilot', title: 'InboxPilot', category: 'AI AUTOMATION',
+    description: '為創作者、電商與小型團隊打造的 Instagram 自動化工作台，整合留言關鍵字、私訊回覆、客戶標籤與流程設定，讓成交機會不再漏接。',
+    coverImage: '/images/projects/inbox-pilot-banner.png', listImage: '/images/projects/inbox-pilot-banner.png', isAiProject: true,
+    galleryImages: ['/images/projects/inbox-pilot-1.png', '/images/projects/inbox-pilot-2.png', '/images/projects/inbox-pilot-3.png'],
+    link: 'https://inboxpilot.carry-digital-nomad.in.net/official',
+    tech: ['Vibe Coding: ChatGPT / Codex', 'Gemini / Antigravity', 'Perplexity', 'Ollama / qwen2.5-coder:7b'],
+    theme: { background: '#ffdd35', surface: '#fffdf2', text: '#111111', mutedText: '#3f3b2b', accent: '#2f6df6', overlay: '#191919', headerBackground: '#ffdd35' },
   },
 ]
