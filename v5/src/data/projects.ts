@@ -114,7 +114,7 @@ export const works: Work[] = [
   {
     id: 'grobest', slug: 'grobest-group', title: '全興國際水產', category: 'GLOBAL CORPORATE',
     description: '以永續水產養殖為核心，整合營養方案、飼料產品、技術服務與研發成果，呈現橫跨亞洲多個市場的企業規模。',
-    coverImage: screenshots.grobest, galleryImages: [screenshots.grobest], link: 'https://www.grobest.com/', tech: ['Frontend', 'CMS', 'RWD'],
+    coverImage: screenshots.grobest, listImage: '/images/projects/grobest-banner.png', galleryImages: [screenshots.grobest], link: 'https://www.grobest.com/', tech: ['Frontend', 'CMS', 'RWD'],
     theme: { background: '#075a8f', surface: '#eaf6fc', text: '#eefaff', mutedText: '#b9daeb', accent: '#55d7ff', overlay: '#064268', headerBackground: '#064f7e' },
   },
 ]
