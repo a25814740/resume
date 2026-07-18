@@ -20,6 +20,7 @@ export type Work = {
   galleryImages: string[]
   link: string
   tech: string[]
+  vibeCoding?: string[]
   theme: WorkTheme
 }
 
@@ -123,7 +124,8 @@ export const works: Work[] = [
     coverImage: '/images/projects/inbox-pilot-banner.png', listImage: '/images/projects/inbox-pilot-banner.png', isAiProject: true,
     galleryImages: ['/images/projects/inbox-pilot-1.png', '/images/projects/inbox-pilot-2.png', '/images/projects/inbox-pilot-3.png'],
     link: 'https://inboxpilot.carry-digital-nomad.in.net/official',
-    tech: ['Vibe Coding: ChatGPT / Codex', 'Gemini / Antigravity', 'Perplexity', 'Ollama / qwen2.5-coder:7b'],
+    tech: ['Next.js', 'React', 'Tailwind CSS', 'Vercel'],
+    vibeCoding: ['ChatGPT / Codex', 'Gemini / Antigravity', 'Perplexity', 'Ollama / qwen2.5-coder:7b'],
     theme: { background: '#ffdd35', surface: '#fffdf2', text: '#111111', mutedText: '#3f3b2b', accent: '#2f6df6', overlay: '#191919', headerBackground: '#ffdd35' },
   },
 ].sort((first, second) => {

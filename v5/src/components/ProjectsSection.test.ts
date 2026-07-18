@@ -20,12 +20,20 @@ describe('ProjectsSection', () => {
       src: '/images/projects/inbox-pilot-ai-icon.png',
       alt: 'AI 製作專案',
     })
-    expect(works.find((work) => work.id === 'inbox-pilot')?.tech).toEqual([
-      'Vibe Coding: ChatGPT / Codex',
+    expect(works.find((work) => work.id === 'inbox-pilot')?.tech).toEqual(['Next.js', 'React', 'Tailwind CSS', 'Vercel'])
+    expect(works.find((work) => work.id === 'inbox-pilot')?.vibeCoding).toEqual([
+      'ChatGPT / Codex',
       'Gemini / Antigravity',
       'Perplexity',
       'Ollama / qwen2.5-coder:7b',
     ])
+
+    window.dispatchEvent(new window.CustomEvent('portfolio:work-request', {
+      detail: { slug: 'inbox-pilot', history: 'none' },
+    }))
+    await nextTick()
+    expect(wrapper.find('ul[aria-label="使用技術"]').text()).toContain('Next.js')
+    expect(wrapper.find('ul[aria-label="Vibe Coding"]').text()).toContain('ChatGPT / Codex')
 
     window.dispatchEvent(new window.CustomEvent('portfolio:work-request', {
       detail: { slug: '18-ranch', history: 'none' },

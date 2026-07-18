@@ -138,9 +138,16 @@ onBeforeUnmount(() => {
         <h2 data-copy-reveal>{{ work.title }}</h2>
         <div class="work-detail__rule" data-copy-reveal></div>
         <p class="work-detail__description" data-copy-reveal>{{ work.description }}</p>
-        <ul aria-label="使用技術" data-copy-reveal>
+        <p class="work-detail__stack-title" data-copy-reveal>TECH STACK</p>
+        <ul class="work-detail__stack" aria-label="使用技術" data-copy-reveal>
           <li v-for="tech in work.tech" :key="tech">{{ tech }}</li>
         </ul>
+        <template v-if="work.vibeCoding?.length">
+          <p class="work-detail__stack-title" data-copy-reveal>VIBE CODING</p>
+          <ul class="work-detail__stack" aria-label="Vibe Coding" data-copy-reveal>
+            <li v-for="tool in work.vibeCoding" :key="tool">{{ tool }}</li>
+          </ul>
+        </template>
       </div>
 
       <button
