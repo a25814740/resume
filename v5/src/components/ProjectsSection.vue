@@ -15,6 +15,7 @@ const isChangingWork = ref(false)
 const desktopCardWidth = 260
 const cardShiftDuration = .9
 const workRequestEvent = 'portfolio:work-request'
+const aiIconPath = '/images/projects/inbox-pilot-ai-icon.png'
 let dragStartX = 0
 let dragStartScrollLeft = 0
 let draggedDistance = 0
@@ -269,14 +270,8 @@ onBeforeUnmount(() => {
           @click.prevent="openWork(work)"
           @dragstart.prevent
         >
-          <span v-if="work.isAiProject" class="project-strip__ai-badge" aria-label="AI 製作專案">
-            <svg viewBox="0 0 44 44" aria-hidden="true">
-              <path class="project-strip__ai-frame" d="M8 10a7 7 0 0 1 7-7h12a7 7 0 0 1 7 7v16a7 7 0 0 1-7 7H15a7 7 0 0 1-7-7V10Z" />
-              <path class="project-strip__ai-spark" d="m34.5 2 1.35 3.65L39.5 7l-3.65 1.35L34.5 12l-1.35-3.65L29.5 7l3.65-1.35L34.5 2Z" />
-              <text x="12" y="26" class="project-strip__ai-letter">AI</text>
-            </svg>
-          </span>
           <span class="project-strip__identity">
+            <img v-if="work.isAiProject" class="project-strip__ai-icon" :src="aiIconPath" alt="AI 製作專案" />
             <strong itemprop="name">{{ work.title }}</strong>
             <small itemprop="genre">{{ work.category }}</small>
             <i v-if="!selected" aria-hidden="true">VIEW</i>

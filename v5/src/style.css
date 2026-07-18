@@ -117,27 +117,7 @@
 
 .project-strip.is-active { background-size: 290px; }
 
-.project-strip__ai-badge {
-  position: absolute;
-  z-index: 5;
-  top: .9rem;
-  left: .9rem;
-  display: grid;
-  width: 2.8rem;
-  height: 2.8rem;
-  place-items: center;
-  background: #fffdf2;
-  border: 1px solid #111;
-  border-radius: .55rem;
-  box-shadow: 0 3px 0 #111;
-}
-.project-strip__ai-badge svg { width: 2.35rem; height: 2.35rem; overflow: visible; }
-.project-strip__ai-frame { fill: none; stroke: #2f6df6; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
-.project-strip__ai-spark { fill: #ffdd35; stroke: #111; stroke-width: .6; stroke-linejoin: round; }
-.project-strip__ai-letter { fill: #111; font: 800 18px/1 'Fira Code', monospace; letter-spacing: -2px; }
-@media (prefers-reduced-motion: reduce) {
-  .project-strip__ai-badge { box-shadow: none; }
-}
+.project-strip__ai-icon { display: block; width: 2.2rem; height: 2.2rem; margin-bottom: .15rem; object-fit: contain; }
 
 .project-strip__identity {
   position: absolute;

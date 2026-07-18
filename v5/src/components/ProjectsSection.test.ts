@@ -12,7 +12,10 @@ describe('ProjectsSection', () => {
     expect(wrapper.findAll('.project-strip').at(0)?.attributes('href')).toBe('#projects/wooden-man')
     expect(wrapper.findAll('.project-strip').at(-1)?.attributes('href')).toBe('#projects/inbox-pilot')
     expect(wrapper.findAll('.project-strip').at(0)?.attributes('draggable')).toBe('false')
-    expect(wrapper.find('.project-strip__ai-badge').text()).toBe('AI')
+    expect(wrapper.find('.project-strip__ai-icon').attributes()).toMatchObject({
+      src: '/images/projects/inbox-pilot-ai-icon.png',
+      alt: 'AI 製作專案',
+    })
     expect(works.find((work) => work.id === 'inbox-pilot')?.tech).toEqual([
       'Vibe Coding: ChatGPT / Codex',
       'Gemini / Antigravity',
