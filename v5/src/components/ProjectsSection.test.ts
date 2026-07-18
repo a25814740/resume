@@ -5,6 +5,25 @@ import { works } from '../data/projects'
 import ProjectsSection from './ProjectsSection.vue'
 
 describe('ProjectsSection', () => {
+  it('每個作品提供可分享的 Projects 深連結，並可依網址要求開啟指定作品', async () => {
+    vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: true })))
+    const wrapper = mount(ProjectsSection)
+
+    expect(wrapper.findAll('.project-strip').at(0)?.attributes('href')).toBe('#projects/wooden-man')
+    expect(wrapper.findAll('.project-strip').at(-1)?.attributes('href')).toBe('#projects/grobest-group')
+
+    window.dispatchEvent(new window.CustomEvent('portfolio:work-request', {
+      detail: { slug: '18-ranch', history: 'none' },
+    }))
+    await nextTick()
+
+    expect(wrapper.find('.work-detail__copy h2').text()).toBe('十八養場')
+    expect((wrapper.find('.projects-wall__track').element as HTMLElement).scrollLeft).toBe(11 * 260)
+
+    wrapper.unmount()
+    vi.unstubAllGlobals()
+  })
+
   it('每次切換一個作品時，清單固定前進 260px', async () => {
     // 無動畫模式也必須能立即操作，讓測試驗證位置而不依賴 GSAP 的實際計時。
     vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: true })))

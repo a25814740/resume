@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { gsap } from 'gsap'
 import { works, type Work } from '../data/projects'
 import WorkDetail from './works/WorkDetail.vue'
@@ -14,12 +14,31 @@ const selected = computed<Work | null>(() => selectedIndex.value === null ? null
 const isChangingWork = ref(false)
 const desktopCardWidth = 260
 const cardShiftDuration = .9
+const workRequestEvent = 'portfolio:work-request'
 let dragStartX = 0
 let dragStartScrollLeft = 0
 let draggedDistance = 0
 let suppressClick = false
 let wheelTween: gsap.core.Tween | null = null
 let wheelIdleTimer: number | undefined
+
+type HistoryMode = 'push' | 'replace' | 'none'
+
+function workLink(work: Work) {
+  return `#projects/${encodeURIComponent(work.slug)}`
+}
+
+function updateWorkLocation(work: Work | null, mode: HistoryMode) {
+  if (mode === 'none') return
+
+  const url = new window.URL(window.location.href)
+  url.searchParams.delete('project')
+  url.searchParams.delete('work')
+  url.hash = work ? `projects/${encodeURIComponent(work.slug)}` : 'projects'
+  const nextUrl = `${url.pathname}${url.search}${url.hash}`
+  if (`${window.location.pathname}${window.location.search}${window.location.hash}` === nextUrl) return
+  window.history[mode === 'replace' ? 'replaceState' : 'pushState'](null, '', nextUrl)
+}
 
 function stopWheelTween() {
   wheelTween?.kill()
@@ -59,18 +78,29 @@ function alignSelectedCard(index: number, complete: () => void) {
   })
 }
 
-function openWork(work: Work) {
-  // 拖曳結束後瀏覽器仍會補送 click；避免使用者只是橫移卻意外打開作品。
-  if (suppressClick || openingId.value) return
-
+function selectWork(work: Work, historyMode: HistoryMode = 'push') {
   const index = works.findIndex((item) => item.id === work.id)
   if (index < 0) return
+  if (selectedIndex.value === index) {
+    updateWorkLocation(work, historyMode)
+    return
+  }
+
+  // 詳細頁已開啟時，先讓舊內容收起，等卡片移到左側後才帶入新內容。
+  if (selectedIndex.value !== null) isChangingWork.value = true
   openingId.value = work.id
   alignSelectedCard(index, () => {
     selectedIndex.value = index
     hoveredId.value = null
     openingId.value = null
+    updateWorkLocation(work, historyMode)
   })
+}
+
+function openWork(work: Work) {
+  // 拖曳結束後瀏覽器仍會補送 click；避免使用者只是橫移卻意外打開作品。
+  if (suppressClick || openingId.value) return
+  selectWork(work)
 }
 
 function changeWork(direction: -1 | 1) {
@@ -78,13 +108,29 @@ function changeWork(direction: -1 | 1) {
   const nextIndex = selectedIndex.value + direction
   if (nextIndex < 0 || nextIndex >= works.length) return
 
-  isChangingWork.value = true
   hoveredId.value = null
-  openingId.value = works[nextIndex].id
-  alignSelectedCard(nextIndex, () => {
-    selectedIndex.value = nextIndex
-    openingId.value = null
-  })
+  selectWork(works[nextIndex])
+}
+
+function closeWork(historyMode: HistoryMode = 'push') {
+  selectedIndex.value = null
+  openingId.value = null
+  isChangingWork.value = false
+  updateWorkLocation(null, historyMode)
+}
+
+function handleWorkRequest(event: Event) {
+  const detail = (event as globalThis.CustomEvent<{ slug?: string | null; history?: HistoryMode }>).detail
+  const slug = detail?.slug
+  const historyMode = detail?.history || 'none'
+
+  if (!slug) {
+    closeWork(historyMode)
+    return
+  }
+
+  const work = works.find((item) => item.slug === slug || item.id === slug)
+  if (work) selectWork(work, historyMode)
 }
 
 function startDrag(event: globalThis.PointerEvent) {
@@ -154,7 +200,12 @@ function scrollHorizontally(event: globalThis.WheelEvent) {
   })
 }
 
+onMounted(() => {
+  window.addEventListener(workRequestEvent, handleWorkRequest)
+})
+
 onBeforeUnmount(() => {
+  window.removeEventListener(workRequestEvent, handleWorkRequest)
   stopWheelTween()
   if (wheelIdleTimer) window.clearTimeout(wheelIdleTimer)
 })
@@ -190,8 +241,8 @@ onBeforeUnmount(() => {
         itemtype="https://schema.org/CreativeWork"
       >
         <h3 class="sr-only" itemprop="name">{{ work.title }}</h3>
-        <button
-          type="button"
+        <a
+          :href="workLink(work)"
           class="project-strip"
           :class="{
             'is-active': selected ? selected.id === work.id : !isWheelScrolling && hoveredId === work.id,
@@ -202,7 +253,7 @@ onBeforeUnmount(() => {
           @mouseenter="!isDragging && !isWheelScrolling && (hoveredId = work.id)"
           @focus="hoveredId = work.id"
           @blur="hoveredId = null"
-          @click="openWork(work)"
+          @click.prevent="openWork(work)"
         >
           <span class="project-strip__identity">
             <strong itemprop="name">{{ work.title }}</strong>
@@ -210,7 +261,7 @@ onBeforeUnmount(() => {
             <i aria-hidden="true">VIEW</i>
           </span>
           <span class="project-strip__overlay" aria-hidden="true"></span>
-        </button>
+        </a>
       </section>
       <div class="projects-wall__end-space" aria-hidden="true"></div>
     </div>
@@ -223,7 +274,7 @@ onBeforeUnmount(() => {
       :index="selectedIndex ?? 0"
       :total="works.length"
       :transitioning="isChangingWork"
-      @close="selectedIndex = null"
+      @close="closeWork()"
       @previous="changeWork(-1)"
       @next="changeWork(1)"
       @revealed="isChangingWork = false"

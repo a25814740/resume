@@ -90,6 +90,7 @@
   color: #111827;
   border: 0;
   text-align: center;
+  text-decoration: none;
   cursor: inherit;
   isolation: isolate;
   background: var(--project-background) 50% 50% / cover no-repeat;

@@ -9,10 +9,39 @@ import ProjectsSection from './components/ProjectsSection.vue'
 
 const scrollContainer = ref(null)
 const sectionIds = ['home', 'about', 'skills', 'experience', 'projects']
-const requestedInitialHash = sectionIds.includes(window.location.hash.slice(1)) ? window.location.hash : '#home'
+const workRequestEvent = 'portfolio:work-request'
+
+function sectionIdFromHash(hash) {
+  const id = hash.replace(/^#/, '').split(/[/?]/)[0]
+  return sectionIds.includes(id) ? id : null
+}
+
+function projectSlugFromLocation() {
+  const search = new window.URLSearchParams(window.location.search)
+  const querySlug = search.get('project') || search.get('work')
+  if (querySlug) return querySlug
+
+  const pathMatch = window.location.hash.match(/^#projects\/([^?]+)/)
+  if (pathMatch) return decodeURIComponent(pathMatch[1])
+
+  const hashQuery = window.location.hash.split('?')[1]
+  if (!hashQuery) return null
+  const parameters = new window.URLSearchParams(hashQuery)
+  return parameters.get('project') || parameters.get('work')
+}
+
+function projectHash(slug) {
+  return `#projects/${encodeURIComponent(slug)}`
+}
+
+const requestedInitialProject = projectSlugFromLocation()
+const requestedInitialHash = requestedInitialProject
+  ? '#projects'
+  : (sectionIdFromHash(window.location.hash) ? `#${sectionIdFromHash(window.location.hash)}` : '#home')
 let navigationTarget = null
 let navigationTargetTop = null
 let scrollEndTimer = null
+let navigationComplete = null
 
 // 避免瀏覽器在 Vue 掛載錨點時瞬間跳轉；掛載完成後改由主容器平滑捲動。
 if (window.location.hash) {
@@ -25,13 +54,32 @@ function sectionTop(section) {
   return container.scrollTop + section.getBoundingClientRect().top - container.getBoundingClientRect().top
 }
 
+function finishNavigation() {
+  const container = scrollContainer.value
+  if (container && navigationTargetTop !== null) container.scrollTop = navigationTargetTop
+  container?.style.removeProperty('scroll-snap-type')
+
+  const complete = navigationComplete
+  navigationComplete = null
+  navigationTarget = null
+  navigationTargetTop = null
+  syncHashToScroll()
+  complete?.()
+}
+
+function requestProject(workSlug) {
+  window.dispatchEvent(new window.CustomEvent(workRequestEvent, {
+    detail: { slug: workSlug, history: 'none' },
+  }))
+}
+
 function scrollToSection(hash, options = {}) {
   const container = scrollContainer.value
-  const id = hash.replace(/^#/, '')
-  const section = document.getElementById(id)
-  if (!container || !section || !sectionIds.includes(id)) return
+  const id = sectionIdFromHash(hash)
+  const section = id ? document.getElementById(id) : null
+  if (!container || !section || !id) return
 
-  const { updateHistory = true } = options
+  const { updateHistory = true, onComplete = null } = options
   navigationTarget = id
   navigationTargetTop = sectionTop(section)
   if (updateHistory && window.location.hash !== `#${id}`) {
@@ -39,13 +87,10 @@ function scrollToSection(hash, options = {}) {
   }
   container.style.scrollSnapType = 'none'
   container.scrollTo({ top: navigationTargetTop, behavior: 'smooth' })
+  navigationComplete = onComplete
   if (scrollEndTimer) window.clearTimeout(scrollEndTimer)
   scrollEndTimer = window.setTimeout(() => {
-    if (navigationTargetTop !== null) container.scrollTop = navigationTargetTop
-    container.style.removeProperty('scroll-snap-type')
-    navigationTarget = null
-    navigationTargetTop = null
-    syncHashToScroll()
+    finishNavigation()
   }, 1200)
 }
 
@@ -60,7 +105,8 @@ function syncHashToScroll() {
     if (section && sectionTop(section) <= marker) currentId = id
   }
 
-  if (window.location.hash !== `#${currentId}`) {
+  // #projects/作品名稱 是可分享的深連結；停留在 Projects 時不應被捲動同步機制覆蓋掉。
+  if (sectionIdFromHash(window.location.hash) !== currentId) {
     window.history.replaceState(null, '', `#${currentId}`)
   }
 }
@@ -69,18 +115,17 @@ function handleMainScroll() {
   if (scrollEndTimer) window.clearTimeout(scrollEndTimer)
   if (!navigationTarget) syncHashToScroll()
   scrollEndTimer = window.setTimeout(() => {
-    const container = scrollContainer.value
-    if (container && navigationTargetTop !== null) container.scrollTop = navigationTargetTop
-    container?.style.removeProperty('scroll-snap-type')
-    navigationTarget = null
-    navigationTargetTop = null
-    syncHashToScroll()
+    finishNavigation()
   }, 160)
 }
 
 function handleHistoryNavigation() {
-  const hash = window.location.hash || '#home'
-  scrollToSection(hash, { updateHistory: false })
+  const slug = projectSlugFromLocation()
+  const hash = slug ? '#projects' : (window.location.hash || '#home')
+  scrollToSection(hash, {
+    updateHistory: false,
+    onComplete: () => requestProject(slug),
+  })
 }
 
 onMounted(async () => {
@@ -89,8 +134,14 @@ onMounted(async () => {
   await nextTick()
 
   if (scrollContainer.value) scrollContainer.value.scrollTop = 0
-  window.history.replaceState(window.history.state, '', requestedInitialHash)
-  window.requestAnimationFrame(() => scrollToSection(requestedInitialHash, { updateHistory: false }))
+  const initialHash = requestedInitialProject ? projectHash(requestedInitialProject) : requestedInitialHash
+  window.history.replaceState(window.history.state, '', initialHash)
+  window.requestAnimationFrame(() => {
+    scrollToSection(requestedInitialHash, {
+      updateHistory: false,
+      onComplete: () => requestProject(requestedInitialProject),
+    })
+  })
 })
 
 onBeforeUnmount(() => {
