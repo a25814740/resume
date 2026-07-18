@@ -29,7 +29,6 @@ const screenshots = {
   yudahModel: '/images/projects/yudah-model-full.webp',
   yudahArt: '/images/projects/yudah-art-full.webp',
   yudahRm: '/images/projects/yudah-rm-full.webp',
-  longnew: '/images/projects/longnew-full.webp',
   biipDcc: '/images/projects/biip-dcc-full.webp',
   aaady: '/images/projects/aaady-full.webp',
   uneec: '/images/projects/uneec-full.webp',
@@ -74,12 +73,6 @@ export const works: Work[] = [
     description: '以餐飲管理、特色廚藝與產學合作為核心，呈現三廚加美學的教學理念，並串連專業設備、競賽成果與實習資源。',
     coverImage: screenshots.yudahRm, listImage: '/images/projects/yudah-rm-banner.png', galleryImages: ['/images/projects/yudah-rm-detail.png'], link: 'https://web3.yudah.tp.edu.tw/rm', tech: ['Frontend', 'jQuery', 'RWD'],
     theme: { background: '#5a2e1d', surface: '#fff2e8', text: '#fff4ed', mutedText: '#eccbbb', accent: '#ffb56f', overlay: '#412116', headerBackground: '#4d2719' },
-  },
-  {
-    id: 'longnew', slug: 'long-new', title: '久馨股份', category: 'BRAND SITE',
-    description: '呈現智能印刷、精密塗佈與軟包裝設備，以客製化解決方案、整合服務與國際技術合作，傳達製程升級與智慧製造能力。',
-    coverImage: screenshots.longnew, galleryImages: [screenshots.longnew], link: 'https://www.long-new.com/?lang=tw', tech: ['Frontend', 'CSS Animation'],
-    theme: { background: '#6a3128', surface: '#fff3e8', text: '#fff4ed', mutedText: '#f0c9bb', accent: '#ffcf67', overlay: '#4e241e', headerBackground: '#592a23' },
   },
   {
     id: 'biip-dcc', slug: 'biomedical-commercialization-center', title: 'DCC 藥品商品化中心', category: 'BIOTECH PLATFORM',

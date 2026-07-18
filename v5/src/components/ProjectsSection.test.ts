@@ -19,7 +19,8 @@ describe('ProjectsSection', () => {
     await nextTick()
 
     expect(wrapper.find('.work-detail__copy h2').text()).toBe('十八養場')
-    expect((wrapper.find('.projects-wall__track').element as HTMLElement).scrollLeft).toBe(11 * 260)
+    const ranchIndex = works.findIndex((work) => work.id === '18ranch')
+    expect((wrapper.find('.projects-wall__track').element as HTMLElement).scrollLeft).toBe(ranchIndex * 260)
 
     wrapper.unmount()
     vi.unstubAllGlobals()
