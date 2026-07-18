@@ -38,6 +38,12 @@ const screenshots = {
   grobest: '/images/projects/grobest-full.webp',
 }
 
+// 一般作品依目前作品牆的展示策略排序；AI 專案會在下方排序之前優先顯示。
+const projectOrder = new Map([
+  'aaady', 'grapeking', '18ranch', 'grobest', 'repon', 'yudah-model',
+  'yudah-art', 'yudah-rm', 'biip-dcc', 'uneec', 'blairsfilm', 'mtr',
+].map((id, index) => [id, index]))
+
 export const works: Work[] = [
   {
     id: 'mtr', slug: 'wooden-man', title: '木頭人', category: 'WEB DESIGN',
@@ -120,4 +126,8 @@ export const works: Work[] = [
     tech: ['Vibe Coding: ChatGPT / Codex', 'Gemini / Antigravity', 'Perplexity', 'Ollama / qwen2.5-coder:7b'],
     theme: { background: '#ffdd35', surface: '#fffdf2', text: '#111111', mutedText: '#3f3b2b', accent: '#2f6df6', overlay: '#191919', headerBackground: '#ffdd35' },
   },
-]
+].sort((first, second) => {
+  const aiOrder = Number(Boolean(second.isAiProject)) - Number(Boolean(first.isAiProject))
+  if (aiOrder) return aiOrder
+  return (projectOrder.get(first.id) ?? Number.MAX_SAFE_INTEGER) - (projectOrder.get(second.id) ?? Number.MAX_SAFE_INTEGER)
+})

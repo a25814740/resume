@@ -9,8 +9,12 @@ describe('ProjectsSection', () => {
     vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: true })))
     const wrapper = mount(ProjectsSection)
 
-    expect(wrapper.findAll('.project-strip').at(0)?.attributes('href')).toBe('#projects/wooden-man')
-    expect(wrapper.findAll('.project-strip').at(-1)?.attributes('href')).toBe('#projects/inbox-pilot')
+    expect(works.map((work) => work.id)).toEqual([
+      'inbox-pilot', 'aaady', 'grapeking', '18ranch', 'grobest', 'repon',
+      'yudah-model', 'yudah-art', 'yudah-rm', 'biip-dcc', 'uneec', 'blairsfilm', 'mtr',
+    ])
+    expect(wrapper.findAll('.project-strip').at(0)?.attributes('href')).toBe('#projects/inbox-pilot')
+    expect(wrapper.findAll('.project-strip').at(-1)?.attributes('href')).toBe('#projects/wooden-man')
     expect(wrapper.findAll('.project-strip').at(0)?.attributes('draggable')).toBe('false')
     expect(wrapper.find('.project-strip__ai-icon').attributes()).toMatchObject({
       src: '/images/projects/inbox-pilot-ai-icon.png',
@@ -63,9 +67,9 @@ describe('ProjectsSection', () => {
     await nextTick()
     await wrapper.find('[aria-label="下一個作品"]').trigger('click')
     await nextTick()
-    expect(wrapper.find('.work-detail__copy h2').text()).toBe('葡萄王生技')
+    expect(wrapper.find('.work-detail__copy h2').text()).toBe(works[1].title)
     expect(track.scrollLeft).toBe(260)
-    expect(wrapper.find('.project-strip.is-active').attributes('aria-label')).toContain('葡萄王生技')
+    expect(wrapper.find('.project-strip.is-active').attributes('aria-label')).toContain(works[1].title)
 
     wrapper.unmount()
     vi.unstubAllGlobals()
