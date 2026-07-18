@@ -119,13 +119,13 @@
 
 .project-strip__ai-icon {
   position: absolute;
-  top: -2.45rem;
+  top: calc(50% - 50px);
   left: 50%;
   width: 2.2rem;
   height: 2.2rem;
   object-fit: contain;
   pointer-events: none;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
 }
 
 .project-strip__identity {
