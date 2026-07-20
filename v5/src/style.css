@@ -331,9 +331,17 @@
 }
 .work-gallery__split-overlay.is-settled i { transform: translateY(0); }
 .work-gallery__split-overlay.is-settled { transform: translateX(0) scale(1) rotate(0); }
-.work-gallery__canvas { position: relative; min-height: 100%; margin: 0; overflow: hidden; background: var(--work-overlay); }
-.work-gallery.is-intro .work-gallery__canvas { opacity: 0; }
-.work-gallery img { width: 100%; min-width: 100%; height: auto; min-height: 100%; display: block; object-fit: cover; object-position: top center; transform: scale(1.025); transform-origin: top center; }
+.work-gallery__canvas {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: var(--work-overlay);
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition: opacity .5s ease, transform .7s cubic-bezier(.16, 1, .3, 1);
+}
+.work-gallery__canvas.is-revealed { opacity: 1; transform: translateY(0); }
+.work-gallery img { width: 100%; min-width: 100%; height: auto; display: block; object-fit: cover; object-position: top center; transform: scale(1.025); transform-origin: top center; }
 .work-gallery.is-blairsfilm img { width: 106%; min-width: 106%; margin-left: -5.5%; transform: none; }
 .work-gallery figcaption { position: absolute; right: 1rem; bottom: 1rem; padding: .45rem .55rem; color: #fff; background: color-mix(in srgb, var(--work-overlay) 76%, transparent); font: .62rem 'Fira Code', monospace; letter-spacing: .1em; }
 .work-gallery .is-unavailable::after { content: 'Image unavailable'; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; background: var(--work-overlay); font: .7rem 'Fira Code', monospace; }
@@ -360,7 +368,6 @@
   .work-detail__switch--next { right: .2rem; }
   .work-gallery { overflow: visible; }
   .work-gallery__split-overlay { display: none; }
-  .work-gallery__canvas { min-height: 65svh; }
 }
 @media (min-width: 768px) {
   .projects-wall__track { margin-top: 69px; height: calc(100% - 69px); }
@@ -680,8 +687,6 @@
   .work-detail__counter { right: 50%; bottom: 1.45rem; transform: translateX(50%); }
   .work-gallery { overflow: visible; }
   .work-gallery__split-overlay { display: flex; height: 62svh; margin-bottom: -62svh; }
-  .work-gallery__canvas { min-height: 62svh; }
-  .work-gallery img { min-height: 62svh; }
 }
 
 @media (hover: none) and (pointer: coarse) {

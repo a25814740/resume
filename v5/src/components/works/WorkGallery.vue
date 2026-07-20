@@ -9,10 +9,12 @@ const gallery = ref<HTMLElement | null>(null)
 const showSlices = ref(true)
 const slicesSettled = ref(false)
 const entryMode = ref(true)
+const revealedImageCount = ref(0)
 const isAtEnd = ref(false)
 const sliceCount = 8
 let hideTimer: number | undefined
 let introTimer: number | undefined
+const imageRevealTimers: number[] = []
 
 const galleryScreenshots = computed(() => props.work.galleryImages.length ? props.work.galleryImages : [props.work.coverImage])
 const screenshot = computed(() => galleryScreenshots.value[0])
@@ -25,8 +27,21 @@ function settleSlices(delay = 0) {
       hideTimer = window.setTimeout(() => {
         showSlices.value = false
         entryMode.value = false
+        revealGalleryImages()
       }, delay || 780)
     })
+  })
+}
+
+function revealGalleryImages() {
+  // 第一張由切片遮罩揭露；後續長圖才依序淡入，避免同時出現造成畫面跳動。
+  revealedImageCount.value = Math.min(1, galleryScreenshots.value.length)
+
+  galleryScreenshots.value.slice(1).forEach((_, index) => {
+    const timer = window.setTimeout(() => {
+      revealedImageCount.value = index + 2
+    }, 320 * (index + 1))
+    imageRevealTimers.push(timer)
   })
 }
 
@@ -57,6 +72,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   if (hideTimer) window.clearTimeout(hideTimer)
   if (introTimer) window.clearTimeout(introTimer)
+  imageRevealTimers.forEach((timer) => window.clearTimeout(timer))
 })
 </script>
 
@@ -85,6 +101,7 @@ onBeforeUnmount(() => {
       v-for="(image, index) in galleryScreenshots"
       :key="image"
       class="work-gallery__canvas"
+      :class="{ 'is-revealed': index < revealedImageCount }"
       data-work-media
     >
       <img
