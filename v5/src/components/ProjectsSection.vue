@@ -10,6 +10,8 @@ const isDragging = ref(false)
 const isWheelScrolling = ref(false)
 const openingId = ref<string | null>(null)
 const selectedIndex = ref<number | null>(null)
+const activeSlideIndex = ref(0)
+const isMobileViewport = ref(false)
 const selected = computed<Work | null>(() => selectedIndex.value === null ? null : works[selectedIndex.value])
 const isChangingWork = ref(false)
 const desktopCardWidth = 260
@@ -74,6 +76,40 @@ function getTargetScroll(index: number) {
   return maxScroll > 0 ? Math.min(index * cardWidth, maxScroll) : index * cardWidth
 }
 
+function updateMobileViewport() {
+  isMobileViewport.value = window.matchMedia('(max-width: 767px)').matches
+  if (isMobileViewport.value) updateActiveSlide()
+}
+
+function updateActiveSlide() {
+  const element = track.value
+  if (!element || !isMobileViewport.value) return
+
+  const cards = Array.from(element.querySelectorAll<HTMLElement>('.project-item'))
+  if (!cards.length) return
+  const centeredOffset = element.scrollLeft + element.clientWidth / 2
+  activeSlideIndex.value = cards.reduce((closestIndex, card, index) => {
+    const closestCard = cards[closestIndex]
+    const currentDistance = Math.abs(card.offsetLeft + card.clientWidth / 2 - centeredOffset)
+    const closestDistance = Math.abs(closestCard.offsetLeft + closestCard.clientWidth / 2 - centeredOffset)
+    return currentDistance < closestDistance ? index : closestIndex
+  }, 0)
+}
+
+function moveMobileSlide(direction: -1 | 1) {
+  const element = track.value
+  if (!element) return
+  const nextIndex = Math.max(0, Math.min(activeSlideIndex.value + direction, works.length - 1))
+  const card = element.querySelectorAll<HTMLElement>('.project-item')[nextIndex]
+  if (!card) return
+
+  activeSlideIndex.value = nextIndex
+  const target = Math.max(0, card.offsetLeft - (element.clientWidth - card.clientWidth) / 2)
+  const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+  if (typeof element.scrollTo === 'function') element.scrollTo({ left: target, behavior })
+  else element.scrollLeft = target
+}
+
 function alignSelectedCard(index: number, complete: () => void) {
   const element = track.value
   stopWheelTween()
@@ -102,6 +138,7 @@ function selectWork(work: Work, historyMode: HistoryMode = 'push') {
   // 詳細頁已開啟時，先讓舊內容收起，等卡片移到左側後才帶入新內容。
   if (selectedIndex.value !== null) isChangingWork.value = true
   openingId.value = work.id
+  activeSlideIndex.value = index
   alignSelectedCard(index, () => {
     selectedIndex.value = index
     hoveredId.value = null
@@ -215,10 +252,13 @@ function scrollHorizontally(event: globalThis.WheelEvent) {
 
 onMounted(() => {
   window.addEventListener(workRequestEvent, handleWorkRequest)
+  updateMobileViewport()
+  window.addEventListener('resize', updateMobileViewport)
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener(workRequestEvent, handleWorkRequest)
+  window.removeEventListener('resize', updateMobileViewport)
   releaseCarouselInteraction()
   if (wheelIdleTimer) window.clearTimeout(wheelIdleTimer)
 })
@@ -245,11 +285,17 @@ onBeforeUnmount(() => {
       @pointerup="endDrag"
       @pointercancel="endDrag"
       @wheel="scrollHorizontally"
+      @scroll.passive="updateActiveSlide"
     >
       <section
-        v-for="work in works"
+        v-for="(work, index) in works"
         :key="work.id"
         class="project-item"
+        :class="{
+          'is-active': isMobileViewport && activeSlideIndex === index,
+          'is-before-active': isMobileViewport && index < activeSlideIndex,
+          'is-after-active': isMobileViewport && index > activeSlideIndex,
+        }"
         itemscope
         itemtype="https://schema.org/CreativeWork"
       >
@@ -259,7 +305,11 @@ onBeforeUnmount(() => {
           draggable="false"
           class="project-strip"
           :class="{
-            'is-active': selected ? selected.id === work.id : !isWheelScrolling && hoveredId === work.id,
+            'is-active': selected
+              ? selected.id === work.id
+              : isMobileViewport
+                ? activeSlideIndex === index
+                : !isWheelScrolling && hoveredId === work.id,
             'is-muted': !selected && !isWheelScrolling && hoveredId && hoveredId !== work.id,
           }"
           :style="{ '--project-background': `url(${work.listImage || work.coverImage})` }"
@@ -282,7 +332,10 @@ onBeforeUnmount(() => {
       <div class="projects-wall__end-space" aria-hidden="true"></div>
     </div>
 
-    <p class="projects-wall__hint" aria-hidden="true">HOVER TO EXPLORE · CLICK TO OPEN</p>
+    <nav class="projects-wall__slider-controls" aria-label="切換作品">
+      <button class="projects-wall__slider-arrow projects-wall__slider-arrow--previous" type="button" aria-label="上一張作品卡片" :disabled="activeSlideIndex === 0" @click="moveMobileSlide(-1)">‹</button>
+      <button class="projects-wall__slider-arrow projects-wall__slider-arrow--next" type="button" aria-label="下一張作品卡片" :disabled="activeSlideIndex === works.length - 1" @click="moveMobileSlide(1)">›</button>
+    </nav>
 
     <WorkDetail
       v-if="selected"

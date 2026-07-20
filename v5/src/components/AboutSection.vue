@@ -26,7 +26,7 @@ const teamMembers: TeamMember[] = [
     duties: ['架構覆核', '前端與工程實作', '程式碼審查與驗證建議']
   },
   {
-    id: 'eden', name: 'Eden 仕林', role: '團隊主理人', provider: '人類決策者', reasoning: '依專案需求判斷', image: '/images/ai-team/eden.webp', alt: 'Eden 仕林雙手交叉站立的人像', isBoss: true,
+    id: 'eden', name: 'Eden 仕林', role: '團隊主理人', provider: '決策者', reasoning: '依專案需求判斷', image: '/images/ai-team/eden.webp', alt: 'Eden 仕林雙手交叉站立的人像', isBoss: true,
     bio: '負責確認需求、選擇方向與最後驗收。AI 可以加快整理與實作，但作品該長成什麼樣子，還是由我一起把關。',
     duties: ['確認需求與優先順序', '整合 AI 產出並做取捨', '視覺、內容與成果驗收']
   },
@@ -93,6 +93,17 @@ function centerBossSlide() {
   lineupRef.value.scrollLeft = boss.offsetLeft - (lineupRef.value.clientWidth - boss.clientWidth) / 2
 }
 
+function scrollLineup(direction: -1 | 1) {
+  const lineup = lineupRef.value
+  const slide = lineup?.querySelector<HTMLElement>('.team-overview__member')
+  if (!lineup) return
+  const distance = (slide?.clientWidth ?? lineup.clientWidth * .76) + 12
+  lineup.scrollBy({
+    left: direction * distance,
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+  })
+}
+
 onMounted(() => {
   window.addEventListener('keydown', handleKeydown)
   sectionObserver = new IntersectionObserver(([entry]) => {
@@ -141,12 +152,16 @@ onBeforeUnmount(() => {
             <strong>{{ member.name }}</strong>
             <small>{{ member.role }}</small>
           </span>
+          <div v-if="member.isBoss && isTutorialVisible" class="team-tutorial" aria-hidden="true">
+            <span class="team-tutorial__cursor"></span>
+            <span class="team-tutorial__click"></span>
+          </div>
         </button>
       </div>
 
-      <div v-if="isTutorialVisible" class="team-tutorial" aria-hidden="true">
-        <span class="team-tutorial__cursor"></span>
-        <span class="team-tutorial__click"></span>
+      <div class="team-overview__slider-controls" aria-label="切換團隊成員">
+        <button class="team-overview__slider-arrow team-overview__slider-arrow--previous" type="button" aria-label="上一位團隊成員" @click="scrollLineup(-1)">‹</button>
+        <button class="team-overview__slider-arrow team-overview__slider-arrow--next" type="button" aria-label="下一位團隊成員" @click="scrollLineup(1)">›</button>
       </div>
     </div>
 
@@ -247,6 +262,7 @@ onBeforeUnmount(() => {
 @keyframes teamIntroArrive { to { opacity: 1; transform: translate(-50%, 0); } }
 
 .team-overview__lineup { position: absolute; bottom: clamp(2rem, 9vh, 5.5rem); left: 50%; display: flex; align-items: end; justify-content: center; width: min(54rem, calc(100% - 2rem)); height: min(40vh, 24rem); transform: translateX(-50%); }
+.team-overview__slider-controls { display: none; }
 .team-overview__member { position: relative; flex: 1 1 0; align-self: stretch; min-width: 0; border: 0; padding: 0; color: inherit; cursor: pointer; background: transparent; opacity: 0; transform: translateY(-4rem) scale(.12); transform-origin: center bottom; transition: opacity .35s ease, filter .35s ease, transform .48s cubic-bezier(.16, 1, .3, 1); }
 .team-section--visible .team-overview__member { opacity: 1; transform: translateY(0) scale(1); animation: teamMemberArrive .72s cubic-bezier(.16, 1, .3, 1) backwards; }
 .team-section--visible .team-overview__member:nth-child(3) { animation-delay: .12s; }
@@ -272,14 +288,13 @@ onBeforeUnmount(() => {
 }
 .team-overview__member:hover .team-overview__figure > img:first-child, .team-overview__member:focus-visible .team-overview__figure > img:first-child { filter: drop-shadow(0 .8rem .7rem rgba(42, 56, 75, .24)); }
 .team-tutorial { --tutorial-target-x: 50%; --tutorial-target-y: 61%; position: absolute; z-index: 6; inset: 0; pointer-events: none; }
-.team-tutorial__cursor { position: absolute; z-index: 2; top: 45%; left: 82%; width: 3.25rem; aspect-ratio: 1; opacity: 0; background: url('/images/ai-team/ragnarok-normal-select-sprite.png') 0 50% / 600% 100% no-repeat; filter: drop-shadow(0 .35rem .45rem rgba(67, 56, 202, .28)); image-rendering: pixelated; transform-origin: 0 0; will-change: transform, opacity, background-position; animation: tutorialCursor 6.2s cubic-bezier(.45, 0, .25, 1) 2, tutorialCursorFrame .6s steps(6, end) infinite; }
-.team-tutorial__click { position: absolute; z-index: 1; top: var(--tutorial-target-y); left: var(--tutorial-target-x); width: 2.65rem; height: 2.65rem; border: 2px solid #a78bfa; border-radius: 50%; opacity: 0; background: radial-gradient(circle, rgba(103, 232, 249, .58) 0 28%, rgba(167, 139, 250, .2) 30% 54%, transparent 56%); box-shadow: 0 0 0 .35rem rgba(167, 139, 250, .12), 0 0 1.2rem rgba(103, 232, 249, .28); transform: translate(-50%, -50%) scale(.2); animation: tutorialClick 6.2s cubic-bezier(.16, 1, .3, 1) 2; }
+.team-tutorial__cursor { position: absolute; z-index: 2; top: 45%; left: 82%; width: 3.25rem; aspect-ratio: 1; opacity: 0; background: url('/images/ai-team/ragnarok-normal-select-sprite.png') 0 50% / 600% 100% no-repeat; filter: drop-shadow(0 .35rem .45rem rgba(67, 56, 202, .28)); image-rendering: pixelated; transform-origin: 0 0; will-change: transform, opacity; animation: tutorialCursor 2.02s linear 3; }
+.team-tutorial__click { position: absolute; z-index: 1; top: var(--tutorial-target-y); left: var(--tutorial-target-x); width: 2.65rem; height: 2.65rem; border: 2px solid #a78bfa; border-radius: 50%; opacity: 0; background: radial-gradient(circle, rgba(103, 232, 249, .58) 0 28%, rgba(167, 139, 250, .2) 30% 54%, transparent 56%); box-shadow: 0 0 0 .35rem rgba(167, 139, 250, .12), 0 0 1.2rem rgba(103, 232, 249, .28); transform: translate(-50%, -50%) scale(.2); animation: tutorialClick 2.02s linear 3; }
 .team-tutorial__click::before,
 .team-tutorial__click::after { position: absolute; inset: 18%; border: 1.5px solid #67e8f9; border-radius: inherit; content: ''; }
 .team-tutorial__click::after { inset: -32%; border-color: rgba(192, 132, 252, .72); }
-@keyframes tutorialCursor { 0%, 8% { top: 45%; left: 82%; opacity: 0; transform: scale(.62); } 15% { opacity: 1; } 40% { top: var(--tutorial-target-y); left: var(--tutorial-target-x); opacity: 1; transform: scale(1); } 47% { top: var(--tutorial-target-y); left: var(--tutorial-target-x); opacity: 1; transform: scale(.8); } 55%, 76% { top: var(--tutorial-target-y); left: var(--tutorial-target-x); opacity: 1; transform: scale(1); } 92%, 100% { top: var(--tutorial-target-y); left: var(--tutorial-target-x); opacity: 0; transform: scale(.7); } }
-@keyframes tutorialCursorFrame { to { background-position-x: 100%; } }
-@keyframes tutorialClick { 0%, 39% { opacity: 0; transform: translate(-50%, -50%) scale(.2); } 43%, 49% { opacity: 1; transform: translate(-50%, -50%) scale(.58); } 61% { opacity: .7; transform: translate(-50%, -50%) scale(1.28); } 76%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(2.35); } }
+@keyframes tutorialCursor { 0% { top: 45%; left: 82%; opacity: 0; transform: scale(.72); } 5% { opacity: 1; animation-timing-function: cubic-bezier(.16, 1, .3, 1); } 27% { top: var(--tutorial-target-y); left: var(--tutorial-target-x); opacity: 1; transform: scale(1); animation-timing-function: cubic-bezier(.16, 1, .3, 1); } 33% { top: var(--tutorial-target-y); left: var(--tutorial-target-x); opacity: 1; transform: scale(.9); } 49% { top: var(--tutorial-target-y); left: var(--tutorial-target-x); opacity: 1; transform: scale(1); animation-timing-function: ease-out; } 75%, 100% { top: var(--tutorial-target-y); left: var(--tutorial-target-x); opacity: 0; transform: scale(.92); } }
+@keyframes tutorialClick { 0%, 34% { opacity: 0; transform: translate(-50%, -50%) scale(.2); } 40% { opacity: 1; transform: translate(-50%, -50%) scale(.58); animation-timing-function: cubic-bezier(.16, 1, .3, 1); } 54% { opacity: .7; transform: translate(-50%, -50%) scale(1.28); } 75%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(2.35); } }
 .team-overview__label { position: absolute; z-index: 4; bottom: 0; left: 50%; display: grid; gap: .28rem; width: max-content; max-width: 11rem; text-align: center; opacity: 1; transform: translate(-50%, 0); transition: opacity .25s ease, color .25s ease, transform .25s ease; }
 .team-overview__label strong { color: #273449; font-size: .875rem; line-height: 1.5; }
 .team-overview__label small { color: #637186; font-size: .75rem; line-height: 1.6; }
@@ -393,6 +408,11 @@ onBeforeUnmount(() => {
     transform: none;
   }
   .team-overview__lineup::-webkit-scrollbar { display: none; }
+  .team-overview__slider-controls { position: absolute; z-index: 7; top: 56%; right: 0; left: 0; display: contents; pointer-events: none; }
+  .team-overview__slider-arrow { position: absolute; top: 56%; z-index: 7; display: grid; width: 2.8rem; height: 2.8rem; place-items: center; border: 1px solid rgba(37, 60, 92, .34); border-radius: 50%; padding: 0 0 .18rem; color: #1f3858; font-size: 2.35rem; font-weight: 400; line-height: 1; cursor: pointer; pointer-events: auto; background: rgba(255, 255, 255, .9); box-shadow: 0 .25rem .75rem rgba(37, 60, 92, .2); transform: translateY(-50%); transition: color .2s ease, background .2s ease, box-shadow .2s ease, transform .2s ease; }
+  .team-overview__slider-arrow--previous { left: .45rem; }
+  .team-overview__slider-arrow--next { right: .45rem; }
+  .team-overview__slider-arrow:hover, .team-overview__slider-arrow:focus-visible { outline: none; color: #fff; background: #e05a3f; box-shadow: 0 .35rem 1rem rgba(224, 90, 63, .34); transform: translateY(-50%) scale(1.08); }
   .team-overview__member { flex: 0 0 min(76vw, 18rem); scroll-snap-align: center; }
   .team-overview__figure > img { bottom: 5.5rem; width: 11rem; height: calc(100% - 3.5rem); }
   .team-overview__label { display: grid; gap: .2rem; width: min(15rem, 88%); max-width: 100%; bottom: .75rem; }

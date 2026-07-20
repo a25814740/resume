@@ -204,6 +204,8 @@ html, body {
 .app-shell,
 .site-scroll { height: 100dvh; }
 
+.section-frame--projects { padding-top: var(--site-header-height, 69px); }
+
 @media (max-width: 767px) {
   .app-shell,
   .site-scroll { min-height: 100dvh; }

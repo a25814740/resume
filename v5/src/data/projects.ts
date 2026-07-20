@@ -18,7 +18,7 @@ export type Work = {
   listImage?: string
   isAiProject?: boolean
   galleryImages: string[]
-  link: string
+  link?: string
   tech: string[]
   vibeCoding?: string[]
   theme: WorkTheme
@@ -46,6 +46,36 @@ const projectOrder = new Map([
 ].map((id, index) => [id, index]))
 
 export const works: Work[] = [
+  {
+    id: 'taboard', slug: 'taboard', title: 'Taboard', category: 'AI PRODUCTIVITY TOOL',
+    description: '將零散分頁收進可視化工作空間的 Chrome 工具，以 AI 協助分類、搜尋與整理，讓每次重新打開瀏覽器都能更快回到正在處理的事情。',
+    coverImage: '/images/projects/taboard-cover.png', listImage: '/images/projects/taboard-cover.png', isAiProject: true,
+    // 依素材檔名由小到大排列，保留產品介紹與操作畫面的閱讀順序。
+    galleryImages: [
+      '/images/projects/taboard-1.png',
+      '/images/projects/taboard-2.png',
+    ],
+    tech: ['Chrome Extension', 'React', 'TypeScript', 'Tailwind CSS'],
+    vibeCoding: ['ChatGPT / Codex', 'Gemini / Antigravity'],
+    theme: { background: '#f5f4ff', surface: '#ffffff', text: '#15133b', mutedText: '#625f83', accent: '#6857ff', overlay: '#e7e3ff', headerBackground: '#f5f4ff' },
+  },
+  {
+    id: 'autopo-ai', slug: 'autopo-ai', title: 'AutoPo AI', category: 'AI CONTENT AUTOMATION',
+    description: '為 Threads 創作者打造的內容工作台，將靈感整理、AI 草稿、品牌語氣、排程與發布流程收進同一個介面，讓穩定產出不必再靠靈感硬撐。',
+    coverImage: '/images/projects/autopo-ai-cover.png', listImage: '/images/projects/autopo-ai-cover.png', isAiProject: true,
+    // 依素材檔名由小到大排列，確保右側作品截圖的閱讀順序與原始素材一致。
+    galleryImages: [
+      '/images/projects/autopo-ai-1.png',
+      '/images/projects/autopo-ai-2.png',
+      '/images/projects/autopo-ai-3.png',
+      '/images/projects/autopo-ai-4.png',
+      '/images/projects/autopo-ai-5.png',
+    ],
+    link: 'http://localhost:31011/',
+    tech: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
+    vibeCoding: ['ChatGPT / Codex', 'Gemini / Antigravity'],
+    theme: { background: '#061411', surface: '#edf9f4', text: '#eefdf7', mutedText: '#b3d7ca', accent: '#35e6ad', overlay: '#020a08', headerBackground: '#071b16' },
+  },
   {
     id: 'mtr', slug: 'wooden-man', title: '木頭人', category: 'WEB DESIGN',
     description: '以木頭人路由器為核心，整理產品特色、最新產品與 VPN 使用說明，透過清楚的單頁節奏建立簡潔、容易閱讀的產品網站。',
