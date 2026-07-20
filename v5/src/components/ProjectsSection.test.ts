@@ -10,16 +10,40 @@ describe('ProjectsSection', () => {
     const wrapper = mount(ProjectsSection)
 
     expect(works.map((work) => work.id)).toEqual([
-      'inbox-pilot', 'aaady', 'grapeking', '18ranch', 'grobest', 'repon',
+      'taboard', 'autopo-ai', 'inbox-pilot', 'aaady', 'grapeking', '18ranch', 'grobest', 'repon',
       'yudah-model', 'yudah-art', 'yudah-rm', 'biip-dcc', 'uneec', 'blairsfilm', 'mtr',
     ])
-    expect(wrapper.findAll('.project-strip').at(0)?.attributes('href')).toBe('#projects/inbox-pilot')
+    expect(wrapper.findAll('.project-strip').at(0)?.attributes('href')).toBe('#projects/taboard')
     expect(wrapper.findAll('.project-strip').at(-1)?.attributes('href')).toBe('#projects/wooden-man')
     expect(wrapper.findAll('.project-strip').at(0)?.attributes('draggable')).toBe('false')
+    expect(wrapper.findAll('.project-strip__ai-icon')).toHaveLength(3)
     expect(wrapper.find('.project-strip__ai-icon').attributes()).toMatchObject({
       src: '/images/projects/inbox-pilot-ai-icon.png',
       alt: 'AI 製作專案',
     })
+    expect(works.find((work) => work.id === 'autopo-ai')?.galleryImages).toEqual([
+      '/images/projects/autopo-ai-1.png',
+      '/images/projects/autopo-ai-2.png',
+      '/images/projects/autopo-ai-3.png',
+      '/images/projects/autopo-ai-4.png',
+      '/images/projects/autopo-ai-5.png',
+    ])
+    expect(works.find((work) => work.id === 'autopo-ai')?.tech).toEqual([
+      'Next.js', 'React', 'TypeScript', 'Tailwind CSS',
+    ])
+    expect(works.find((work) => work.id === 'autopo-ai')?.vibeCoding).toEqual([
+      'ChatGPT / Codex', 'Gemini / Antigravity',
+    ])
+    expect(works.find((work) => work.id === 'taboard')?.galleryImages).toEqual([
+      '/images/projects/taboard-1.png',
+      '/images/projects/taboard-2.png',
+    ])
+    expect(works.find((work) => work.id === 'taboard')?.tech).toEqual([
+      'Chrome Extension', 'React', 'TypeScript', 'Tailwind CSS',
+    ])
+    expect(works.find((work) => work.id === 'taboard')?.vibeCoding).toEqual([
+      'ChatGPT / Codex', 'Gemini / Antigravity',
+    ])
     expect(works.find((work) => work.id === 'inbox-pilot')?.tech).toEqual(['Next.js', 'React', 'Tailwind CSS', 'Vercel'])
     expect(works.find((work) => work.id === 'inbox-pilot')?.vibeCoding).toEqual([
       'ChatGPT / Codex',

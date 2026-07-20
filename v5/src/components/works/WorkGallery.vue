@@ -111,7 +111,7 @@ onBeforeUnmount(() => {
         decoding="async"
         @error="handleImageError"
       />
-      <figcaption>FULL HOMEPAGE CAPTURE {{ galleryScreenshots.length > 1 ? `${index + 1} / ${galleryScreenshots.length}` : '' }}</figcaption>
+      <figcaption v-if="galleryScreenshots.length > 1">{{ index + 1 }} / {{ galleryScreenshots.length }}</figcaption>
     </figure>
     <!-- 只有多張截圖需要銜接時才保留收尾效果，單張長圖不額外留空白。 -->
     <div v-if="galleryScreenshots.length > 1" class="work-gallery__end-cap" aria-hidden="true"></div>
