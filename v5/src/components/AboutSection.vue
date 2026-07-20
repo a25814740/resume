@@ -134,6 +134,19 @@ onBeforeUnmount(() => {
       </div>
 
       <div v-if="isTutorialVisible" class="team-tutorial" aria-hidden="true">
+        <span class="team-tutorial__cursor">
+          <svg viewBox="0 0 48 58" focusable="false">
+            <defs>
+              <linearGradient id="team-cursor-gradient" x1="6" y1="4" x2="43" y2="55" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#c084fc" />
+                <stop offset=".55" stop-color="#a78bfa" />
+                <stop offset="1" stop-color="#67e8f9" />
+              </linearGradient>
+            </defs>
+            <path d="M6 3 43 38 27 41 21 55 6 3Z" fill="url(#team-cursor-gradient)" stroke="#f8fafc" stroke-width="2.5" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <span class="team-tutorial__click"></span>
         <span class="team-tutorial__hint">滑動瀏覽・點擊查看分工</span>
       </div>
     </div>
@@ -264,8 +277,16 @@ onBeforeUnmount(() => {
 .team-overview__member:hover .team-overview__target,
 .team-overview__member:focus-visible .team-overview__target { --target-rest-scale: 1.04; --target-beat-scale: 1.32; animation-duration: .72s; }
 .team-tutorial { position: absolute; z-index: 6; inset: 0; pointer-events: none; }
+.team-tutorial__cursor { position: absolute; z-index: 2; top: 45%; left: 50%; width: 3rem; height: 3.625rem; opacity: 0; filter: drop-shadow(0 .35rem .45rem rgba(67, 56, 202, .24)); transform-origin: 13% 8%; animation: tutorialCursor 6.2s cubic-bezier(.45, 0, .25, 1) 2; }
+.team-tutorial__cursor svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.team-tutorial__click { position: absolute; z-index: 1; top: 81.5%; left: 26%; width: 2.65rem; height: 2.65rem; border: 2px solid #a78bfa; border-radius: 50%; opacity: 0; background: radial-gradient(circle, rgba(103, 232, 249, .58) 0 28%, rgba(167, 139, 250, .2) 30% 54%, transparent 56%); box-shadow: 0 0 0 .35rem rgba(167, 139, 250, .12), 0 0 1.2rem rgba(103, 232, 249, .28); transform: translate(-50%, -50%) scale(.2); animation: tutorialClick 6.2s cubic-bezier(.16, 1, .3, 1) 2; }
+.team-tutorial__click::before,
+.team-tutorial__click::after { position: absolute; inset: 18%; border: 1.5px solid #67e8f9; border-radius: inherit; content: ''; }
+.team-tutorial__click::after { inset: -32%; border-color: rgba(192, 132, 252, .72); }
 .team-tutorial__hint { position: absolute; left: 50%; bottom: 2.5rem; padding: .45rem .75rem; color: #526276; border: 1px solid rgba(82, 98, 118, .25); border-radius: 999px; background: rgba(255,255,255,.7); font: 500 .75rem/1.4 'Noto Sans TC', sans-serif; opacity: 0; animation: tutorialHint 6s ease 2; }
 @keyframes teamTargetHeartbeat { 0%, 100% { opacity: .65; transform: translateX(-50%) scale(var(--target-rest-scale)); box-shadow: 0 0 0 0 rgba(224,90,63,.22); } 45% { opacity: 1; transform: translateX(-50%) scale(var(--target-beat-scale)); box-shadow: 0 0 0 .65rem rgba(224,90,63,0); } }
+@keyframes tutorialCursor { 0%, 8% { top: 45%; left: 50%; opacity: 0; transform: rotate(-8deg) scale(.62); } 15% { opacity: 1; } 40% { top: 75%; left: 23%; opacity: 1; transform: rotate(-8deg) scale(1); } 47% { top: 75%; left: 23%; opacity: 1; transform: rotate(-8deg) scale(.78); } 55%, 76% { top: 75%; left: 23%; opacity: 1; transform: rotate(-8deg) scale(1); } 92%, 100% { top: 75%; left: 23%; opacity: 0; transform: rotate(-8deg) scale(.7); } }
+@keyframes tutorialClick { 0%, 39% { opacity: 0; transform: translate(-50%, -50%) scale(.2); } 43%, 49% { opacity: 1; transform: translate(-50%, -50%) scale(.58); } 61% { opacity: .7; transform: translate(-50%, -50%) scale(1.28); } 76%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(2.35); } }
 @keyframes tutorialHint { 0%, 72% { opacity: 0; transform: translateY(.4rem); } 82%, 94% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-.2rem); } }
 .team-overview__label { position: absolute; z-index: 4; bottom: 0; left: 50%; display: grid; gap: .28rem; width: max-content; max-width: 11rem; text-align: center; opacity: 1; transform: translate(-50%, 0); transition: opacity .25s ease, color .25s ease, transform .25s ease; }
 .team-overview__label strong { color: #273449; font-size: .875rem; line-height: 1.5; }
@@ -387,6 +408,8 @@ onBeforeUnmount(() => {
   .team-overview__label strong { font-size: .875rem; }
   .team-overview__label small { font-size: .75rem; line-height: 1.45; }
   .team-overview__label b { padding: .2rem .35rem; font-size: .75rem; }
+  .team-tutorial__cursor { animation-name: tutorialCursorMobile; }
+  .team-tutorial__click { top: 82%; left: 50%; animation-name: tutorialClickMobile; }
   .team-tutorial__hint { right: 1rem; bottom: .65rem; left: auto; font-size: .75rem; }
   .team-profile { position: fixed; grid-template-columns: 1fr; align-content: start; gap: 0; width: 100vw; height: 100dvh; padding: max(3.75rem, env(safe-area-inset-top)) 1.25rem max(1.5rem, env(safe-area-inset-bottom)); overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; }
   .team-profile__sweep { width: 280vw; height: 135vw; }
@@ -435,6 +458,9 @@ onBeforeUnmount(() => {
   76% { height: 135vw; opacity: 1; transform: translate(-50%, -50%) rotate(35deg); animation-timing-function: cubic-bezier(.77, 0, .175, 1); }
   100% { height: 135vw; opacity: 1; transform: translate(-50%, -50%) rotate(145deg); }
 }
+
+@keyframes tutorialCursorMobile { 0%, 8% { top: 45%; left: 50%; opacity: 0; transform: rotate(-8deg) scale(.62); } 15% { opacity: 1; } 40% { top: 75%; left: 47%; opacity: 1; transform: rotate(-8deg) scale(1); } 47% { top: 75%; left: 47%; opacity: 1; transform: rotate(-8deg) scale(.78); } 55%, 76% { top: 75%; left: 47%; opacity: 1; transform: rotate(-8deg) scale(1); } 92%, 100% { top: 75%; left: 47%; opacity: 0; transform: rotate(-8deg) scale(.7); } }
+@keyframes tutorialClickMobile { 0%, 39% { opacity: 0; transform: translate(-50%, -50%) scale(.2); } 43%, 49% { opacity: 1; transform: translate(-50%, -50%) scale(.58); } 61% { opacity: .7; transform: translate(-50%, -50%) scale(1.28); } 76%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(2.35); } }
 
 @media (hover: none) and (pointer: coarse) {
   .team-overview__member:hover { transform: translateY(0) scale(1); }
