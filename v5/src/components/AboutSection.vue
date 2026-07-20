@@ -134,7 +134,6 @@ onBeforeUnmount(() => {
       </div>
 
       <div v-if="isTutorialVisible" class="team-tutorial" aria-hidden="true">
-        <span class="team-tutorial__cursor">↖</span>
         <span class="team-tutorial__hint">滑動瀏覽・點擊查看分工</span>
       </div>
     </div>
@@ -260,13 +259,13 @@ onBeforeUnmount(() => {
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 70%, rgba(0, 0, 0, .88) 77%, rgba(0, 0, 0, .38) 86%, transparent 94%, transparent 100%);
 }
 .team-overview__member:hover .team-overview__figure > img:first-child, .team-overview__member:focus-visible .team-overview__figure > img:first-child { filter: drop-shadow(0 .8rem .7rem rgba(42, 56, 75, .24)); }
-.team-overview__target { position: absolute; z-index: 3; bottom: 4.5rem; left: 50%; width: 1.6rem; height: 1.6rem; border: 1px solid rgba(224, 90, 63, .78); border-radius: 50%; transform: translateX(-50%); animation: teamTargetHeartbeat 1.8s ease-in-out infinite; }
+.team-overview__target { --target-rest-scale: .92; --target-beat-scale: 1.08; position: absolute; z-index: 3; bottom: 4.5rem; left: 50%; width: 1.6rem; height: 1.6rem; border: 1px solid rgba(224, 90, 63, .78); border-radius: 50%; transform: translateX(-50%); animation: teamTargetHeartbeat 1.8s ease-in-out infinite; }
 .team-overview__target::after { position: absolute; inset: .35rem; border: 1px solid rgba(224, 90, 63, .7); border-radius: inherit; content: ''; }
+.team-overview__member:hover .team-overview__target,
+.team-overview__member:focus-visible .team-overview__target { --target-rest-scale: 1.04; --target-beat-scale: 1.32; animation-duration: .72s; }
 .team-tutorial { position: absolute; z-index: 6; inset: 0; pointer-events: none; }
-.team-tutorial__cursor { position: absolute; top: 45%; left: 50%; color: #1f2937; font: 2.4rem/1 Arial, sans-serif; text-shadow: 0 1px 0 #fff; opacity: 0; animation: tutorialCursor 6s cubic-bezier(.45, 0, .25, 1) 2; }
 .team-tutorial__hint { position: absolute; left: 50%; bottom: 2.5rem; padding: .45rem .75rem; color: #526276; border: 1px solid rgba(82, 98, 118, .25); border-radius: 999px; background: rgba(255,255,255,.7); font: 500 .75rem/1.4 'Noto Sans TC', sans-serif; opacity: 0; animation: tutorialHint 6s ease 2; }
-@keyframes teamTargetHeartbeat { 0%, 100% { opacity: .65; transform: translateX(-50%) scale(.92); box-shadow: 0 0 0 0 rgba(224,90,63,.22); } 45% { opacity: 1; transform: translateX(-50%) scale(1.08); box-shadow: 0 0 0 .65rem rgba(224,90,63,0); } }
-@keyframes tutorialCursor { 0%, 8% { opacity: 0; left: 50%; top: 45%; transform: scale(.7); } 15% { opacity: 1; } 42% { opacity: 1; left: 10%; top: 66%; transform: scale(1); } 49% { opacity: 1; left: 10%; top: 66%; transform: scale(.75); } 56% { opacity: 1; left: 10%; top: 66%; transform: scale(1); } 76% { opacity: 1; } 92%, 100% { opacity: 0; left: 10%; top: 66%; transform: scale(.7); } }
+@keyframes teamTargetHeartbeat { 0%, 100% { opacity: .65; transform: translateX(-50%) scale(var(--target-rest-scale)); box-shadow: 0 0 0 0 rgba(224,90,63,.22); } 45% { opacity: 1; transform: translateX(-50%) scale(var(--target-beat-scale)); box-shadow: 0 0 0 .65rem rgba(224,90,63,0); } }
 @keyframes tutorialHint { 0%, 72% { opacity: 0; transform: translateY(.4rem); } 82%, 94% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-.2rem); } }
 .team-overview__label { position: absolute; z-index: 4; bottom: 0; left: 50%; display: grid; gap: .28rem; width: max-content; max-width: 11rem; text-align: center; opacity: 1; transform: translate(-50%, 0); transition: opacity .25s ease, color .25s ease, transform .25s ease; }
 .team-overview__label strong { color: #273449; font-size: .875rem; line-height: 1.5; }
@@ -388,7 +387,6 @@ onBeforeUnmount(() => {
   .team-overview__label strong { font-size: .875rem; }
   .team-overview__label small { font-size: .75rem; line-height: 1.45; }
   .team-overview__label b { padding: .2rem .35rem; font-size: .75rem; }
-  .team-tutorial__cursor { display: none; }
   .team-tutorial__hint { right: 1rem; bottom: .65rem; left: auto; font-size: .75rem; }
   .team-profile { position: fixed; grid-template-columns: 1fr; align-content: start; gap: 0; width: 100vw; height: 100dvh; padding: max(3.75rem, env(safe-area-inset-top)) 1.25rem max(1.5rem, env(safe-area-inset-bottom)); overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; }
   .team-profile__sweep { width: 280vw; height: 135vw; }
@@ -441,6 +439,7 @@ onBeforeUnmount(() => {
 @media (hover: none) and (pointer: coarse) {
   .team-overview__member:hover { transform: translateY(0) scale(1); }
   .team-overview__lineup:has(.team-overview__member:hover) .team-overview__member:not(:hover) { opacity: 1; filter: none; }
+  .team-overview__member:hover .team-overview__target { --target-rest-scale: .92; --target-beat-scale: 1.08; animation-duration: 1.8s; }
 }
 
 @media (min-width: 761px) and (max-width: 900px) and (max-height: 600px) {
