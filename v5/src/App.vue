@@ -205,9 +205,13 @@ html, body {
 .site-scroll { height: 100dvh; }
 
 @media (max-width: 767px) {
+  .app-shell,
+  .site-scroll { min-height: 100dvh; }
+
   .site-scroll {
     scroll-snap-type: y proximity !important;
     scroll-padding-top: 4.5rem;
+    overscroll-behavior-y: contain;
   }
 
   .section-frame {
@@ -219,6 +223,9 @@ html, body {
   .section-frame--home,
   .section-frame--about,
   .section-frame--projects { min-height: 100svh; }
+
+  footer { padding: 2.5rem 1.25rem max(2.5rem, env(safe-area-inset-bottom)); }
+  footer p { overflow-wrap: anywhere; }
 }
 
 @media (min-width: 768px) and (max-width: 900px) and (max-height: 600px) {

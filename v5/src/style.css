@@ -594,7 +594,8 @@
 
 @media (max-width: 767px) {
   html { min-width: 320px; }
-  body { font-size: 16px; }
+  body { font-size: 16px; overscroll-behavior-y: none; }
+  a, button { -webkit-tap-highlight-color: transparent; }
 
   .home-section {
     min-height: 100svh;
@@ -609,7 +610,8 @@
     padding: 6.5rem 1.25rem 4.5rem;
   }
   .home-copy { gap: 1.25rem; width: 100%; }
-  .home-copy h1 { overflow-wrap: anywhere; }
+  .home-copy h1 { overflow-wrap: anywhere; text-wrap: balance; }
+  .home-copy h1 > span:first-child { display: block; margin-bottom: .25rem; }
   .home-copy h1 .gradient-text,
   .home-copy h1 .cursor-blink { font-size: clamp(2.25rem, 12vw, 3.4rem); }
   .home-copy > p { font-size: 1rem; }
@@ -631,7 +633,7 @@
   .skills-section { min-height: 0; padding: 5.5rem 0 4rem; }
   .skills-container { padding-inline: 1rem; }
   .skills-section .section-heading { margin-bottom: 2.75rem; }
-  .skills-section .section-heading h2 { font-size: clamp(2rem, 10vw, 2.75rem); }
+  .skills-section .section-heading h2 { font-size: clamp(2rem, 10vw, 2.75rem); text-wrap: balance; }
   .skills-section .section-heading p:last-child { font-size: .9375rem; line-height: 1.8; }
   .skills-grid { gap: 1rem; }
   .skill-category { padding: 1.25rem; border-radius: 1.25rem; }
@@ -641,13 +643,14 @@
   .skill-bar-fill { height: 10px; }
 
   .projects-wall { height: 100svh; min-height: 38rem; }
+  .projects-wall__track { scroll-snap-type: x mandatory; scroll-padding-inline: 8vw; touch-action: pan-y pinch-zoom; }
   .project-item {
     flex: 0 0 min(84vw, 20rem);
     width: min(84vw, 20rem);
     min-width: min(84vw, 20rem);
     scroll-snap-align: start;
   }
-  .project-strip { width: 100%; }
+  .project-strip { width: 100%; background-size: cover; }
   .projects-wall__end-space {
     flex-basis: calc(100vw - min(84vw, 20rem));
     min-width: calc(100vw - min(84vw, 20rem));
@@ -687,6 +690,17 @@
   .work-detail__counter { right: 50%; bottom: 1.45rem; transform: translateX(50%); }
   .work-gallery { overflow: visible; }
   .work-gallery__split-overlay { display: flex; height: 62svh; margin-bottom: -62svh; }
+}
+
+@media (max-width: 374px) {
+  .home-layout { gap: 2.25rem; padding-inline: 1rem; }
+  .home-copy > div:last-child { grid-template-columns: 1fr; }
+  .home-avatar { width: min(74vw, 15rem); height: min(74vw, 15rem); }
+  .skills-container { padding-inline: .875rem; }
+  .skill-category { padding: 1rem; }
+  .project-item { flex-basis: 86vw; width: 86vw; min-width: 86vw; }
+  .projects-wall__end-space { flex-basis: 14vw; min-width: 14vw; }
+  .work-detail__copy { padding-inline: 1.125rem; }
 }
 
 @media (hover: none) and (pointer: coarse) {

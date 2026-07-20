@@ -207,6 +207,19 @@ onBeforeUnmount(() => {
   .timeline-dot { left: 50%; }
 }
 
+/* 平板直向空間不足以同時維持雙欄時間線與可讀的中文段落，改用單欄敘事。 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .experience-section { height: auto; min-height: 100svh; padding: 7.5rem 0 5rem; overflow: visible; }
+  .experience-container { padding-inline: 2rem; }
+  .timeline-line,
+  .timeline-dot { left: 2rem; }
+  .timeline-item { flex-direction: column !important; }
+  .timeline-item > .hidden.md\:block { display: none !important; }
+  .content-card { width: calc(100% - 4rem) !important; margin-right: 0 !important; margin-left: 4rem !important; }
+  .timeline-observing .timeline-item:not(.in-view):nth-child(odd) .content-card,
+  .timeline-observing .timeline-item:not(.in-view):nth-child(even) .content-card { transform: translateX(1.5rem); }
+}
+
 @media (max-width: 767px) {
   .experience-section { height: auto; min-height: 100svh; padding: 5.5rem 0 4rem; overflow: visible; }
   .experience-container { padding-inline: 1rem; }

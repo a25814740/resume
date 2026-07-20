@@ -381,11 +381,11 @@ onBeforeUnmount(() => {
     transform: none;
   }
   .team-overview__lineup::-webkit-scrollbar { display: none; }
-  .team-overview__member { flex: 0 0 9.5rem; scroll-snap-align: center; }
+  .team-overview__member { flex: 0 0 min(76vw, 18rem); scroll-snap-align: center; }
   .team-overview__figure > img { bottom: 5.5rem; width: 11rem; height: calc(100% - 3.5rem); }
   .team-overview__target { bottom: 5.35rem; }
-  .team-overview__label { display: grid; gap: .2rem; width: 9rem; max-width: 100%; bottom: .75rem; }
-  .team-overview__label strong { font-size: .75rem; }
+  .team-overview__label { display: grid; gap: .2rem; width: min(15rem, 88%); max-width: 100%; bottom: .75rem; }
+  .team-overview__label strong { font-size: .875rem; }
   .team-overview__label small { font-size: .75rem; line-height: 1.45; }
   .team-overview__label b { padding: .2rem .35rem; font-size: .75rem; }
   .team-tutorial__cursor { display: none; }
@@ -403,6 +403,31 @@ onBeforeUnmount(() => {
   .team-profile__arrow--next { right: .15rem; }
   .team-profile dl { grid-template-columns: 1fr; gap: .85rem; }
   .profile-view-enter-active .team-profile__sweep { animation-name: profileParallelogramInMobile; }
+}
+
+/* 觸控裝置通常以捲動直接進入此段，避免人物與標題被長時間入場動畫完全隱藏。 */
+@media (max-width: 1023px) {
+  .team-overview__intro,
+  .team-section--visible .team-overview__intro {
+    opacity: 1;
+    transform: translateX(-50%);
+    animation: none;
+  }
+  .team-overview__member,
+  .team-section--visible .team-overview__member {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: none;
+  }
+}
+
+@media (max-width: 374px) {
+  .team-section { min-height: 100svh; }
+  .team-overview__intro { top: 4.8rem; }
+  .team-overview__lineup { top: 10.75rem; }
+  .team-overview__member { flex-basis: 82vw; }
+  .team-profile { padding-inline: 1rem; }
+  .team-profile__content h3 { font-size: clamp(2.35rem, 12vw, 3.4rem); }
 }
 
 @keyframes profileParallelogramInMobile {
