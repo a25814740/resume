@@ -2,24 +2,24 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 
 const experiences = [
-  {
-    period: '2025/06 ~ 現在',
-    role: '足體按摩師（自學 AI 應用期）',
-    company: '人蔘養生館',
-    isCurrent: true,
-    color: '#c084fc',
-    desc: '在職期間持續自學 AI 工具，將多年前端工程背景重新整合為 AI 應用開發能力。實作 AI 輔助開發流程，包含需求拆解、Prompt 撰寫、邏輯規劃、Bug 修正、功能測試。',
-    achievements: ['Agentic Coding 實務應用', 'AI 工作流整合與優化', '個人形象網站全棧開發']
-  },
-  {
-    period: '2023/11 ~ 2025/06',
-    role: '足體按摩師',
-    company: '湯村足體養生館',
-    isCurrent: false,
-    color: '#a78bfa',
-    desc: '服務業第一線，培養溝通能力、問題判斷力與耐心。同期持續進修 AI 應用，逐步整合 ChatGPT、Codex、Gemini 至開發流程。',
-    achievements: ['客戶溝通與需求判斷', 'AI 工具持續自學進修']
-  },
+  // {
+  //   period: '2025/06 ~ 現在',
+  //   role: '足體按摩師（自學 AI 應用期）',
+  //   company: '人蔘養生館',
+  //   isCurrent: true,
+  //   color: '#c084fc',
+  //   desc: '在職期間持續自學 AI 工具，將多年前端工程背景重新整合為 AI 應用開發能力。實作 AI 輔助開發流程，包含需求拆解、Prompt 撰寫、邏輯規劃、Bug 修正、功能測試。',
+  //   achievements: ['Agentic Coding 實務應用', 'AI 工作流整合與優化', '個人形象網站全棧開發']
+  // },
+  // {
+  //   period: '2023/11 ~ 2025/06',
+  //   role: '足體按摩師',
+  //   company: '湯村足體養生館',
+  //   isCurrent: false,
+  //   color: '#a78bfa',
+  //   desc: '服務業第一線，培養溝通能力、問題判斷力與耐心。同期持續進修 AI 應用，逐步整合 ChatGPT、Codex、Gemini 至開發流程。',
+  //   achievements: ['客戶溝通與需求判斷', 'AI 工具持續自學進修']
+  // },
   {
     period: '2022/07 ~ 2023/09',
     role: '前端工程師',
