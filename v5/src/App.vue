@@ -38,6 +38,7 @@ const requestedInitialProject = projectSlugFromLocation()
 const requestedInitialHash = requestedInitialProject
   ? '#projects'
   : (sectionIdFromHash(window.location.hash) ? `#${sectionIdFromHash(window.location.hash)}` : '#home')
+const activeSection = ref(sectionIdFromHash(requestedInitialHash) || 'home')
 let navigationTarget = null
 let navigationTargetTop = null
 let scrollEndTimer = null
@@ -81,6 +82,7 @@ function scrollToSection(hash, options = {}) {
 
   const { updateHistory = true, onComplete = null } = options
   navigationTarget = id
+  activeSection.value = id
   navigationTargetTop = sectionTop(section)
   if (updateHistory && window.location.hash !== `#${id}`) {
     window.history.pushState(null, '', `#${id}`)
@@ -104,6 +106,8 @@ function syncHashToScroll() {
     const section = document.getElementById(id)
     if (section && sectionTop(section) <= marker) currentId = id
   }
+
+  activeSection.value = currentId
 
   // #projects/作品名稱 是可分享的深連結；停留在 Projects 時不應被捲動同步機制覆蓋掉。
   if (sectionIdFromHash(window.location.hash) !== currentId) {
@@ -152,7 +156,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="app-shell bg-[#020617] h-screen w-screen overflow-hidden">
-    <Navbar @navigate="scrollToSection" />
+    <Navbar :active-section="activeSection" @navigate="scrollToSection" />
 
     <!-- Fullpage Scroll Container -->
     <main ref="scrollContainer" data-scroll-container class="site-scroll h-screen w-full overflow-y-auto overflow-x-hidden snap-y snap-mandatory scroll-smooth hide-scrollbar" @scroll.passive="handleMainScroll">

@@ -1,18 +1,49 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 
 const emit = defineEmits(['navigate'])
+const props = defineProps({
+  activeSection: { type: String, default: 'home' },
+})
 
 const isScrolled = ref(false)
 const isMobileOpen = ref(false)
+const desktopNav = ref(null)
+const activeIndicatorStyle = ref({ opacity: 0 })
 
 let scrollContainer
 const handleScroll = () => { isScrolled.value = (scrollContainer?.scrollTop ?? 0) > 50 }
+
+function isActive(href) {
+  return props.activeSection === href.slice(1)
+}
+
+function updateActiveIndicator() {
+  const nav = desktopNav.value
+  const activeLink = nav?.querySelector(`[data-section="${props.activeSection}"]`)
+  if (!activeLink) {
+    activeIndicatorStyle.value = { opacity: 0 }
+    return
+  }
+  activeIndicatorStyle.value = {
+    width: `${activeLink.offsetWidth}px`,
+    opacity: 1,
+    transform: `translateX(${activeLink.offsetLeft}px)`,
+  }
+}
+
 onMounted(() => {
   scrollContainer = document.querySelector('[data-scroll-container]')
   scrollContainer?.addEventListener('scroll', handleScroll, { passive: true })
+  window.addEventListener('resize', updateActiveIndicator)
+  void nextTick(updateActiveIndicator)
 })
-onUnmounted(() => scrollContainer?.removeEventListener('scroll', handleScroll))
+onUnmounted(() => {
+  scrollContainer?.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('resize', updateActiveIndicator)
+})
+
+watch(() => props.activeSection, () => { void nextTick(updateActiveIndicator) }, { immediate: true })
 
 const navLinks = [
   { label: 'Home', href: '#home' },
@@ -49,17 +80,19 @@ function scrollTo(href) {
       </a>
 
       <!-- Desktop Nav -->
-      <nav class="hidden md:flex items-center gap-8">
+      <nav ref="desktopNav" class="relative hidden md:flex items-center gap-8">
         <a
           v-for="link in navLinks"
           :key="link.label"
           :href="link.href"
+          :data-section="link.href.slice(1)"
           @click.prevent="scrollTo(link.href)"
-          class="font-mono text-sm text-[#94a3b8] hover:text-white transition-colors duration-200 relative group"
+          class="site-header__nav-link font-mono text-sm text-[#94a3b8] hover:text-white transition-colors duration-200"
+          :class="{ 'site-header__nav-link--active': isActive(link.href) }"
         >
           {{ link.label }}
-          <span class="absolute -bottom-1 left-0 w-0 h-0.5 gradient-bg rounded transition-all duration-300 group-hover:w-full"></span>
         </a>
+        <span class="site-header__active-indicator" :style="activeIndicatorStyle" aria-hidden="true"></span>
       </nav>
 
       <!-- Mobile Burger -->
@@ -84,7 +117,8 @@ function scrollTo(href) {
           :key="link.label"
           :href="link.href"
           @click.prevent="scrollTo(link.href)"
-          class="block py-3 font-mono text-sm text-[#cbd5e1] border-b border-[#334155] last:border-0"
+          class="site-header__mobile-link block py-3 font-mono text-sm text-[#cbd5e1] border-b border-[#334155] last:border-0"
+          :class="{ 'site-header__mobile-link--active': isActive(link.href) }"
         >
           {{ link.label }}
         </a>
@@ -106,6 +140,25 @@ function scrollTo(href) {
 
 .site-header__inner > a { display: flex; align-items: center; min-height: 44px; }
 .site-header nav a { display: flex; align-items: center; min-height: 44px; }
+.site-header__nav-link--active,
+.site-header__mobile-link--active {
+  color: transparent !important;
+  background: linear-gradient(90deg, #67e8f9, #a78bfa, #c084fc);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.site-header__active-indicator {
+  position: absolute;
+  bottom: -.15rem;
+  left: 0;
+  height: 2px;
+  border-radius: 999px;
+  pointer-events: none;
+  background: linear-gradient(90deg, #67e8f9, #a78bfa, #c084fc);
+  box-shadow: 0 0 .5rem rgba(167, 139, 250, .72);
+  transition: transform .56s cubic-bezier(.16, 1, .3, 1), width .56s cubic-bezier(.16, 1, .3, 1), opacity .2s ease;
+}
 
 @media (max-width: 767px) {
   .site-header__toggle { display: grid; place-items: center; }
