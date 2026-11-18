@@ -9,8 +9,8 @@ const categories = [
     skills: [
       { name: 'ChatGPT / Codex', pct: 90 },
       { name: 'Gemini / Antigravity', pct: 85 },
-      { name: 'Prompt Engineering', pct: 85 },
-      { name: 'AI Workflow Integration', pct: 80 },
+      { name: 'Claude / Claude Code', pct: 85 },
+      { name: 'Prompt Engineering', pct: 80 },
     ]
   },
   {
@@ -19,8 +19,9 @@ const categories = [
     color: '#67e8f9',
     skills: [
       { name: 'HTML5 / CSS3 / SASS', pct: 90 },
-      { name: 'JavaScript / jQuery', pct: 90 },
-      { name: 'Vue.js / Pug', pct: 85 },
+      { name: 'jQuery', pct: 90 },
+      { name: 'JavaScript ES5 / ES6', pct: 80 },
+      { name: 'Vue.js', pct: 60 },
       { name: 'RWD / Bootstrap', pct: 90 },
     ]
   },
@@ -31,8 +32,6 @@ const categories = [
     skills: [
       { name: 'RESTful API', pct: 80 },
       { name: 'Git / GitHub', pct: 85 },
-      { name: 'System Integration', pct: 75 },
-      { name: 'Vite / Webpack', pct: 80 },
     ]
   },
   {
@@ -40,10 +39,9 @@ const categories = [
     title: 'Design & Media',
     color: '#fbbf24',
     skills: [
-      { name: 'Adobe Photoshop', pct: 75 },
-      { name: 'Adobe Illustrator', pct: 70 },
-      { name: 'UI/UX Implementation', pct: 80 },
-      { name: 'Figma', pct: 65 },
+      { name: 'Adobe Photoshop', pct: 85 },
+      { name: 'Adobe Illustrator', pct: 75 },
+      { name: 'Figma', pct: 80 },
     ]
   }
 ]
